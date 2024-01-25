@@ -248,6 +248,7 @@ GLOBAL_LIST_INIT(wasteland_positions, list(
 	"Garland City Waster",
 	"Radio Operator",
 	"Backstage Character"
+	//"Texarkana Ranger"
 ))
 
 GLOBAL_LIST_INIT(redwater_positions, list(
