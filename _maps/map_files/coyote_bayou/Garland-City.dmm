@@ -3541,7 +3541,7 @@
 /obj/item/storage/box/masks,
 /obj/item/lighter,
 /obj/item/storage/box/pillbottles,
-/obj/item/reagent_containers/hypospray/medipen/medx,
+/obj/item/reagent_containers/pill/patch/medx,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/f13/wood,
 /area/f13/building)
@@ -4163,7 +4163,7 @@
 /area/f13/wasteland)
 "cZc" = (
 /obj/structure/bed/old,
-/obj/item/reagent_containers/hypospray/medipen/medx,
+/obj/item/reagent_containers/pill/patch/medx,
 /obj/structure/sign/poster/contraband/punch_shit{
 	pixel_y = 32
 	},
@@ -5386,6 +5386,18 @@
 	icon_state = "floorrusty"
 	},
 /area/f13/building)
+"dRC" = (
+/obj/effect/decal/marking{
+	icon_state = "doublehorizontal"
+	},
+/obj/effect/landmark/vertibird{
+	name = "Garland - West side";
+	id = "Garland - West side"
+	},
+/turf/open/indestructible/ground/outside/road{
+	icon_state = "horizontalinnermain2"
+	},
+/area/f13/wasteland)
 "dSl" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -12448,7 +12460,7 @@
 /area/f13/city)
 "iTc" = (
 /obj/structure/rack,
-/obj/item/reagent_containers/hypospray/medipen/medx,
+/obj/item/reagent_containers/pill/patch/medx,
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /turf/open/floor/plasteel/barber{
 	icon = 'icons/turf/f13floors2.dmi';
@@ -20517,6 +20529,13 @@
 	},
 /obj/structure/flora/ausbushes/grassybush,
 /turf/open/indestructible/ground/outside/dirt,
+/area/f13/wasteland)
+"ouB" = (
+/obj/effect/landmark/vertibird{
+	name = "Garland  - East Side";
+	id = "Garland  - East Side"
+	},
+/turf/open/indestructible/ground/outside/desert/harsh,
 /area/f13/wasteland)
 "ovg" = (
 /obj/effect/decal/cleanable/dirt,
@@ -34125,6 +34144,13 @@
 /obj/structure/flora/tree/tall,
 /turf/open/indestructible/ground/outside/desert/harsh,
 /area/f13/wasteland)
+"xXC" = (
+/obj/effect/landmark/vertibird{
+	name = "Garland  City";
+	id = "Garland  City"
+	},
+/turf/open/indestructible/ground/outside/road,
+/area/f13/wasteland)
 "xYo" = (
 /obj/structure/closet/crate/wooden,
 /obj/effect/decal/cleanable/dirt,
@@ -39859,7 +39885,7 @@ smg
 ixY
 smg
 smg
-dal
+dRC
 bUi
 snq
 smg
@@ -59319,7 +59345,7 @@ cON
 cON
 cON
 nVG
-cON
+xXC
 cON
 ewm
 cON
@@ -92442,7 +92468,7 @@ iTD
 iTD
 iTD
 iTD
-iTD
+ouB
 iTD
 iTD
 iTD

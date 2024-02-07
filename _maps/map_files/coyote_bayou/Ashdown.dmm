@@ -3450,11 +3450,11 @@
 /obj/item/storage/pill_bottle/chem_tin/mentats/grape,
 /obj/item/storage/pill_bottle/chem_tin/mentats/grape,
 /obj/item/storage/pill_bottle/chem_tin/mentats/grape,
-/obj/item/reagent_containers/hypospray/medipen/medx,
-/obj/item/reagent_containers/hypospray/medipen/medx,
-/obj/item/reagent_containers/hypospray/medipen/medx,
-/obj/item/reagent_containers/hypospray/medipen/medx,
-/obj/item/reagent_containers/hypospray/medipen/medx,
+/obj/item/reagent_containers/pill/patch/medx,
+/obj/item/reagent_containers/pill/patch/medx,
+/obj/item/reagent_containers/pill/patch/medx,
+/obj/item/reagent_containers/pill/patch/medx,
+/obj/item/reagent_containers/pill/patch/medx,
 /obj/item/storage/pill_bottle/chem_tin/radx,
 /obj/item/storage/pill_bottle/chem_tin/radx,
 /obj/item/storage/pill_bottle/chem_tin/radx,
@@ -4875,6 +4875,13 @@
 	icon_state = "outerborder - E"
 	},
 /area/f13/wasteland/city)
+"clr" = (
+/obj/effect/landmark/vertibird{
+	name = "Redlick Mansion";
+	id = "Redlick Mansion"
+	},
+/turf/open/indestructible/ground/outside/dirt,
+/area/f13/wasteland)
 "clB" = (
 /obj/structure/rack/shelf_metal,
 /obj/effect/spawner/lootdrop/f13/uncommon_parts,
@@ -5442,6 +5449,13 @@
 	icon_state = "whitegreenrustychess"
 	},
 /area/f13/ruins)
+"cxh" = (
+/obj/effect/landmark/vertibird{
+	name = "Redlick - North side";
+	id = "Redlick - North side"
+	},
+/turf/open/indestructible/ground/outside/dirt,
+/area/f13/wasteland)
 "cxi" = (
 /obj/structure/debris/v2{
 	pixel_x = -10
@@ -21302,7 +21316,7 @@
 	pixel_x = -5;
 	pixel_y = 18
 	},
-/obj/item/reagent_containers/hypospray/medipen/medx,
+/obj/item/reagent_containers/pill/patch/medx,
 /turf/open/floor/carpet/red,
 /area/f13/bar/ashdown)
 "jre" = (
@@ -21346,8 +21360,8 @@
 /area/f13/building)
 "jrG" = (
 /obj/structure/rack/shelf_metal,
-/obj/item/reagent_containers/hypospray/medipen/psycho,
-/obj/item/reagent_containers/hypospray/medipen/psycho,
+/obj/item/reagent_containers/pill/patch/psycho,
+/obj/item/reagent_containers/pill/patch/psycho,
 /obj/effect/spawner/lootdrop/f13/uncommon,
 /turf/open/floor/f13{
 	icon_state = "floorrusty"
@@ -28335,6 +28349,13 @@
 	icon_state = "grass2"
 	},
 /area/f13/city)
+"mvq" = (
+/obj/effect/landmark/vertibird{
+	name = "Redlick - South side";
+	id = "Redlick - South side"
+	},
+/turf/open/indestructible/ground/outside/dirt,
+/area/f13/wasteland)
 "mvt" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -57001,7 +57022,7 @@ iKf
 iKf
 mYI
 iKf
-iKf
+cxh
 iKf
 iKf
 iKf
@@ -79820,7 +79841,7 @@ iKf
 iKf
 mYI
 iKf
-iKf
+mvq
 iKf
 mYI
 iKf
@@ -103551,7 +103572,7 @@ iKf
 iKf
 iKf
 iKf
-iKf
+clr
 iKf
 mYI
 mYI

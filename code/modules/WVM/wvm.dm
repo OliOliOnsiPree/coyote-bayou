@@ -562,11 +562,11 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 	icon_state = "khan_idle"
 	prize_list = list(
 		new /datum/data/wasteland_equipment("Jet",							/obj/item/reagent_containers/pill/patch/jet,						30),
-		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/hypospray/medipen/psycho,				30),
+		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/pill/patch/psycho,				30),
 		new /datum/data/wasteland_equipment("Turbo",						/obj/item/reagent_containers/pill/patch/turbo,						30),
 		new /datum/data/wasteland_equipment("Mentats",						/obj/item/storage/pill_bottle/chem_tin/mentats,						30),
 		new /datum/data/wasteland_equipment("Buffout",						/obj/item/storage/pill_bottle/chem_tin/buffout,						30),
-		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/hypospray/medipen/medx,				80),
+		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/pill/patch/medx,				80),
 		new /datum/data/wasteland_equipment("Fixer",						/obj/item/storage/pill_bottle/chem_tin/fixer,						90),
 		new /datum/data/wasteland_equipment("Great Khan helmet",			/obj/item/clothing/head/helmet/f13/khan,							20),
 		new /datum/data/wasteland_equipment("Great Khan bandana",			/obj/item/clothing/head/helmet/f13/khan/bandana,					20),
@@ -583,11 +583,11 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		)
 	highpop_list = list(
 		new /datum/data/wasteland_equipment("Jet",							/obj/item/reagent_containers/pill/patch/jet,						30),
-		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/hypospray/medipen/psycho,				30),
+		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/pill/patch/psycho,				30),
 		new /datum/data/wasteland_equipment("Turbo",						/obj/item/reagent_containers/pill/patch/turbo,						30),
 		new /datum/data/wasteland_equipment("Mentats",						/obj/item/storage/pill_bottle/chem_tin/mentats,						30),
 		new /datum/data/wasteland_equipment("Buffout",						/obj/item/storage/pill_bottle/chem_tin/buffout,						30),
-		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/hypospray/medipen/medx,				80),
+		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/pill/patch/medx,				80),
 		new /datum/data/wasteland_equipment("Fixer",						/obj/item/storage/pill_bottle/chem_tin/fixer,						90),
 		new /datum/data/wasteland_equipment("Great Khan helmet",			/obj/item/clothing/head/helmet/f13/khan,							20),
 		new /datum/data/wasteland_equipment("Great Khan bandana",			/obj/item/clothing/head/helmet/f13/khan/bandana,					20),
@@ -608,20 +608,20 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 	icon_state = "med_idle"
 	prize_list = list(
 		new /datum/data/wasteland_equipment("Jet",							/obj/item/reagent_containers/pill/patch/jet,						60),
-		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/hypospray/medipen/psycho,				60),
+		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/pill/patch/psycho,				60),
 		new /datum/data/wasteland_equipment("Turbo",						/obj/item/reagent_containers/pill/patch/turbo,						60),
 		new /datum/data/wasteland_equipment("Mentats",						/obj/item/storage/pill_bottle/chem_tin/mentats,						60),
 		new /datum/data/wasteland_equipment("Buffout",						/obj/item/storage/pill_bottle/chem_tin/buffout,						60),
-		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/hypospray/medipen/medx,							60),
+		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/pill/patch/medx,							60),
 		new /datum/data/wasteland_equipment("Fixer",						/obj/item/storage/pill_bottle/chem_tin/fixer,						200)
 		)
 	highpop_list = list(
 		new /datum/data/wasteland_equipment("Jet",							/obj/item/reagent_containers/pill/patch/jet,						60),
-		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/hypospray/medipen/psycho,				60),
+		new /datum/data/wasteland_equipment("Psycho",						/obj/item/reagent_containers/pill/patch/psycho,				60),
 		new /datum/data/wasteland_equipment("Turbo",						/obj/item/reagent_containers/pill/patch/turbo,						60),
 		new /datum/data/wasteland_equipment("Mentats",						/obj/item/storage/pill_bottle/chem_tin/mentats,						60),
 		new /datum/data/wasteland_equipment("Buffout",						/obj/item/storage/pill_bottle/chem_tin/buffout,						60),
-		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/hypospray/medipen/medx,							60),
+		new /datum/data/wasteland_equipment("Med-X",						/obj/item/reagent_containers/pill/patch/medx,							60),
 		new /datum/data/wasteland_equipment("Fixer",						/obj/item/storage/pill_bottle/chem_tin/fixer,						200)
 		)
 
@@ -732,6 +732,7 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		new /datum/data/wasteland_equipment("Shoddy Electron Charge Pack",					/obj/item/stock_parts/cell/ammo/ecp/bad,				20),
 		new /datum/data/wasteland_equipment("Laser Batteries (18 batteries)",				/obj/item/ammo_box/lasmusket,							20),
 		new /datum/data/wasteland_equipment("Plasma Canisters (6 canisters)",				/obj/item/ammo_box/plasmamusket,						20),
+		new /datum/data/wasteland_equipment("Portable Cell Charger",						/obj/item/storage/battery_box,							50),
 		new /datum/data/wasteland_equipment("Field Arrow (1 arrow)",						/obj/item/projectile/bullet/reusable/arrow/field,		3),
 		)
 	highpop_list = list(
@@ -995,9 +996,9 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		new /datum/data/wasteland_equipment("Raider Trigger",				/obj/item/gun_upgrade/trigger/raidertrigger,					60),
 		new /datum/data/wasteland_equipment("Heatsink",						/obj/item/tool_upgrade/reinforcement/heatsink,					60),
 		new /datum/data/wasteland_equipment("Forged Barrel",				/obj/item/gun_upgrade/barrel/forged,							60),
-		new /datum/data/wasteland_equipment("Red Paint",					/obj/item/tool_upgrade/productivity/red_paint,					60),
-		new /datum/data/wasteland_equipment("Gold Paint",					/obj/item/gun_upgrade/cosmetic/gold,							80),
-		new /datum/data/wasteland_equipment("Bluespace Paint",				/obj/item/tool_upgrade/augment/randomizer,						50)
+		new /datum/data/wasteland_equipment("Red Paint",					/obj/item/tool_upgrade/paint/red,								100),
+		new /datum/data/wasteland_equipment("Blue Paint",					/obj/item/tool_upgrade/paint/blue,								100),
+		new /datum/data/wasteland_equipment("Yellow Paint",					/obj/item/tool_upgrade/paint/yellow,							100)
 		)
 	highpop_list = list(
 		new /datum/data/wasteland_equipment("Radiation Suit",				/obj/item/clothing/suit/radiation,								25),
@@ -1011,9 +1012,9 @@ GLOBAL_VAR_INIT(vendor_cash, 0)
 		new /datum/data/wasteland_equipment("Raider Trigger",				/obj/item/gun_upgrade/trigger/raidertrigger,					60),
 		new /datum/data/wasteland_equipment("Heatsink",						/obj/item/tool_upgrade/reinforcement/heatsink,					60),
 		new /datum/data/wasteland_equipment("Forged Barrel",				/obj/item/gun_upgrade/barrel/forged,							60),
-		new /datum/data/wasteland_equipment("Red Paint",					/obj/item/tool_upgrade/productivity/red_paint,					60),
-		new /datum/data/wasteland_equipment("Gold Paint",					/obj/item/gun_upgrade/cosmetic/gold,							80),
-		new /datum/data/wasteland_equipment("Bluespace Paint",				/obj/item/tool_upgrade/augment/randomizer,						50)
+		new /datum/data/wasteland_equipment("Red Paint",					/obj/item/tool_upgrade/paint/red,								100),
+		new /datum/data/wasteland_equipment("Blue Paint",					/obj/item/tool_upgrade/paint/blue,								100),
+		new /datum/data/wasteland_equipment("Yellow Paint",					/obj/item/tool_upgrade/paint/yellow,							100)
 		)
 
 /obj/machinery/mineral/wasteland_vendor/crafting
