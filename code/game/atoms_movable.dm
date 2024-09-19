@@ -7,7 +7,7 @@
 	var/move_force = MOVE_FORCE_DEFAULT
 	var/pull_force = PULL_FORCE_DEFAULT
 	var/datum/thrownthing/throwing = null
-	var/throw_speed = 2 //How many tiles to move per ds when being thrown. Float values are fully supported
+	var/throw_speed = 1 //How many tiles to move per ds when being thrown. Float values are fully supported
 	var/throw_range = 7
 	var/mob/pulledby = null
 	var/initial_language_holder = /datum/language_holder
@@ -77,7 +77,8 @@
 	 */
 	var/list/important_recursive_contents
 
-
+	///Used for the calculate_adjacencies proc for icon smoothing.
+	var/can_be_unanchored = FALSE
 
 /atom/movable/Initialize(mapload)
 	. = ..()
@@ -131,7 +132,7 @@
 		if(isobj(hurt_atom) || ismob(hurt_atom))
 			if(hurt_atom.layer > highest.layer)
 				highest = hurt_atom
-	INVOKE_ASYNC(src, .proc/SpinAnimation, 5, 2)
+	INVOKE_ASYNC(src,PROC_REF(SpinAnimation), 5, 2)
 	return TRUE
 
 /*
@@ -384,34 +385,24 @@
 		//Restore air flow if we were blocking it (movables with ATMOS_PASS_PROC will need to do this manually if necessary)
 		if(((CanAtmosPass == ATMOS_PASS_DENSITY && density) || CanAtmosPass == ATMOS_PASS_NO) && isturf(loc))
 			CanAtmosPass = ATMOS_PASS_YES
-			air_update_turf(TRUE, FALSE)
+			air_update_turf(TRUE)
 		loc.handle_atom_del(src)
-
-	if(opacity)
-		RemoveElement(/datum/element/light_blocking)
 
 	invisibility = INVISIBILITY_ABSTRACT
 
 	if(pulledby)
 		pulledby.stop_pulling()
-	if(pulling)
-		stop_pulling()
 
 	if(orbiting)
 		orbiting.end_orbit(src)
 		orbiting = null
 
-	if(move_packet)
-		if(!QDELETED(move_packet))
-			qdel(move_packet)
-		move_packet = null
-
-	LAZYCLEARLIST(client_mobs_in_contents)
-
 	. = ..()
 
 	for(var/movable_content in contents)
 		qdel(movable_content)
+
+	LAZYCLEARLIST(client_mobs_in_contents)
 
 	moveToNullspace()
 

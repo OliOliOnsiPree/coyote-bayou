@@ -319,7 +319,7 @@
 
 	nullrod_icons = sortList(nullrod_icons)
 
-	var/choice = show_radial_menu(L, src , nullrod_icons, custom_check = CALLBACK(src, .proc/check_menu, L), radius = 42, require_near = TRUE)
+	var/choice = show_radial_menu(L, src , nullrod_icons, custom_check = CALLBACK(src,PROC_REF(check_menu), L), radius = 42, require_near = TRUE)
 	if(!choice || !check_menu(L))
 		return
 
@@ -366,6 +366,8 @@
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	name = "god hand"
 	desc = "This hand of yours glows with an awesome power!"
+	force = 45
+	force_wielded = 65 //It replaces an entire hand
 	item_flags = ABSTRACT | DROPDEL
 	w_class = WEIGHT_CLASS_HUGE
 	hitsound = 'sound/weapons/sear.ogg'
@@ -409,20 +411,16 @@
 	name = "holy claymore"
 	desc = "A weapon fit for a crusade!"
 	w_class = WEIGHT_CLASS_HUGE
-	slot_flags = INV_SLOTBIT_BACK|INV_SLOTBIT_BELT
+	slot_flags = INV_SLOTBIT_BACK|INV_SLOTBIT_BELT|INV_SLOTBIT_SUITSTORE
 	force_wielded = 48
 	force_unwielded = 38
 	wound_bonus = 30
 	block_chance = 20
 	attack_speed = CLICK_CD_MELEE // The standard.
+	armour_penetration = 0.3
 	sharpness = SHARP_EDGED
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
-
-/obj/item/nullrod/claymore/run_block(mob/living/owner, atom/object, damage, attack_text, attack_type, armour_penetration, mob/attacker, def_zone, final_block_chance, list/block_return)
-	if(attack_type & ATTACK_TYPE_PROJECTILE) // Don't bring a sword to a gunfight
-		return NONE
-	return ..()
 
 /obj/item/nullrod/claymore/darkblade
 	icon_state = "cultblade"
@@ -433,7 +431,6 @@
 	inhand_y_dimension = 64
 	name = "dark blade"
 	desc = "Spread the glory of the dark gods!"
-	slot_flags = INV_SLOTBIT_BELT
 	hitsound = 'sound/hallucinations/growl1.ogg'
 
 /obj/item/nullrod/claymore/chainsaw_sword
@@ -441,10 +438,10 @@
 	item_state = "chainswordon"
 	name = "chain sword"
 	desc = "A longer more durable ripper built into a proper chain sword. Time to purge heretics!"
-	force = 45 // Equal to a standard ripper. Weaker than claymore/subtypes but can be 1-handed alot more effectively.
-	force_wielded = 45
+	force = 45
+	force_wielded = 50
 	force_unwielded = 45
-	slot_flags = INV_SLOTBIT_BELT
+	attack_speed = CLICK_CD_MELEE * 0.8 // it's a *chainsword*
 	attack_verb = list("sawed", "torn", "cut", "chopped", "diced")
 	hitsound = 'sound/weapons/chainsawhit.ogg'
 	tool_behaviour = TOOL_SAW
@@ -455,7 +452,6 @@
 	item_state = "swordon"
 	name = "force weapon"
 	desc = "The blade glows with the power of faith. Or possibly a battery."
-	slot_flags = INV_SLOTBIT_BELT
 
 /obj/item/nullrod/claymore/katana
 	name = "\improper Hanzo steel"
@@ -466,14 +462,12 @@
 	attack_speed = CLICK_CD_MELEE * 0.8
 	force_wielded = 40
 	force_unwielded = 30
-	slot_flags = INV_SLOTBIT_BELT | INV_SLOTBIT_BACK
 
 /obj/item/nullrod/claymore/multiverse
 	name = "extradimensional blade"
 	desc = "Once the harbinger of an interdimensional war, its sharpness fluctuates wildly."
 	icon_state = "multiverse"
 	item_state = "multiverse"
-	slot_flags = INV_SLOTBIT_BELT
 
 /obj/item/nullrod/claymore/multiverse/attack(mob/living/carbon/M, mob/living/carbon/user)
 	force = rand(1, 60)
@@ -485,7 +479,6 @@
 	icon_state = "swordpurple"
 	item_state = "swordpurple"
 	desc = "If you strike me down, I shall become more robust than you can possibly imagine."
-	slot_flags = INV_SLOTBIT_BELT
 
 /obj/item/nullrod/claymore/saber/red
 	name = "dark energy sword"
@@ -501,7 +494,6 @@
 	name = "reaper scythe"
 	desc = "Ask not for whom the bell tolls..."
 	w_class = WEIGHT_CLASS_BULKY
-	slot_flags = INV_SLOTBIT_BACK
 	sharpness = SHARP_EDGED
 	force_unwielded = 25
 	force_wielded = 40 // Equal to 2 handed axes
@@ -545,6 +537,8 @@
 	item_state = "arm_blade"
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
+	force = 55
+	force_wielded = 65 //It replaces an entire hand
 	item_flags = ABSTRACT
 	w_class = WEIGHT_CLASS_HUGE
 	sharpness = SHARP_EDGED
@@ -566,8 +560,8 @@
 	name = "monk's staff"
 	desc = "A long, tall staff made of polished wood. Traditionally used in ancient old-Earth martial arts, it is now used to harass mutants.."
 	w_class = WEIGHT_CLASS_BULKY
-	force_wielded = 30 // Slightly better than the null rod with much better block chance.
-	force_unwielded = 20
+	force_wielded = 45 // Slightly better than the null rod with much better block chance.
+	force_unwielded = 35
 	block_chance = 40
 	attack_speed = CLICK_CD_MELEE * 0.85 // Everybody was kung fu fighting!
 	slot_flags = INV_SLOTBIT_BACK
@@ -614,7 +608,7 @@
 		playsound(get_turf(user), 'sound/effects/woodhit.ogg', 75, 1, -1)
 		H.adjustStaminaLoss(rand(12,18))
 		if(prob(25))
-			(INVOKE_ASYNC(src, .proc/jedi_spin, user))
+			(INVOKE_ASYNC(src,PROC_REF(jedi_spin), user))
 	else
 		return ..()
 
@@ -660,7 +654,7 @@
 	force = 4
 	throwforce = 0
 	attack_verb = list("whipped", "repented", "lashed", "flagellated")
-	slot_flags = INV_SLOTBIT_NECK | INV_SLOTBIT_BELT // its a necklace lol
+	slot_flags = INV_SLOTBIT_NECK | INV_SLOTBIT_MASK | INV_SLOTBIT_BELT // its a necklace lol
 	var/praying = FALSE
 	var/deity_name = "Giex" //This is the default, hopefully won't actually appear if the religion subsystem is running properly
 
@@ -702,13 +696,14 @@
 		span_info("You kneel[M == user ? null : " next to [M]"] and begin a prayer to [deity_name]."))
 
 	praying = TRUE
-	if(do_after(user, 20, target = M))
-		M.reagents?.add_reagent(/datum/reagent/water/holywater, 5)
+	if(do_after(user, 100, target = M)) //I made their time to cast about 5x longer, which isnt much still.
+		M.reagents?.add_reagent(/datum/reagent/medicine/medbotchem, 10) //Makes it heal more if your injured, less if your not
+		M.reagents?.add_reagent(/datum/reagent/medicine/radaway, 5) //I would also add some wound healing personally, but I think this is good enough
 		to_chat(M, span_notice("[user]'s prayer to [deity_name] has eased your pain!"))
-		M.adjustToxLoss(-5, TRUE, TRUE)
-		M.adjustOxyLoss(-5)
-		M.adjustBruteLoss(-5)
-		M.adjustFireLoss(-5)
+		M.adjustToxLoss(-20, TRUE, TRUE)
+		M.adjustOxyLoss(-20)
+		M.adjustBruteLoss(-20, include_roboparts = TRUE) // I made robots able to benifit from this
+		M.adjustFireLoss(-20, include_roboparts = TRUE) //I quadrupled their healing
 		praying = FALSE
 	else
 		to_chat(user, span_notice("Your prayer to [deity_name] was interrupted."))

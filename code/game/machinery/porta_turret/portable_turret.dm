@@ -71,10 +71,10 @@
 	req_access = list(ACCESS_SECURITY) /// Only people with Security access
 	power_channel = EQUIP //drains power from the EQUIPMENT channel
 	max_integrity = 160 //the turret's health
-	integrity_failure = 0.5
+	integrity_failure = 0.25
 	armor = ARMOR_VALUE_HEAVY
 	/// Base turret icon state
-	var/base_icon_state = "standard"
+	base_icon_state = "standard"
 	/// Scan range of the turret for locating targets
 	var/scan_range = 7
 	/// For turrets inside other objects
@@ -235,7 +235,7 @@
 		base.layer = NOT_HIGH_OBJ_LAYER
 		underlays += base
 	if(!has_cover)
-		INVOKE_ASYNC(src, .proc/popUp)
+		INVOKE_ASYNC(src,PROC_REF(popUp))
 
 /obj/machinery/porta_turret/proc/toggle_on(set_to)
 	var/current = on
@@ -469,7 +469,7 @@
 	toggle_on(FALSE) //turns off the turret temporarily
 	update_icon()
 	//6 seconds for the traitor to gtfo of the area before the turret decides to ruin his shit
-	addtimer(CALLBACK(src, .proc/toggle_on, TRUE), 6 SECONDS)
+	addtimer(CALLBACK(src,PROC_REF(toggle_on), TRUE), 6 SECONDS)
 	//turns it back on. The cover popUp() popDown() are automatically called in process(), no need to define it here
 
 /obj/machinery/porta_turret/emp_act(severity)
@@ -489,7 +489,7 @@
 		toggle_on(FALSE)
 		remove_control()
 
-		addtimer(CALLBACK(src, .proc/toggle_on, TRUE), rand(60,600))
+		addtimer(CALLBACK(src,PROC_REF(toggle_on), TRUE), rand(60,600))
 
 /obj/machinery/porta_turret/take_damage(damage, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, atom/attacked_by)
 	. = ..()
@@ -526,9 +526,9 @@
 		num_salvage_to_make++
 	for(var/loots in 1 to num_salvage_to_make)
 		switch(rand(1,10))
-			if(1 to 3)
+			if(1 to 5)
 				new /obj/item/salvage/low(right_here)
-			if(4 to 6)
+			if(6)
 				new /obj/item/salvage/tool(right_here)
 			if(7 to 10)
 				new /obj/item/salvage/high(right_here)
@@ -577,16 +577,18 @@
 	/// We can see our target, start blasting
 	if(activity_state == TURRET_ALERT_MODE)
 		record_target_weakref(GET_WEAKREF(last_target)) // Update our target and turf's position every time we process
-		INVOKE_ASYNC(src, .proc/shine_laser_pointer) // lazer
+		INVOKE_ASYNC(src,PROC_REF(shine_laser_pointer)) // lazer
 		if(!can_see_target()) // If we cant see the target, go into caution mode
 			change_activity_state(TURRET_CAUTION_MODE)
 		else
-			INVOKE_ASYNC(src, .proc/open_fire_on_target)
+			INVOKE_ASYNC(src,PROC_REF(open_fire_on_target))
 	
 	/// We lost sight of our target, shoot where we last saw them
 	if(activity_state == TURRET_CAUTION_MODE)
-		INVOKE_ASYNC(src, .proc/shine_laser_pointer)
-		INVOKE_ASYNC(src, .proc/open_fire_on_target)
+		if(can_see_target())
+			change_activity_state(TURRET_ALERT_MODE)
+		INVOKE_ASYNC(src,PROC_REF(shine_laser_pointer))
+		INVOKE_ASYNC(src,PROC_REF(open_fire_on_target))
 		if(!caution_bursts_left)
 			change_activity_state(TURRET_EVASION_MODE)
 
@@ -646,42 +648,48 @@
 	if(activity_state == TURRET_ALERT_MODE || activity_state == TURRET_CAUTION_MODE)
 		return
 
-	for(var/mob/living/potential_target in oview(scan_range, base))
-		/// cant shoot whats invisible
+	var/list/maybetargets = oview(scan_range, base)
+	var/list/scanned = list()
+	var/safety = 20000
+	while(maybetargets.len && safety--)
+		var/atom/movable/potarget = LAZYACCESS(maybetargets, maybetargets.len)
+		maybetargets -= potarget
+		if(!ismovable(potarget))
+			continue
+		if(potarget.contents && !(potarget in scanned))
+			maybetargets += potarget.contents
+		scanned += potarget
+		if(!isliving(potarget))
+			continue
+		var/mob/living/potential_target = potarget
+		/// get the basic checks out of the way first
 		if(potential_target.invisibility > SEE_INVISIBLE_LIVING)
 			continue
-
 		/// Ignore dying targets
 		if(potential_target.stat > maximum_valid_stat)
 			continue
-
 		// Ignore stamcritted targets
 		if(maximum_valid_stat == CONSCIOUS && IS_STAMCRIT(potential_target))
 			continue
-
 		/// If it cares about faction, and the thing's your faction, skip it
 		if(!(turret_flags & TF_IGNORE_FACTION))
 			if(in_faction(potential_target))
 				continue
-
 		/// If its got a client, add it
 		if(turret_flags & TF_SHOOT_PLAYERS)
 			if(potential_target.client)
 				record_target_weakref(potential_target)
 				return TRUE
-
 		/// If if its an animal (or ghoul), add it
 		if(turret_flags & TF_SHOOT_WILDLIFE)
 			if(issimplewildlife(potential_target))
 				record_target_weakref(potential_target)
 				return TRUE
-
 		/// If if its a raider, or some kind of vaguely intelligent humanlike, add it
 		if(turret_flags & TF_SHOOT_RAIDERS)
 			if(issimplehumanlike(potential_target))
 				record_target_weakref(potential_target)
 				return TRUE
-
 		/// If if its a robot, add it
 		if(turret_flags & TF_SHOOT_ROBOTS)
 			if(issimplerobot(potential_target))
@@ -695,7 +703,7 @@
 	var/atom/seeable_target = GET_WEAKREF(last_target)
 	if(!seeable_target)
 		return FALSE
-	for(var/turf/T in getline(src,seeable_target))
+	for(var/turf/T in getline(get_turf(src),get_turf(seeable_target)))
 		if(T.opacity)
 			return FALSE
 	return TRUE
@@ -846,16 +854,16 @@
 		record_target_weakref(forced_target)
 	if((!last_target && !last_target_turf))
 		return FALSE
+	var/turf/target_turf = get_turf(activity_state == TURRET_CAUTION_MODE ? GET_WEAKREF(last_target_turf) : GET_WEAKREF(last_target))
+	if(!istype(target_turf))
+		return FALSE
+	setDir(get_dir(base, target_turf)) //even if you can't shoot, follow the target
 	if(COOLDOWN_TIMELEFT(src, turret_prefire_delay))
 		return
 	if(COOLDOWN_TIMELEFT(src, turret_refire_delay))
 		return
 	if(am_currently_shooting)
 		return TRUE
-	var/turf/target_turf = get_turf(activity_state == TURRET_CAUTION_MODE ? GET_WEAKREF(last_target_turf) : GET_WEAKREF(last_target))
-	if(!istype(target_turf))
-		return FALSE
-	setDir(get_dir(base, target_turf)) //even if you can't shoot, follow the target
 
 	var/turf/our_turf = get_turf(src)
 	if(!istype(our_turf))
@@ -937,6 +945,7 @@
 			casing = new casing_type_lethal(our_turf)
 		if(!casing)
 			return FALSE
+		casing.BB?.factionize(faction)
 		casing.fire_casing(
 			target = target,
 			user = src,
@@ -957,6 +966,7 @@
 			turret_projectile = new stun_projectile(our_turf)
 		else
 			turret_projectile = new lethal_projectile(our_turf)
+		turret_projectile.factionize(faction)
 		turret_projectile.preparePixelProjectile(target, our_turf, spread = the_spread)
 		turret_projectile.firer = src
 		turret_projectile.fired_from = src
@@ -1053,7 +1063,7 @@
 		remove_control()
 		return FALSE
 	log_combat(caller,A,"fired with manual turret control at")
-	INVOKE_ASYNC(src, .proc/open_fire_on_target, A)
+	INVOKE_ASYNC(src,PROC_REF(open_fire_on_target), A)
 	return TRUE
 
 /obj/machinery/porta_turret/syndicate
@@ -1515,11 +1525,11 @@
 		if(team_color == "blue")
 			if(istype(P, /obj/item/projectile/beam/lasertag/redtag))
 				toggle_on(FALSE)
-				addtimer(CALLBACK(src, .proc/toggle_on, TRUE), 10 SECONDS)
+				addtimer(CALLBACK(src,PROC_REF(toggle_on), TRUE), 10 SECONDS)
 		else if(team_color == "red")
 			if(istype(P, /obj/item/projectile/beam/lasertag/bluetag))
 				toggle_on(FALSE)
-				addtimer(CALLBACK(src, .proc/toggle_on, TRUE), 10 SECONDS)
+				addtimer(CALLBACK(src,PROC_REF(toggle_on), TRUE), 10 SECONDS)
 
 /* * * * * * * * * * * *
  * Fallout 13 turrets  *
@@ -1828,6 +1838,134 @@
 		At any rate, this fully automatic sentry-shotgun is chambered in 12 gauge and maintained by robots."
 	turret_flags = TURRET_ROBOT_OWNED_FLAGS | TURRET_DEFAULT_UTILITY
 	faction = list("wastebot")
+
+
+/// .22LR turret
+/obj/machinery/porta_turret/f13/town
+	name = "allied point defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Fires a burst of 9mm bullets \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	faction = list("neutral")
+	stun_projectile = /obj/item/projectile/bullet/c9mm/rubber
+	lethal_projectile = /obj/item/projectile/bullet/c9mm
+	lethal_projectile_sound = 'sound/f13weapons/9mm.ogg'
+	stun_projectile_sound = 'sound/f13weapons/9mm.ogg'
+	burst_count = 3
+	shot_spread = 5
+	req_access = list()
+
+/obj/machinery/porta_turret/f13/town/Initialize()
+	. = ..()
+	add_atom_colour(list(
+		0, 3, 0,
+		1, -2, 1,
+		0, 0, 0,
+	), FIXED_COLOUR_PRIORITY) // makes it a different pallette, all without actual icon editing, lah!
+
+/obj/machinery/porta_turret/f13/town/open_fire_on_target(atom/forced_target)
+	var/atom/targetthing = GET_WEAKREF(last_target)
+	if(isplayer(targetthing))
+		mode = TURRET_STUN
+	else
+		mode = TURRET_LETHAL
+	. = ..()
+
+/obj/machinery/porta_turret/f13/town/rifle
+	name = "allied friendly point defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Fires a burst of 5.56mm shells \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	stun_projectile = /obj/item/projectile/bullet/m5mm
+	lethal_projectile = /obj/item/projectile/bullet/m5mm
+	lethal_projectile_sound = 'sound/f13weapons/assault_carbine.ogg'
+	stun_projectile_sound = 'sound/f13weapons/assault_carbine.ogg'
+	burst_count = 5
+	shot_spread = 2
+	shot_delay = 1 SECONDS
+
+/obj/machinery/porta_turret/f13/town/shotgun
+	name = "allied scattercannon point defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Fires a spray of buckshot \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	stun_projectile = null
+	lethal_projectile = null
+	lethal_projectile_sound = 'sound/f13weapons/shotgun.ogg'
+	stun_projectile_sound = 'sound/f13weapons/shotgun.ogg'
+	casing_type_stun = /obj/item/ammo_casing/shotgun/rubbershot
+	casing_type_lethal = /obj/item/ammo_casing/shotgun/buckshot/wide
+
+/obj/machinery/porta_turret/f13/town/AMR_turret
+	name = "allied big game point defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Fires a big fat .50 BMG round \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	stun_projectile = /obj/item/projectile/bullet/a50MG/rubber
+	lethal_projectile = /obj/item/projectile/bullet/a50MG
+	lethal_projectile_sound = 'sound/f13weapons/antimaterialfire.ogg'
+	stun_projectile_sound = 'sound/f13weapons/antimaterialfire.ogg'
+	burst_count = 1
+	shot_spread = 0
+	shot_delay = 3 SECONDS
+	scan_range = 30 // laggy!
+
+/obj/machinery/porta_turret/f13/town/gauss
+	name = "allied railgun point defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Will blast its frickin railgun \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	stun_projectile = /obj/item/projectile/bullet/c2mm
+	lethal_projectile = /obj/item/projectile/bullet/c2mm
+	lethal_projectile_sound = 'sound/f13weapons/gauss_rifle.ogg'
+	stun_projectile_sound = 'sound/f13weapons/gauss_rifle.ogg'
+	burst_count = 1
+	shot_spread = 0
+	shot_delay = 3 SECONDS
+	scan_range = 30 // laggy!
+
+/obj/machinery/porta_turret/f13/town/gatling_laser
+	name = "allied laser defense system"
+	icon = 'icons/obj/turrets.dmi'
+	icon_state = "syndie_off"
+	base_icon_state = "syndie"
+	desc = "A friendly turret here to keep New Boston (or wherever it currenly is) nice and safe! Fires a spray of lasers \
+		at any wasteland annoyances that come too close. Its targetting sensors purposefully ignore friendly targets, like you! \
+		<br><br>\
+		Don't worry! This thing is ON YOUR SIDE! Seriously, this thing is so fervently aligned with you that it may as well be \
+		part of your family. So, say hi to Uncle Turret! He's got your back! -<u>Adventurer's Guild</u>"
+	stun_projectile = /obj/item/projectile/beam/laser/pistol/hitscan/stun
+	lethal_projectile = /obj/item/projectile/beam/laser/gatling/hitscan
+	lethal_projectile_sound = 'sound/weapons/hyperblaster.ogg'
+	stun_projectile_sound = 'sound/weapons/hyperblaster.ogg'
+	burst_count = 10
+	shot_spread = 7
+	shot_delay = 0.1 SECONDS
 
 /// Nash's Friendliest Autogun
 /// needs ammo~

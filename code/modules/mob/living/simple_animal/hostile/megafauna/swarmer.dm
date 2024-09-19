@@ -151,7 +151,7 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 /mob/living/simple_animal/hostile/swarmer/ai/proc/StartAction(deci = 0)
 	stop_automated_movement = TRUE
 	AIStatus = AI_OFF
-	addtimer(CALLBACK(src, .proc/EndAction), deci)
+	addtimer(CALLBACK(src,PROC_REF(EndAction)), deci)
 
 
 /mob/living/simple_animal/hostile/swarmer/ai/proc/EndAction()
@@ -290,4 +290,5 @@ GLOBAL_LIST_INIT(AISwarmerCapsByType, list(/mob/living/simple_animal/hostile/swa
 	name = "swarmer catwalk"
 	desc = "A catwalk-like mesh, produced by swarmers to allow them to navigate hostile terrain."
 	icon = 'icons/obj/smooth_structures/swarmer_catwalk.dmi'
-	icon_state = "swarmer_catwalk"
+	icon_state = "swarmer_catwalk-0"
+	base_icon_state = "swarmer_catwalk"

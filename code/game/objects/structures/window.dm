@@ -32,6 +32,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	resistance_flags = ACID_PROOF
 	armor = ARMOR_VALUE_GENERIC_ITEM
 	CanAtmosPass = ATMOS_PASS_PROC
+	var/mutable_appearance/crack_overlay
 	var/real_explosion_block	//ignore this, just use explosion_block
 	var/breaksound = "shatter"
 	var/hitsound = 'sound/effects/Glasshit.ogg'
@@ -99,7 +100,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 			electrochromatic_dim()
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_EXIT = .proc/on_exit,
+		COMSIG_ATOM_EXIT =PROC_REF(on_exit),
 	)
 
 	if (flags_1 & ON_BORDER_1)
@@ -109,7 +110,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src, .proc/can_be_rotated),CALLBACK(src,.proc/after_rotation))
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src,PROC_REF(can_be_rotated),CALLBACK(src,PROC_REF(after_rotation))))
 
 /obj/structure/window/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
@@ -254,17 +255,17 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 			if(reinf)
 				if(state == WINDOW_SCREWED_TO_FRAME || state == WINDOW_IN_FRAME)
 					to_chat(user, span_notice("You begin to [state == WINDOW_SCREWED_TO_FRAME ? "unscrew the window from":"screw the window to"] the frame..."))
-					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src,PROC_REF(check_state_and_anchored), state, anchored)))
 						state = (state == WINDOW_IN_FRAME ? WINDOW_SCREWED_TO_FRAME : WINDOW_IN_FRAME)
 						to_chat(user, span_notice("You [state == WINDOW_IN_FRAME ? "unfasten the window from":"fasten the window to"] the frame."))
 				else if(state == WINDOW_OUT_OF_FRAME)
 					to_chat(user, span_notice("You begin to [anchored ? "unscrew the frame from":"screw the frame to"] the floor..."))
-					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src,PROC_REF(check_state_and_anchored), state, anchored)))
 						setAnchored(!anchored)
 						to_chat(user, span_notice("You [anchored ? "fasten the frame to":"unfasten the frame from"] the floor."))
 			else //if we're not reinforced, we don't need to check or update state
 				to_chat(user, span_notice("You begin to [anchored ? "unscrew the window from":"screw the window to"] the floor..."))
-				if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_anchored, anchored)))
+				if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src,PROC_REF(check_anchored), anchored)))
 					setAnchored(!anchored)
 					to_chat(user, span_notice("You [anchored ? "fasten the window to":"unfasten the window from"] the floor."))
 			return
@@ -273,7 +274,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 		else if (istype(I, /obj/item/crowbar) && reinf && (state == WINDOW_OUT_OF_FRAME || state == WINDOW_IN_FRAME))
 			to_chat(user, span_notice("You begin to lever the window [state == WINDOW_OUT_OF_FRAME ? "into":"out of"] the frame..."))
 			I.play_tool_sound(src, 75)
-			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src,PROC_REF(check_state_and_anchored), state, anchored)))
 				state = (state == WINDOW_OUT_OF_FRAME ? WINDOW_IN_FRAME : WINDOW_OUT_OF_FRAME)
 				to_chat(user, span_notice("You pry the window [state == WINDOW_IN_FRAME ? "into":"out of"] the frame."))
 			return
@@ -281,7 +282,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 		else if(istype(I, /obj/item/wrench) && !anchored)
 			I.play_tool_sound(src, 75)
 			to_chat(user, span_notice(" You begin to disassemble [src]..."))
-			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src,PROC_REF(check_state_and_anchored), state, anchored)))
 				var/obj/item/stack/sheet/G = new glass_type(user.loc, glass_amount)
 				G.add_fingerprint(user)
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
@@ -486,23 +487,26 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 //This proc is used to update the icons of nearby windows.
 /obj/structure/window/proc/update_nearby_icons()
 	update_icon()
-	if(smooth)
-		queue_smooth_neighbors(src)
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+		QUEUE_SMOOTH_NEIGHBORS(src)
 
 //merges adjacent full-tile windows into one
 /obj/structure/window/update_overlays()
 	. = ..()
-	if(QDELETED(src) || !fulltile)
-		return
-	var/ratio = obj_integrity / max_integrity
-	ratio = CEILING(ratio*4, 1) * 25
+	if(!QDELETED(src))
+		if(!fulltile)
+			return
+		var/ratio = obj_integrity / max_integrity
+		ratio = CEILING(ratio*4, 1) * 25
 
-	if(smooth)
-		queue_smooth(src)
+		if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+			QUEUE_SMOOTH(src)
 
-	if(ratio > 75)
-		return
-	. += mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", -(layer+0.1))
+		cut_overlay(crack_overlay)
+		if(ratio > 75)
+			return
+		crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", -(layer+0.1))
+		. += crack_overlay
 
 /obj/structure/window/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 
@@ -626,13 +630,15 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/fulltile
 	icon = 'icons/obj/smooth_structures/window.dmi'
-	icon_state = "window"
+	icon_state = "window-0"
+	base_icon_state = "window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 50
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	glass_amount = 2
 
 /obj/structure/window/fulltile/unanchored
@@ -640,13 +646,15 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/plasma/fulltile
 	icon = 'icons/obj/smooth_structures/plasma_window.dmi'
-	icon_state = "plasmawindow"
+	icon_state = "plasma_window-0"
+	base_icon_state = "plasma_window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 300
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	glass_amount = 2
 
 /obj/structure/window/plasma/fulltile/unanchored
@@ -654,12 +662,15 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/plasma/reinforced/fulltile
 	icon = 'icons/obj/smooth_structures/rplasma_window.dmi'
-	icon_state = "rplasmawindow"
+	icon_state = "rplasma_window-0"
+	base_icon_state = "rplasma_window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 1000
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	glass_amount = 2
 
 /obj/structure/window/plasma/reinforced/fulltile/unanchored
@@ -667,13 +678,15 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/reinforced/fulltile
 	icon = 'icons/obj/smooth_structures/reinforced_window.dmi'
-	icon_state = "r_window"
+	icon_state = "reinforced_window-0"
+	base_icon_state = "reinforced_window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 100
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	level = 3
 	glass_amount = 2
 
@@ -682,20 +695,24 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/reinforced/tinted/fulltile
 	icon = 'icons/obj/smooth_structures/tinted_window.dmi'
-	icon_state = "tinted_window"
+	icon_state = "tinted_window-0"
+	base_icon_state = "tinted_window"
 	dir = FULLTILE_WINDOW_DIR
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	level = 3
 	glass_amount = 2
 
 /obj/structure/window/reinforced/fulltile/ice
 	icon = 'icons/obj/smooth_structures/rice_window.dmi'
-	icon_state = "ice_window"
+	icon_state = "rice_window-0"
+	base_icon_state = "rice_window"
 	max_integrity = 150
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE)
 	level = 3
 	glass_amount = 2
 
@@ -703,7 +720,8 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	name = "shuttle window"
 	desc = "A reinforced, air-locked pod window."
 	icon = 'icons/obj/smooth_structures/shuttle_window.dmi'
-	icon_state = "shuttle_window"
+	icon_state = "shuttle_window-0"
+	base_icon_state = "shuttle_window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 100
 	wtype = "shuttle"
@@ -712,8 +730,9 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	reinf = TRUE
 	heat_resistance = 1600
 	armor = ARMOR_VALUE_PA
-	smooth = SMOOTH_TRUE
-	canSmoothWith = null
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_SHUTTLE_PARTS, SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE_SHUTTLE)
 	explosion_block = 3
 	level = 3
 	glass_type = /obj/item/stack/sheet/titaniumglass
@@ -733,7 +752,8 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	name = "plastitanium window"
 	desc = "An evil looking window of plasma and titanium."
 	icon = 'icons/obj/smooth_structures/plastitanium_window.dmi'
-	icon_state = "plastitanium_window"
+	icon_state = "plastitanium_window-0"
+	base_icon_state = "plastitanium_window"
 	dir = FULLTILE_WINDOW_DIR
 	max_integrity = 1000
 	wtype = "shuttle"
@@ -742,8 +762,9 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	reinf = TRUE
 	heat_resistance = 1600
 	armor = ARMOR_VALUE_PA
-	smooth = SMOOTH_TRUE
-	canSmoothWith = null
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_SHUTTLE_PARTS, SMOOTH_GROUP_WINDOW_FULLTILE_PLASTITANIUM)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE_PLASTITANIUM)
 	explosion_block = 3
 	level = 3
 	glass_type = /obj/item/stack/sheet/plastitaniumglass
@@ -760,7 +781,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 /obj/structure/window/plastitanium/pirate/unanchored
 	anchored = FALSE
 
-/obj/structure/window/reinforced/clockwork
+/*/obj/structure/window/reinforced/clockwork
 	name = "brass window"
 	desc = "A paper-thin pane of translucent yet reinforced brass."
 	icon = 'icons/obj/smooth_structures/clockwork_window.dmi'
@@ -814,7 +835,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 
 /obj/structure/window/reinforced/clockwork/fulltile
 	icon_state = "clockwork_window"
-	smooth = SMOOTH_TRUE
+	smoothing_flags = SMOOTH_BITMASK
 	canSmoothWith = null
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
@@ -826,7 +847,7 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 /obj/structure/window/reinforced/clockwork/Initialize(mapload, direct)
 	made_glow = TRUE
 	new /obj/effect/temp_visual/ratvar/window(get_turf(src))
-	return ..()
+	return ..()*/
 
 
 /obj/structure/window/reinforced/clockwork/fulltile/unanchored
@@ -836,14 +857,16 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	name = "paper frame"
 	desc = "A fragile separator made of thin wood and paper."
 	icon = 'icons/obj/smooth_structures/paperframes.dmi'
-	icon_state = "frame"
+	icon_state = "paperframes-0"
+	base_icon_state = "paperframes"
 	dir = FULLTILE_WINDOW_DIR
 	opacity = TRUE
 	max_integrity = 15
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/paperframe, /obj/structure/mineral_door/paperframe)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_PAPERFRAME)
+	canSmoothWith = list(SMOOTH_GROUP_PAPERFRAME)
 	glass_amount = 2
 	glass_type = /obj/item/stack/sheet/paperframes
 	heat_resistance = 233
@@ -886,7 +909,8 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 		cut_overlay(torn)
 		add_overlay(paper)
 		set_opacity(TRUE)
-	queue_smooth(src)
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+		QUEUE_SMOOTH(src)
 
 /obj/structure/window/paperframe/attackby(obj/item/W, mob/user)
 	if(W.get_temperature())
@@ -917,9 +941,11 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	anchored = FALSE
 
 /obj/structure/window/bronze/fulltile
-	icon_state = "clockwork_window"
-	canSmoothWith = null
-	smooth = SMOOTH_TRUE
+	icon_state = "clockwork_window-0"
+	base_icon_state = "clockwork_window"
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_WINDOW_FULLTILE, SMOOTH_GROUP_WINDOW_FULLTILE_BRONZE)
+	canSmoothWith = list(SMOOTH_GROUP_WINDOW_FULLTILE_BRONZE)
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	dir = FULLTILE_WINDOW_DIR
@@ -933,6 +959,6 @@ GLOBAL_LIST_EMPTY(electrochromatic_window_lookup)
 	icon = 'icons/obj/wood_window.dmi'
 	icon_state = "housewindow"
 	density = TRUE
-	smooth = SMOOTH_FALSE
+	smoothing_flags = null
 	level = 3
 	glass_amount = 2

@@ -268,6 +268,21 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		. = 1
 	return ..() || .
 
+/datum/reagent/consumable/ethanol/vilk
+	name = "Vilk"
+	description = "A worrisome coctktail of vodka and milk, surprisingly effective at treating radiation poisoning. For the Mommyland!"
+	color = "#DFDFDF" // rgb: 223, 223, 223
+	nutriment_factor = 2 * REAGENTS_METABOLISM
+	boozepwr = 35
+	taste_description = "bitterness and cream"
+	glass_icon_state = "glass_white"
+	glass_name = "glass of vilk"
+	glass_desc = "A worrisome coctktail of vodka and milk, surprisingly effective at treating radiation poisoning. For the Mommyland!"
+
+/datum/reagent/consumable/ethanol/vilk/on_mob_life(mob/living/carbon/M)
+	M.radiation = max(M.radiation-4,0)
+	return ..()
+
 /datum/reagent/consumable/ethanol/threemileisland
 	name = "Three Mile Island Iced Tea"
 	description = "Made for a woman, strong enough for a man."
@@ -2666,15 +2681,14 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	glass_name = "glass of [name]"
 	glass_desc = description
 	for(var/taste in tastes)
-		switch(tastes[taste])
-			if(minimum_percent*2 to INFINITY)
-				primary_tastes += taste
-			if(minimum_percent to minimum_percent*2)
-				secondary_tastes += taste
+		if(tastes[taste] > minimum_percent*2)
+			primary_tastes += taste
+		else if(tastes[taste] > minimum_percent)
+			secondary_tastes += taste
 
 	var/minimum_name_percent = 0.35
 	name = ""
-	var/list/names_in_order = sortTim(names, /proc/cmp_numeric_dsc, TRUE)
+	var/list/names_in_order = sortTim(names, GLOBAL_PROC_REF(cmp_numeric_dsc), TRUE)
 	var/named = FALSE
 	for(var/fruit_name in names)
 		if(names[fruit_name] >= minimum_name_percent)

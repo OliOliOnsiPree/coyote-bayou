@@ -897,6 +897,7 @@
 	idlesound = list()
 	food_types = list(/obj/item/reagent_containers/food/snacks/welding_fuel)
 	young_type = /mob/living/simple_animal/cow/brahmin/motorbike
+	milk_reagent = /datum/reagent/fuel
 	footstep_type = FOOTSTEP_MOB_HOOF
 	guaranteed_butcher_results = list(
 		/obj/item/stack/sheet/metal/ten = 1,
@@ -1463,16 +1464,17 @@
 /////////////
 
 /mob/living/simple_animal/radstag
-	name = "radstag"
-	desc = "a two headed deer that will run at the first sight of danger."
-	icon = 'icons/fallout/mobs/animals/farmanimals.dmi'
-	icon_state = "radstag"
-	icon_living = "radstag"
-	icon_dead = "radstag_dead"
+	name = "deer"
+	desc = "a deer that will run at the first sight of danger."
+	icon = 'modular_coyote/icons/mob/deer.dmi'
+	icon_state = "deer"
+	icon_living = "deer"
+	icon_dead = "deer_dead"
 	icon_gib = "radstag_gib"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	turns_per_move = 5
 	see_in_dark = 6
+	resize = 0.7
 	guaranteed_butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 4, /obj/item/stack/sheet/sinew = 2, /obj/item/stack/sheet/animalhide/radstag = 2, /obj/item/stack/sheet/bone = 2)
 	butcher_difficulty = 1
 
@@ -1595,7 +1597,7 @@
 
 /mob/living/simple_animal/cow/brahmin/cow/Initialize()
 	.=..()
-	resize = 0.85
+	resize = 0.7
 	update_transform()
 
 /mob/living/simple_animal/cow/brahmin/cow/tan

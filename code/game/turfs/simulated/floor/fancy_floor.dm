@@ -23,10 +23,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "common1")
-			icon_state = "common[rand(1,3)]"
+/turf/open/floor/wood_common/New()
+	..()
+	if(icon_state == "common1")
+		icon_state = "common[rand(1,3)]"
 
 /turf/open/floor/wood_common/wood_common_light
 	desc = "Wood cast in a sturdy standard pattern."
@@ -41,10 +41,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "common_light1")
-			icon_state = "common_light[rand(1,3)]"
+/turf/open/floor/wood_common/wood_common_light/New()
+	..()
+	if(icon_state == "common_light1")
+		icon_state = "common_light[rand(1,3)]"
 
 /turf/open/floor/wood_common/wood_common_dark
 	desc = "Wood cast in a sturdy standard pattern."
@@ -59,10 +59,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "common_dark1")
-			icon_state = "common_dark[rand(1,3)]"
+/turf/open/floor/wood_common/wood_common_dark/New()
+	..()
+	if(icon_state == "common_dark1")
+		icon_state = "common_dark[rand(1,3)]"
 
 
 
@@ -79,10 +79,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "worn1")
-			icon_state = "worn[rand(1,4)]"
+/turf/open/floor/wood_worn/New()
+	..()
+	if(icon_state == "worn1")
+		icon_state = "worn[rand(1,4)]"
 
 /turf/open/floor/wood_worn/wood_worn_light
 	desc = "Wood cast in a sturdy standard pattern."
@@ -97,10 +97,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "worn_light1")
-			icon_state = "worn_light[rand(1,4)]"
+/turf/open/floor/wood_worn/wood_worn_light/New()
+	..()
+	if(icon_state == "worn_light1")
+		icon_state = "worn_light[rand(1,4)]"
 
 /turf/open/floor/wood_worn/wood_worn_dark
 	desc = "Wood cast in a sturdy standard pattern."
@@ -115,10 +115,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "worn_dark1")
-			icon_state = "worn_dark[rand(1,4)]"
+/turf/open/floor/wood_worn/wood_worn_dark/New()
+	..()
+	if(icon_state == "worn_dark1")
+		icon_state = "worn_dark[rand(1,4)]"
 
 
 
@@ -135,10 +135,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "fancy1")
-			icon_state = "fancy[rand(1,1)]"
+/turf/open/floor/wood_fancy/New()
+	..()
+	if(icon_state == "fancy1")
+		icon_state = "fancy[rand(1,1)]"
 
 /turf/open/floor/wood_fancy/wood_fancy_light
 	desc = "Wood cast in a fancy angled pattern."
@@ -153,10 +153,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "fancy_light1")
-			icon_state = "fancy_light[rand(1,1)]"
+/turf/open/floor/wood_fancy/wood_fancy_light/New()
+	..()
+	if(icon_state == "fancy_light1")
+		icon_state = "fancy_light[rand(1,1)]"
 
 
 /turf/open/floor/wood_fancy/wood_fancy_dark
@@ -172,10 +172,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "fancy_dark1")
-			icon_state = "fancy_dark[rand(1,1)]"
+/turf/open/floor/wood_fancy/wood_fancy_dark/New()
+	..()
+	if(icon_state == "fancy_dark1")
+		icon_state = "fancy_dark[rand(1,1)]"
 
 
 
@@ -193,10 +193,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "wide1")
-			icon_state = "wide[rand(1,3)]"
+/turf/open/floor/wood_wide/New()
+	..()
+	if(icon_state == "wide1")
+		icon_state = "wide[rand(1,3)]"
 
 /turf/open/floor/wood_wide/wood_wide_light
 	desc = "Wood cast in a sturdy standard pattern."
@@ -211,10 +211,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "wide_light1")
-			icon_state = "wide_light[rand(1,3)]"
+/turf/open/floor/wood_wide/wood_wide_light/New()
+	..()
+	if(icon_state == "wide_light1")
+		icon_state = "wide_light[rand(1,3)]"
 
 /turf/open/floor/wood_wide/wood_wide_dark
 	desc = "Wood cast in a sturdy standard pattern."
@@ -229,10 +229,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "wide_dark1")
-			icon_state = "wide_dark[rand(1,3)]"
+/turf/open/floor/wood_wide/wood_wide_dark/New()
+	..()
+	if(icon_state == "wide_dark1")
+		icon_state = "wide_dark[rand(1,3)]"
 
 
 
@@ -249,10 +249,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "mosaic1")
-			icon_state = "mosaic[rand(1,3)]"
+/turf/open/floor/wood_mosaic/New()
+	..()
+	if(icon_state == "mosaic1")
+		icon_state = "mosaic[rand(1,3)]"
 
 /turf/open/floor/wood_mosaic/wood_mosaic_light
 	desc = "Wood cast in a sturdy standard pattern."
@@ -267,10 +267,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "mosaic_light1")
-			icon_state = "mosaic_light[rand(1,3)]"
+/turf/open/floor/wood_mosaic/wood_mosaic_light/New()
+	..()
+	if(icon_state == "mosaic_light1")
+		icon_state = "mosaic_light[rand(1,3)]"
 
 /turf/open/floor/wood_mosaic/wood_mosaic_dark
 	desc = "Wood cast in a sturdy standard pattern."
@@ -285,10 +285,10 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
 
-	New()
-		..()
-		if(icon_state == "mosaic_dark1")
-			icon_state = "mosaic_dark[rand(1,3)]"
+/turf/open/floor/wood_mosaic/wood_mosaic_dark/New()
+	..()
+	if(icon_state == "mosaic_dark1")
+		icon_state = "mosaic_dark[rand(1,3)]"
 
 
 
@@ -488,11 +488,13 @@
 	name = "carpet"
 	desc = "Soft velvet carpeting. Feels good between your toes."
 	icon = 'icons/turf/floors/carpet.dmi'
-	icon_state = "carpet"
+	icon_state = "carpet-255"
+	base_icon_state = "carpet"
 	floor_tile = /obj/item/stack/tile/carpet
 	broken_states = list("damaged")
-	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/carpet, /turf/open/floor/carpet/airless)
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET)
 	flags_1 = NONE
 	bullet_bounce_sound = null
 	footstep = FOOTSTEP_CARPET
@@ -513,79 +515,114 @@
 	if(!..())
 		return 0
 	if(!broken && !burnt)
-		if(smooth)
-			queue_smooth(src)
+		if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+			QUEUE_SMOOTH(src)
 	else
 		make_plating()
-		if(smooth)
-			queue_smooth_neighbors(src)
+		if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+			QUEUE_SMOOTH_NEIGHBORS(src)
 
 /turf/open/floor/carpet/black
 	icon = 'icons/turf/floors/carpet_black.dmi'
+	icon_state = "carpet_black-255"
+	base_icon_state = "carpet_black"
 	floor_tile = /obj/item/stack/tile/carpet/black
-	smooth = SMOOTH_MORE
-	canSmoothWith = list(/turf/open/floor/carpet/black, /turf/open/floor/carpet/blackred, /turf/open/floor/carpet/monochrome)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_BLACK)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_BLACK)
 
 /turf/open/floor/carpet/arcade
 	icon = 'icons/turf/floors.dmi'
 	icon_state = "arcade"
 	floor_tile = /obj/item/stack/tile/carpet/arcade
-	smooth = SMOOTH_FALSE
+	smoothing_flags = NONE
 	canSmoothWith = list()
 
 /turf/open/floor/carpet/blackred
 	icon = 'icons/turf/floors/carpet_blackred.dmi'
 	floor_tile = /obj/item/stack/tile/carpet/blackred
 	icon_state = "tile-carpet-blackred"
-	smooth = SMOOTH_MORE
+	smoothing_flags = SMOOTH_CORNERS
 	canSmoothWith = list(/turf/open/floor/carpet/black, /turf/open/floor/carpet/blackred, /turf/open/floor/carpet/monochrome)
 
 /turf/open/floor/carpet/monochrome
 	icon = 'icons/turf/floors/carpet_monochrome.dmi'
 	floor_tile = /obj/item/stack/tile/carpet/monochrome
 	icon_state = "tile-carpet-monochrome"
-	smooth = SMOOTH_MORE
+	smoothing_flags = SMOOTH_CORNERS
 	canSmoothWith = list(/turf/open/floor/carpet/black, /turf/open/floor/carpet/blackred, /turf/open/floor/carpet/monochrome)
 
 /turf/open/floor/carpet/blue
 	icon = 'icons/turf/floors/carpet_blue.dmi'
+	icon_state = "carpet_blue-255"
+	base_icon_state = "carpet_blue"
 	floor_tile = /obj/item/stack/tile/carpet/blue
-	canSmoothWith = list(/turf/open/floor/carpet/blue, /turf/open/floor/carpet/blue/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_BLUE)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_BLUE)
 
 /turf/open/floor/carpet/cyan
 	icon = 'icons/turf/floors/carpet_cyan.dmi'
+	icon_state = "carpet_cyan-255"
+	base_icon_state = "carpet_cyan"
 	floor_tile = /obj/item/stack/tile/carpet/cyan
-	canSmoothWith = list(/turf/open/floor/carpet/cyan, /turf/open/floor/carpet/cyan/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_CYAN)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_CYAN)
 
 /turf/open/floor/carpet/green
 	icon = 'icons/turf/floors/carpet_green.dmi'
+	icon_state = "carpet_green-255"
+	base_icon_state = "carpet_green"
 	floor_tile = /obj/item/stack/tile/carpet/green
-	canSmoothWith = list(/turf/open/floor/carpet/green, /turf/open/floor/carpet/green/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_GREEN)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_GREEN)
 
 /turf/open/floor/carpet/orange
 	icon = 'icons/turf/floors/carpet_orange.dmi'
+	icon_state = "carpet_orange-255"
+	base_icon_state = "carpet_orange"
 	floor_tile = /obj/item/stack/tile/carpet/orange
-	canSmoothWith = list(/turf/open/floor/carpet/orange, /turf/open/floor/carpet/orange/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_ORANGE)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_ORANGE)
 
 /turf/open/floor/carpet/purple
 	icon = 'icons/turf/floors/carpet_purple.dmi'
+	icon_state = "carpet_purple-255"
+	base_icon_state = "carpet_purple"
 	floor_tile = /obj/item/stack/tile/carpet/purple
-	canSmoothWith = list(/turf/open/floor/carpet/purple, /turf/open/floor/carpet/purple/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_PURPLE)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_PURPLE)
 
 /turf/open/floor/carpet/red
 	icon = 'icons/turf/floors/carpet_red.dmi'
+	icon_state = "carpet_red-255"
+	base_icon_state = "carpet_red"
 	floor_tile = /obj/item/stack/tile/carpet/red
-	canSmoothWith = list(/turf/open/floor/carpet/red, /turf/open/floor/carpet/red/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_RED)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_RED)
 
 /turf/open/floor/carpet/royalblack
 	icon = 'icons/turf/floors/carpet_royalblack.dmi'
+	icon_state = "carpet_royalblack-255"
+	base_icon_state = "carpet_royalblack"
 	floor_tile = /obj/item/stack/tile/carpet/royalblack
-	canSmoothWith = list(/turf/open/floor/carpet/royalblack, /turf/open/floor/carpet/royalblack/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_ROYAL_BLACK)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_ROYAL_BLACK)
 
 /turf/open/floor/carpet/royalblue
 	icon = 'icons/turf/floors/carpet_royalblue.dmi'
+	icon_state = "carpet_royalblue-255"
+	base_icon_state = "carpet_royalblue"
 	floor_tile = /obj/item/stack/tile/carpet/royalblue
-	canSmoothWith = list(/turf/open/floor/carpet/royalblue, /turf/open/floor/carpet/royalblue/airless)
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_ROYAL_BLUE)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_ROYAL_BLUE)
+
+/turf/open/floor/carpet/stellar
+	name = "stellar carpet"
+	icon = 'icons/turf/floors/carpet_stellar.dmi'
+	icon_state = "stellar_carpet-255"
+	base_icon_state = "stellar_carpet"
+	floor_tile = /obj/item/stack/tile/carpet/stellar
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_CARPET_STELLAR)
+	canSmoothWith = list(SMOOTH_GROUP_CARPET_STELLAR)
 
 /turf/open/floor/carpet/vault
 	icon = 'icons/turf/floors/carpet_vault.dmi'
@@ -651,10 +688,15 @@
 
 /turf/open/floor/fakepit
 	desc = "A clever illusion designed to look like a bottomless pit."
-	smooth = SMOOTH_TRUE | SMOOTH_BORDER | SMOOTH_MORE
-	canSmoothWith = list(/turf/open/floor/fakepit)
-	icon = 'icons/turf/floors/Chasms.dmi'
-	icon_state = "smooth"
+	smoothing_flags = SMOOTH_CORNERS | SMOOTH_BORDER
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_TURF_CHASM)
+	canSmoothWith = list(SMOOTH_GROUP_TURF_CHASM)
+	icon = 'icons/turf/floors/chasms.dmi'
+	icon_state = "chasms-0"
+	base_icon_state = "chasms"
+	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
+	smoothing_groups = list(SMOOTH_GROUP_TURF_OPEN, SMOOTH_GROUP_TURF_CHASM)
+	canSmoothWith = list(SMOOTH_GROUP_TURF_CHASM)
 	tiled_dirt = FALSE
 
 /turf/open/floor/fakepit/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)

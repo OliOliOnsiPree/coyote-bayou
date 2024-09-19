@@ -62,7 +62,7 @@ Difficulty: Hard
 /datum/action/innate/megafauna_attack/disorienting_scream
 	name = "Disorienting Scream"
 	icon_icon = 'icons/turf/walls/wall.dmi'
-	button_icon_state = "wall"
+	button_icon_state = "wall-0"
 	chosen_message = span_colossus("You are now screeching, disorienting targets around you.")
 	chosen_attack_num = 3
 
@@ -110,7 +110,7 @@ Difficulty: Hard
 	. = ..()
 	stored_move_dirs &= ~direct
 	if(!stored_move_dirs)
-		INVOKE_ASYNC(src, .proc/ground_slam, stomp_range, 1)
+		INVOKE_ASYNC(src,PROC_REF(ground_slam), stomp_range, 1)
 
 /// Slams the ground around the wendigo throwing back enemies caught nearby
 /mob/living/simple_animal/hostile/megafauna/wendigo/proc/ground_slam(range, delay)

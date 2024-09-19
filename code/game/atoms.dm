@@ -90,6 +90,26 @@
 	/// A luminescence-shifted value of the last color calculated for chatmessage overlays
 	var/chat_color_darkened
 
+	///Used for changing icon states for different base sprites.
+	var/base_icon_state
+
+	///Icon-smoothing behavior.
+	var/smoothing_flags = NONE
+	///What directions this is currently smoothing with. IMPORTANT: This uses the smoothing direction flags as defined in icon_smoothing.dm, instead of the BYOND flags.
+	var/smoothing_junction = NONE
+	///Smoothing variable
+	var/top_left_corner
+	///Smoothing variable
+	var/top_right_corner
+	///Smoothing variable
+	var/bottom_left_corner
+	///Smoothing variable
+	var/bottom_right_corner
+	///What smoothing groups does this atom belongs to, to match canSmoothWith. If null, nobody can smooth with it.
+	var/list/smoothing_groups = null
+	///List of smoothing groups this atom can smooth with. If this is null and atom is smooth, it smooths only with itself.
+	var/list/canSmoothWith = null
+
 	///Mobs that are currently do_after'ing this atom, to be cleared from on Destroy()
 	var/list/targeted_by
 	/// If false makes [CanPass][/atom/proc/CanPass] call [CanPassThrough][/atom/movable/proc/CanPassThrough] on this type instead of using default behaviour
@@ -97,6 +117,10 @@
 
 	/// What does this creature taste like?
 	var/list/tastes
+	/// When something is turned in for a quest, it'll give it a tag so it can only be turned in once per player
+	var/list/quest_tag
+	/// Override the deletion of this atom for quests
+	var/important
 
 /atom/New(loc, ...)
 	//atom creation method that preloads variables at creation
@@ -140,13 +164,20 @@
 	if (light_system == STATIC_LIGHT && light_power && light_range)
 		update_light()
 
-	if (canSmoothWith)
-		canSmoothWith = typelist("canSmoothWith", canSmoothWith)
+	if (length(smoothing_groups))
+		sortTim(smoothing_groups) //In case it's not properly ordered, let's avoid duplicate entries with the same values.
+		SET_BITFLAG_LIST(smoothing_groups)
+	if (length(canSmoothWith))
+		sortTim(canSmoothWith)
+		if(canSmoothWith[length(canSmoothWith)] > MAX_S_TURF) //If the last element is higher than the maximum turf-only value, then it must scan turf contents for smoothing targets.
+			smoothing_flags |= SMOOTH_OBJ
+		SET_BITFLAG_LIST(canSmoothWith)
 
 	// apply materials properly from the default custom_materials value
 	set_custom_materials(custom_materials)
 
 	ComponentInitialize()
+	SSatoms.everything[type]++
 
 	InitTastes()
 
@@ -169,6 +200,7 @@
 		// QDEL_NULL(tastes)
 
 /atom/Destroy()
+	SSatoms.everything[type]--
 	if(alternate_appearances)
 		for(var/K in alternate_appearances)
 			var/datum/atom_hud/alternate_appearance/AA = alternate_appearances[K]
@@ -186,6 +218,11 @@
 
 	QDEL_NULL(light)
 
+	if(smoothing_flags & SMOOTH_QUEUED)
+		SSicon_smooth.remove_from_queues(src)
+
+	if(LAZYLEN(quest_tag))
+		QDEL_LIST(quest_tag)
 	return ..()
 
 /**
@@ -365,7 +402,7 @@
 /atom/proc/HasProximity(atom/movable/AM as mob|obj)
 	return
 
-/atom/proc/emp_act(severity)
+/atom/proc/emp_act(severity, only_target)
 	var/protection = SEND_SIGNAL(src, COMSIG_ATOM_EMP_ACT, severity)
 	if(!(protection & EMP_PROTECT_WIRES) && istype(wires))
 		wires.emp_pulse(severity)
@@ -450,6 +487,10 @@
 				. += span_notice("It has [reagents.total_volume] unit\s left.")
 			else
 				. += span_danger("It's empty.")
+	var/list/itworth = techweb_item_point_check(src)
+	for(var/tweb in itworth)
+		if(isnum(itworth[tweb]) && itworth[tweb] > 0)
+			. += span_green("You figure this thing is worth around [round(itworth[tweb], 250)] science points.")
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
@@ -525,7 +566,7 @@
 
 /atom/proc/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav, unless the thrown stuff ends up inside what it hit(embedding, bola, etc...).
-		addtimer(CALLBACK(src, .proc/hitby_react, AM), 2)
+		addtimer(CALLBACK(src,PROC_REF(hitby_react), AM), 2)
 
 /atom/proc/hitby_react(atom/movable/AM)
 	if(AM && isturf(AM.loc))
@@ -545,9 +586,11 @@
 	var/blood_id = get_blood_id()
 	if(!(blood_id in GLOB.blood_reagent_types))
 		return
+	var/list/blood_data = get_blood_data()
 	var/list/blood_dna = list()
 	if(dna)
-		blood_dna["color"] = dna.species.exotic_blood_color //so when combined, the list grows with the number of colors
+		//blood_dna["color"] = dna.species.exotic_blood_color //so when combined, the list grows with the number of colors
+		blood_dna["color"] = blood_data["bloodcolor"]
 		blood_dna[dna.unique_enzymes] = dna.blood_type
 	else
 		blood_dna["color"] = BLOOD_COLOR_HUMAN
@@ -571,6 +614,10 @@
 		blood_DNA["color"] = new_blood_dna["color"]
 		changed = TRUE
 	else
+		if(blood_DNA["color"] == "rainbow" || new_blood_dna["color"] == "rainbow")
+			changed = blood_DNA["color"] == "rainbow"
+			blood_DNA["color"] = "rainbow"
+			return changed
 		var/old = blood_DNA["color"]
 		blood_DNA["color"] = BlendRGB(blood_DNA["color"], new_blood_dna["color"])
 		changed = old != blood_DNA["color"]
@@ -591,8 +638,11 @@
 			return
 		if(!blood_DNA["color"])
 			blood_DNA["color"] = blood_dna["color"]
-		else
-			blood_DNA["color"] = BlendRGB(blood_DNA["color"], blood_dna["color"])
+			return
+		if(blood_DNA["color"] == "rainbow" || blood_DNA["color"] == "rainbow")
+			blood_DNA["color"] = "rainbow"
+			return
+		blood_DNA["color"] = BlendRGB(blood_DNA["color"], blood_dna["color"])
 
 //to add blood from a mob onto something, and transfer their dna info
 /atom/proc/add_mob_blood(mob/living/M)
@@ -661,7 +711,9 @@
 	return TRUE
 
 /atom/proc/blood_DNA_to_color()
-	return (blood_DNA && blood_DNA["color"]) || BLOOD_COLOR_HUMAN
+	if(blood_DNA && !isnull(blood_DNA["color"]))
+		return blood_DNA["color"]
+	return BLOOD_COLOR_HUMAN
 
 /atom/proc/clean_blood()
 	. = blood_DNA? TRUE : FALSE
@@ -724,7 +776,7 @@
 	var/list/things = src_object.contents()
 	var/my_bar = SSprogress_bars.add_bar(src, list(), things.len, FALSE, FALSE)
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	while (do_after(user, 10, TRUE, src, FALSE, CALLBACK(STR, /datum/component/storage.proc/handle_mass_item_insertion, things, src_object, user, my_bar)))
+	while (do_after(user, 10, TRUE, src, FALSE, CALLBACK(STR, TYPE_PROC_REF(/datum/component/storage,handle_mass_item_insertion), things, src_object, user, my_bar)))
 		stoplag(1)
 	SSprogress_bars.remove_bar(my_bar)
 	to_chat(user, span_notice("You dump as much of [src_object.parent]'s contents into [STR.insert_preposition]to [src] as you can."))
@@ -998,6 +1050,8 @@
 // You can override it to catch all tool interactions, for use in complex deconstruction procs.
 // Just don't forget to return ..() in the end.
 /atom/proc/tool_act(mob/living/user, obj/item/I, tool_type)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_TOOL_ACT, user, I, tool_type) & STOP_ATTACK_PROC_CHAIN)
+		return STOP_ATTACK_PROC_CHAIN
 	switch(tool_type)
 		if(TOOL_CROWBAR)
 			return crowbar_act(user, I)
@@ -1195,7 +1249,7 @@
 
 /atom/proc/update_filters()
 	filters = null
-	filter_data = sortTim(filter_data, /proc/cmp_filter_data_priority, TRUE)
+	filter_data = sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
 	for(var/f in filter_data)
 		var/list/data = filter_data[f]
 		var/list/arguments = data.Copy()

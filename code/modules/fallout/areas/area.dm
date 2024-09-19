@@ -28,11 +28,14 @@
 	icon_state = "wasteland"
 	ambience_area = list(
 		/datum/looping_sound/ambient/critters,
+		/datum/looping_sound/ambient/critters/extra,
 		/datum/looping_sound/ambient/swamp,
 		/datum/looping_sound/ambient/critters/birds,
 		/datum/looping_sound/ambient/critters/birds/crow,
 		/datum/looping_sound/ambient/critters/frogs,
 		/datum/looping_sound/ambient/forest,
+		/datum/looping_sound/ambient/general/forest,
+		/datum/looping_sound/ambient/general/forest/direcitonal
 	)
 	outdoors = 1
 	open_space = 1
@@ -63,6 +66,7 @@
 	ambience_area = list(
 		/datum/looping_sound/ambient/city,
 		/datum/looping_sound/ambient/critters,
+		/datum/looping_sound/ambient/critters/extra,
 		/datum/looping_sound/ambient/general,
 		/datum/looping_sound/ambient/swamp/quiet,
 		/datum/looping_sound/ambient/critters/birds,
@@ -222,13 +226,124 @@
 /area/f13/wasteland/newboston
 	name = "New Boston Wasteland"
 
+/area/f13/wasteland/newboston/redwater
+	name = "Redwater Wasteland"
+
 /area/f13/wasteland/garlandcity
 	name = "Garland City Wasteland"
 
 /area/f13/wasteland/dungeon
 	name = "Dungeon Wasteland"
 
+/// New Boston areas are assumed to be inside unless they're specifically the ../outdoors type
+/area/f13/wasteland/city/newboston
+	name = "New Boston"
+	icon_state = "newboston"
+	safe_town = TRUE
+	ambience_area = list(
+		/datum/looping_sound/ambient/general,
+		/datum/looping_sound/ambient/woodcreak,
+		)
+	ambientsounds = list(
+		AREA_SOUND('sound/f13ambience/dog_distant_1.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/dog_distant_2.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/dog_distant_3.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/ambigen_1.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/ambigen_2.ogg', 10 SECONDS))
+	weather_tags = null
+	outdoors = FALSE
 
+/area/f13/wasteland/city/newboston/outdoors
+	name = "New Boston Streets"
+	icon_state = "newboston"
+	ambientsounds = list(
+		AREA_SOUND('sound/f13ambience/dog_distant_1.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/dog_distant_2.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/dog_distant_3.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_1.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_2.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_3.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_4.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_5.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_6.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_7.ogg', 10 SECONDS),
+		AREA_SOUND('sound/f13ambience/bird_8.ogg', 10 SECONDS))
+
+	ambience_area = list(
+		/datum/looping_sound/ambient/general,
+		/datum/looping_sound/ambient/swamp/quiet,
+		/datum/looping_sound/ambient/critters/birds,
+		/datum/looping_sound/ambient/critters/birds/crow,
+		/datum/looping_sound/ambient/woodcreak,
+		/datum/looping_sound/ambient/lightbulb,
+		
+
+		)
+	weather_tags = list(WEATHER_SAFE)
+	outdoors = TRUE
+
+/area/f13/wasteland/city/newboston/outdoors/redwater
+	name = "Redwater"
+	color = "#FF0000"
+
+/area/f13/wasteland/city/newboston/house
+	name = "New Boston Housing"
+	icon_state = "house"
+
+/area/f13/wasteland/city/newboston/farm
+	name = "New Boston Farm"
+	icon_state = "farm"
+
+/area/f13/wasteland/city/newboston/bar
+	name = "New Boston Bar"
+	icon_state = "alcohol"
+	outdoors = FALSE
+
+/area/f13/wasteland/city/newboston/bank
+	name = "New Boston Bank"
+	icon_state = "bank"
+	outdoors = FALSE
+
+/area/f13/wasteland/city/newboston/sauna
+	name = "New Boston Sauna"
+	icon_state = "house1"
+	outdoors = FALSE
+
+/area/f13/wasteland/city/newboston/chapel
+	name = "New Boston Chapel"
+	icon_state = "chapel1"
+
+/area/f13/wasteland/city/newboston/library
+	name = "New Boston Library"
+	icon_state = "library"
+
+// Believe it or not, light switches are tied to areas, so...
+/area/f13/wasteland/city/newboston/house/cabin_one
+	icon_state = "sleep1"
+
+/area/f13/wasteland/city/newboston/house/cabin_two
+	icon_state = "sleep2"
+
+/area/f13/wasteland/city/newboston/house/cabin_three
+	icon_state = "sleep3"
+
+/area/f13/wasteland/city/newboston/house/cabin_four
+	icon_state = "sleep4"
+
+/area/f13/wasteland/city/newboston/house/cabin_five
+	icon_state = "sleep5"
+
+/area/f13/wasteland/city/newboston/house/cabin_six
+	icon_state = "sleep6"
+
+/area/f13/wasteland/city/newboston/house/cabin_seven
+	icon_state = "sleep7"
+
+/area/f13/wasteland/city/newboston/house/cabin_eight
+	icon_state = "sleep8"
+
+/area/f13/wasteland/city/newboston/house/cabin_nine
+	icon_state = "sleep9"
 
 ///////////////
 //C O Y O T E//
@@ -1089,6 +1204,11 @@
 	name = "Great Khan Encampment"
 	icon_state = "tribe"
 	weather_tags = list(WEATHER_ALL)
+
+/area/f13/dragon_boss
+	name = "Nagavox's Lair"
+	icon_state = "tribe"
+	outdoors = TRUE
 
 /area/debug_mussy
 	name = "Musical Hellscape"

@@ -13,6 +13,10 @@ Format:
 	disabled (disables the map)
 endmap
 
+map pahrump-newboston
+    adminonly
+endmap
+
 map pahrump-everything
 	default
 endmap

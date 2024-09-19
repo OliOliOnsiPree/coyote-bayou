@@ -106,7 +106,15 @@ SUBSYSTEM_DEF(pornhud)
 	var/datum/genital_images/GI = get_genital_datum(flusher)
 	if(!GI)
 		return
-	GI.flush_genitals()
+	GI.flush_undies()
+
+/datum/controller/subsystem/pornhud/proc/flush_accessories(mob/living/carbon/human/flusher)
+	if(!ishuman(flusher))
+		return
+	var/datum/genital_images/GI = get_genital_datum(flusher)
+	if(!GI)
+		return
+	GI.flush_accessories()
 
 /datum/controller/subsystem/pornhud/proc/update_visibility(mob/living/carbon/human/dork, part, on_off)
 	if(!ishuman(dork))
@@ -114,7 +122,28 @@ SUBSYSTEM_DEF(pornhud)
 	var/datum/genital_images/GI = get_genital_datum(dork)
 	if(!GI)
 		return
-	GI.update_visibility(part, on_off)
+	return GI.update_visibility(part, on_off)
+
+/datum/controller/subsystem/pornhud/proc/get_layer(mob/living/carbon/human/dork, kind, position)
+	if(!ishuman(dork))
+		return MOB_LAYER
+	var/layer_out = dork.layer
+	switch(kind)
+		if(PHUD_BUTT,PHUD_BOOB,PHUD_TALLYWHACKER,PHUD_BALLS,PHUD_VAG,PHUD_BELLY)
+			layer_out += (GENITAL_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(PHUD_SHIRT)
+			layer_out += (SHIRT_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(PHUD_PANTS)
+			layer_out += (PANTS_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(PHUD_SOCKS)
+			layer_out += (SOCKS_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(MUTANT_PORNHUD_TAIL)
+			layer_out += (WINGS_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(MUTANT_PORNHUD_WINGS)
+			layer_out += (TAIL_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+		if(PHUD_PVP_FLAG)
+			layer_out += (pvp_flag_LAYER_OFFSET * (position == "BEHIND" ? -1 : 1))
+	return layer_out
 
 /datum/controller/subsystem/pornhud/proc/generate_key(mob/living/carbon/human/newnadhaver)
 	if(!ishuman(newnadhaver))
@@ -124,7 +153,7 @@ SUBSYSTEM_DEF(pornhud)
 	var/key = newnadhaver.ckey ? "[newnadhaver.ckey]-" : "stiff-"
 	key += "[LAZYLEN(hoohaws) + 1]-"
 	key += "[newnadhaver.real_name]-"
-	key += "[world.time]-bepis"
+	key += "[round(world.time)]-bepis"
 	newnadhaver.pornhud_key = key
 	return key
 
@@ -162,19 +191,22 @@ SUBSYSTEM_DEF(pornhud)
 	var/belly_visible
 
 	var/list/tail = list() // nice and suggestive
-	var/tail_visible
+	var/tail_visible = TRUE
 
 	var/list/wings = list() // dingo wings
-	var/wings_visible
+	var/wings_visible = TRUE
 
 	var/image/undershirt
-	var/shirt_visible
+	var/shirt_visible = TRUE
 
 	var/image/underpants
-	var/underpants_visible
+	var/underpants_visible = TRUE
 
 	var/image/socks
-	var/socks_visible
+	var/socks_visible = TRUE
+
+	var/image/pvp_flag
+	var/pvp_flag_visible = TRUE
 
 	/// if this is true, the player has changed their appearance since the last time we updated
 	var/has_changed
@@ -188,6 +220,9 @@ SUBSYSTEM_DEF(pornhud)
 /datum/genital_images/New(mob/living/carbon/human/newowner)
 	. = ..()
 	owner = WEAKREF(newowner)
+	shirt_visible = !newowner.hidden_undershirt
+	underpants_visible = !newowner.hidden_underwear
+	socks_visible = !newowner.hidden_socks
 
 /// is this player whitelisted?
 /// if so, they can see genitals even if they're hidden
@@ -223,7 +258,7 @@ SUBSYSTEM_DEF(pornhud)
 			images2change = butt
 		if(PHUD_BOOB)
 			images2change = breasts
-		if(PHUD_PENIS)
+		if(PHUD_TALLYWHACKER)
 			images2change = peen
 		if(PHUD_BALLS)
 			images2change = balls
@@ -241,6 +276,8 @@ SUBSYSTEM_DEF(pornhud)
 			images2change = underpants
 		if(PHUD_SOCKS)
 			images2change = socks
+		if(PHUD_PVP_FLAG)
+			images2change = pvp_flag
 	if(!LAZYLEN(images ^ images2change))
 		return // nothing changed
 	switch(part)
@@ -248,7 +285,7 @@ SUBSYSTEM_DEF(pornhud)
 			butt = images
 		if(PHUD_BOOB)
 			breasts = images
-		if(PHUD_PENIS)
+		if(PHUD_TALLYWHACKER)
 			peen = images
 		if(PHUD_BALLS)
 			balls = images
@@ -266,54 +303,63 @@ SUBSYSTEM_DEF(pornhud)
 			underpants = images
 		if(PHUD_SOCKS)
 			socks = images
+		if(PHUD_PVP_FLAG)
+			pvp_flag = images
 	set_changed()
 
 /datum/genital_images/proc/update_visibility(part, on_off)
+	var/toggle = FALSE
+	if(isnull(on_off))
+		toggle = TRUE
 	switch(part)
 		if(PHUD_BUTT)
 			if(butt_visible == on_off)
 				return
-			butt_visible = on_off
+			. = (butt_visible = (toggle ? !butt_visible : on_off))
 		if(PHUD_BOOB)
 			if(breasts_visible == on_off)
 				return
-			breasts_visible = on_off
-		if(PHUD_PENIS)
+			. = (breasts_visible = (toggle ? !breasts_visible : on_off))
+		if(PHUD_TALLYWHACKER)
 			if(peen_visible == on_off)
 				return
-			peen_visible = on_off
+			. = (peen_visible = (toggle ? !peen_visible : on_off))
 		if(PHUD_BALLS)
 			if(balls_visible == on_off)
 				return
-			balls_visible = on_off
+			. = (balls_visible = (toggle ? !balls_visible : on_off))
 		if(PHUD_VAG)
 			if(vag_visible == on_off)
 				return
-			vag_visible = on_off
+			. = (vag_visible = (toggle ? !vag_visible : on_off))
 		if(PHUD_BELLY)
 			if(belly_visible == on_off)
 				return
-			belly_visible = on_off
+			. = (belly_visible = (toggle ? !belly_visible : on_off))
 		if(PHUD_TAIL)
 			if(tail_visible == on_off)
 				return
-			tail_visible = on_off
+			. = (tail_visible = (toggle ? !tail_visible : on_off))
 		if(PHUD_WINGS)
 			if(wings_visible == on_off)
 				return
-			wings_visible = on_off
+			. = (wings_visible = (toggle ? !wings_visible : on_off))
 		if(PHUD_SHIRT)
 			if(shirt_visible == on_off)
 				return
-			shirt_visible = on_off
+			. = (shirt_visible = (toggle ? !shirt_visible : on_off))
 		if(PHUD_PANTS)
 			if(underpants_visible == on_off)
 				return
-			underpants_visible = on_off
+			. = (underpants_visible = (toggle ? !underpants_visible : on_off))
 		if(PHUD_SOCKS)
 			if(socks_visible == on_off)
 				return
-			socks_visible = on_off
+			. = (socks_visible = (toggle ? !socks_visible : on_off))
+		if(PHUD_PVP_FLAG)
+			if(pvp_flag_visible == on_off)
+				return
+			. = (pvp_flag_visible = (toggle ? !pvp_flag_visible : on_off))
 	set_changed()
 
 /datum/genital_images/proc/cache_images(list/imgs = list())
@@ -345,6 +391,8 @@ SUBSYSTEM_DEF(pornhud)
 	for(var/imglayer in imgs)
 		seer.client.images += imgs[imglayer]
 
+/// The main proc that compiles and dispatches images
+/// WE are showing THESE to SOMEONE ELSE. P is the preferences of the VIEWER
 /datum/genital_images/proc/get_all_images(datum/preferences/P)
 	if(!P)
 		return
@@ -376,12 +424,23 @@ SUBSYSTEM_DEF(pornhud)
 					all_images += belly
 	if(tail && tail_visible)
 		all_images += tail
+	if(wings && wings_visible)
+		all_images += wings
+	if(socks && socks_visible)
+		all_images += socks
+	if(underpants && underpants_visible)
+		all_images += underpants
+	if(undershirt && shirt_visible)
+		all_images += undershirt
+	if(pvp_flag && pvp_flag_visible)
+		all_images += pvp_flag
 	var/list/imgsformatted = list()
 	for(var/image/I in all_images)
 		var/image/flat = imgsformatted["[I.layer]"]
 		if(!flat)
 			flat = image('icons/mob/hud.dmi', myowner, "")
 			flat.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+			flat.layer = I.layer
 			imgsformatted["[I.layer]"] = flat
 		flat.overlays += I
 	cache_images(imgsformatted)
@@ -399,11 +458,21 @@ SUBSYSTEM_DEF(pornhud)
 		set_changed()
 	return TRUE
 
-/datum/genital_images/proc/flush_undies()
-	cache_images(get_all_images())
+/datum/genital_images/proc/flush_undies() // thats how you get a clog, dummy
+	var/changed = LAZYLEN(undershirt) || LAZYLEN(underpants) || LAZYLEN(socks)
 	undershirt = null
 	underpants = null
 	socks = null
+	if(changed)
+		set_changed()
+	return TRUE
+
+/datum/genital_images/proc/flush_accessories() // bye bye, car keys!
+	var/changed = LAZYLEN(wings) || LAZYLEN(tail)
+	wings = null
+	tail = null
+	if(changed)
+		set_changed()
 	return TRUE
 
 /datum/genital_images/proc/set_changed()

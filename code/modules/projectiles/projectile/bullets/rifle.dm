@@ -153,7 +153,7 @@
 	bare_wound_bonus = BULLET_WOUND_RIFLE_223_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_LIGHT
 
-	pixels_per_second = BULLET_SPEED_RIFLE_223_HANDLOAD * 0.5
+	pixels_per_second = BULLET_SPEED_RIFLE_223_HANDLOAD * 0.3
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 
 /*
@@ -283,7 +283,7 @@
 	pixels_per_second = BULLET_SPEED_RIFLE_473
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 	supereffective_damage = BULLET_DAMAGE_RIFLE_473 * 2
-	supereffective_faction = list("hostile", "ant", "supermutant", "deathclaw", "cazador", "raider", "china", "gecko", "wastebot")
+	supereffective_faction = list("hostile", "ant", "supermutant", "aethergiest", "cazador", "raider", "china", "gecko", "wastebot")
 
 /* 4.73 explosive
  * DAMAGE: 15
@@ -595,6 +595,7 @@
 	name = ".308 bullet"
 	damage_list = list("22" = 40, "28" = 45, "45" = 30, "48" = 5, "50" = 3, "55" = 2)
 	spread = BULLET_SPREAD_HANDLOAD*15 //30 degree firing arc, might miss at long range
+	pixels_per_second = BULLET_SPEED_PISTOL_45ACP_HANDLOAD * 0.7
 
 /* 7.62mm rubber
  * DAMAGE: 4.5
@@ -718,7 +719,7 @@
 
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 	supereffective_damage = 90
-	supereffective_faction = list("hostile", "ant", "supermutant", "deathclaw", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
+	supereffective_faction = list("hostile", "ant", "supermutant", "aethergiest", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
 
 /////////
 // .50 //
@@ -1164,7 +1165,7 @@
 	muzzle_type = /obj/effect/projectile/muzzle/laser/blue
 	impact_type = /obj/effect/projectile/impact/laser/blue
 	supereffective_damage = BULLET_DAMAGE_RIFLE_50MG_MATCH // hmm
-	supereffective_faction = list("hostile", "ant", "supermutant", "deathclaw", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
+	supereffective_faction = list("hostile", "ant", "supermutant", "aethergiest", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
 	/// Reduces damage by this much when it hits a thing
 	var/per_wall_mult = 0.8
 

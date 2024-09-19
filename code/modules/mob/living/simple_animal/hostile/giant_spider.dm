@@ -114,9 +114,8 @@
 	maxHealth = 450
 	health = 450
 	vision_range = 9
-	move_to_delay = 1
+	move_to_delay = 4
 	turns_per_move = 7
-	poison_type = /datum/reagent/medicine/coagulant
 	poison_per_bite = 7
 	melee_damage_lower = 30 //might need tweaking, should be fine for now.
 	melee_damage_upper = 60
@@ -131,9 +130,8 @@
 	icon_dead = "terror_empress-dead"
 	maxHealth = 750
 	health = 750
-	move_to_delay = 2
+	move_to_delay = 5
 	turns_per_move = 2
-	poison_type = /datum/reagent/medicine/stimulants
 	poison_per_bite = 15
 	melee_damage_lower = 50
 	melee_damage_upper = 80
@@ -148,9 +146,8 @@
 	icon_dead = "spider_queen-dead"
 	maxHealth = 550
 	health = 550
-	move_to_delay = 4
+	move_to_delay = 4.5
 	turns_per_move = 7
-	poison_type = /datum/reagent/medicine/epinephrine
 	poison_per_bite = 7
 	melee_damage_lower = 40 //meant to be slightly stronger than emperor due to the beefier size.
 	melee_damage_upper = 70
@@ -446,7 +443,6 @@
 	name = "Wrap"
 	panel = "Spider"
 	active = FALSE
-	datum/action/spell_action/action = null
 	desc = "Wrap something or someone in a cocoon. If it's a living being, you'll also consume them, allowing you to lay eggs."
 	ranged_mousepointer = 'icons/effects/wrap_target.dmi'
 	action_icon = 'icons/mob/actions/actions_animal.dmi'
@@ -491,7 +487,7 @@
 		if(target_atom.anchored)
 			return
 		user.cocoon_target = target_atom
-		INVOKE_ASYNC(user, /mob/living/simple_animal/hostile/poison/giant_spider/nurse/.proc/cocoon)
+		INVOKE_ASYNC(user, TYPE_PROC_REF(/mob/living/simple_animal/hostile/poison/giant_spider/nurse/,cocoon))
 		remove_ranged_ability()
 		return TRUE
 

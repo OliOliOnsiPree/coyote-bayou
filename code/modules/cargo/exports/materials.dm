@@ -166,18 +166,18 @@
 	export_types = list(/obj/item/stack/f13Cash/aureus)
 
 /datum/export/material/f13cash/scrip
-	cost = 6 // Texarkana Trade Union scrip. They like people using their money because economics or something; 1 copper = 2 scrip; if abused again, set to 5
+	cost = 0.00000001 // Texarkana Trade Union scrip. They like people using their money because economics or something; 1 copper = 2 scrip; if abused again, set to 5
 	unit_name = "scrip"
 	export_types = list(/obj/item/stack/f13Cash/ncr)
 	k_elasticity = 0/1000
 
 
-/datum/export/material/deathclawhide
+/datum/export/material/aethergiesthide
 	cost = 1000
 	message = " "
-	unit_name = "deathclaw hide"
-	material_id = /datum/material/deathclawhide
-	export_types = list(/obj/item/stack/sheet/animalhide/deathclaw)
+	unit_name = "aethergiest hide"
+	material_id = /datum/material/aethergiesthide
+	export_types = list(/obj/item/stack/sheet/animalhide/aethergiest)
 	k_elasticity = 0/1000
 
 
@@ -191,7 +191,7 @@
 /datum/export/material/molerathide
 	cost = 100
 	message = " "
-	unit_name = "molerat hide"
+	unit_name = "giant rat hide"
 	material_id = /datum/material/molerathide
 	export_types = list(/obj/item/stack/sheet/animalhide/molerat)
 

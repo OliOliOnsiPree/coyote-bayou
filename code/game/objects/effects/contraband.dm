@@ -30,7 +30,7 @@
 
 		name = "[name] - [poster_structure.original_name]"
 		//If the poster structure is being deleted something has gone wrong, kill yourself off too
-		RegisterSignal(poster_structure, COMSIG_PARENT_QDELETING, .proc/react_to_deletion)
+		RegisterSignal(poster_structure, COMSIG_PARENT_QDELETING,PROC_REF(react_to_deletion))
 
 
 /obj/item/poster/Destroy()
@@ -151,7 +151,7 @@
 		return
 
 	// Deny placing posters on currently-diagonal walls, although the wall may change in the future.
-	if (smooth & SMOOTH_DIAGONAL)
+	if (smoothing_flags & SMOOTH_DIAGONAL_CORNERS)
 		for (var/O in overlays)
 			var/image/I = O
 			if(copytext(I.icon_state, 1, 3) == "d-") //3 == length("d-") + 1

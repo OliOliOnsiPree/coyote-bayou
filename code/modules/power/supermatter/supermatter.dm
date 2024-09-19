@@ -116,7 +116,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	///The portion of the gasmix we're on that we should remove
 	var/gasefficency = 0.15
 	///Used for changing icon states for diff base sprites
-	var/base_icon_state = "darkmatter"
+	base_icon_state = "darkmatter"
 
 	///Are we exploding?
 	var/final_countdown = FALSE
@@ -296,7 +296,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		GLOB.main_supermatter_engine = src
 
 	AddElement(/datum/element/bsa_blocker)
-	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM, .proc/call_explode)
+	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM,PROC_REF(call_explode))
 
 	soundloop = new(list(src), TRUE)
 

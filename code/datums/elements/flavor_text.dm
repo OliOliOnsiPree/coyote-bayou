@@ -14,6 +14,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 	var/save_key
 	/// Do not attempt to render a preview on examine. If this is on, it will display as \[flavor_name\]
 	var/examine_no_preview = FALSE
+	var/why_does_it_do_this = 0
 
 /datum/element/flavor_text/Attach(datum/target, text = "", _name = "Flavor Text", _addendum, _max_len = MAX_FLAVOR_LEN, _always_show = FALSE, _edit = TRUE, _save_key, _examine_no_preview = FALSE, _attach_internet_link = FALSE)
 	. = ..()
@@ -35,8 +36,8 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 	save_key = _save_key
 	examine_no_preview = _examine_no_preview
 
-	RegisterSignal(target, COMSIG_PARENT_EXAMINE, .proc/show_flavor)
-	RegisterSignal(target, COMSIG_FLIST, .proc/show_flist)
+	RegisterSignal(target, COMSIG_PARENT_EXAMINE,PROC_REF(show_flavor))
+	RegisterSignal(target, COMSIG_FLIST,PROC_REF(show_flist))
 
 	if(can_edit && ismob(target)) //but only mobs receive the proc/verb for the time being
 		var/mob/M = target
@@ -44,7 +45,7 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 		M.verbs |= /mob/proc/manage_flavor_tests
 
 	if(save_key && ishuman(target))
-		RegisterSignal(target, COMSIG_HUMAN_PREFS_COPIED_TO, .proc/update_prefs_flavor_text)
+		RegisterSignal(target, COMSIG_HUMAN_PREFS_COPIED_TO,PROC_REF(update_prefs_flavor_text))
 
 /datum/element/flavor_text/Detach(atom/A)
 	. = ..()
@@ -106,15 +107,30 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 		return
 	if(!reader)
 		return
-	INVOKE_ASYNC(src, .proc/actually_show_flist, target, reader)
+	INVOKE_ASYNC(src, PROC_REF(actually_show_flist), target, reader)
 	return TRUE
 
 /datum/element/flavor_text/proc/actually_show_flist(mob/living/carbon/human/H, mob/reader)
-	if(alert(reader, "This will open the following link '[H.dna.features["flist"]]' in your browser. Are you sure?","Open external link","Yes","No") =="Yes")
-		reader << link(H.dna.features["flist"])
-		return TRUE
-	else
+	if(!H.dna.features["flist"])
+		to_chat(reader, span_alert("They don't have an F-List link!"))
 		return
+	to_chat(reader, span_green("The fancy F-List dialog box is broken :( so just imagine there's a cool window here with a button!"))
+	to_chat(reader, span_green("<b>Click here for F-List: <a href='[H.dna.features["flist"]]'>[H.dna.features["flist"]]</a></b>"))
+
+	// var/show_it = alert(
+	// 	reader,
+	// 	"This will open the following link '[H.dna.features["flist"]]' in your browser. Are you sure?",
+	// 	"Open external link",
+	// 	"Yes",
+	// 	"No"
+	// )
+	// if(show_it == "Yes")
+	// 	if(prob(5))
+	// 		to_chat(reader, span_alert("So be it."))
+	// 	reader << link(H.dna.features["flist"])
+	// 	return TRUE
+	// else
+	// 	return
 
 /mob/proc/manage_flavor_tests()
 	set name = "Manage Flavor Texts"
@@ -168,11 +184,11 @@ GLOBAL_LIST_EMPTY(mobs_with_editable_flavor_text) //et tu, hacky code
 	. = ..()
 	if(. == ELEMENT_INCOMPATIBLE)
 		return
-	RegisterSignal(target, COMSIG_CARBON_IDENTITY_TRANSFERRED_TO, .proc/update_dna_flavor_text)
-	RegisterSignal(target, COMSIG_MOB_ANTAG_ON_GAIN, .proc/on_antag_gain)
+	RegisterSignal(target, COMSIG_CARBON_IDENTITY_TRANSFERRED_TO,PROC_REF(update_dna_flavor_text))
+	RegisterSignal(target, COMSIG_MOB_ANTAG_ON_GAIN,PROC_REF(on_antag_gain))
 	if(ishuman(target))
-		RegisterSignal(target, COMSIG_HUMAN_HARDSET_DNA, .proc/update_dna_flavor_text)
-		RegisterSignal(target, COMSIG_HUMAN_ON_RANDOMIZE, .proc/unset_flavor)
+		RegisterSignal(target, COMSIG_HUMAN_HARDSET_DNA,PROC_REF(update_dna_flavor_text))
+		RegisterSignal(target, COMSIG_HUMAN_ON_RANDOMIZE,PROC_REF(unset_flavor))
 
 /datum/element/flavor_text/carbon/Detach(mob/living/carbon/C)
 	. = ..()

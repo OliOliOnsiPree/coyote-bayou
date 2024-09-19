@@ -25,7 +25,6 @@
 	attack_verb_simple = "punches"
 	attack_sound = 'sound/weapons/punch1.ogg'
 	a_intent = INTENT_HARM
-	loot = list()
 	unsuitable_atmos_damage = 15
 	faction = list("vault", "city")
 	check_friendly_fire = 1
@@ -34,6 +33,14 @@
 	despawns_when_lonely = FALSE
 	ignore_other_mobs = TRUE // we fight
 	override_ignore_other_mobs = TRUE
+	retreat_health_percent = 0.5
+	max_heal_amount = 0.9
+	heal_per_life = 0.115
+	tactical_retreat = 10
+	loot = list(/obj/effect/spawner/lootdrop/f13/common, /obj/effect/gibspawner/human)
+	loot_drop_amount = 2
+	loot_amount_random = TRUE
+
 
 /obj/effect/mob_spawn/human/corpse/vault
 	name = "Vault Dweller"
@@ -87,7 +94,6 @@
 	health = 160
 	retreat_distance = 5
 	minimum_distance = 5
-	loot = list()
 	healable = 1
 	ranged = 1
 	projectiletype = /obj/item/projectile/beam
@@ -103,7 +109,7 @@
 		SP_DISTANT_SOUND(LASER_DISTANT_SOUND),
 		SP_DISTANT_RANGE(LASER_RANGE_DISTANT)
 	)
-
+	speed = 10 // added to make his dumbass hold still - Jaeger
 
 /mob/living/simple_animal/hostile/vault/security/Aggro()
 	..()
@@ -138,7 +144,7 @@
 	response_harm_simple = "hits"
 	retreat_distance = 6
 	minimum_distance = 6
-	speed = 0
+	speed = 4
 	ranged_cooldown_time = 22
 	extra_projectiles = 2
 	stat_attack = 1
@@ -150,6 +156,9 @@
 	melee_damage_lower = 15
 	melee_damage_upper = 35
 	harm_intent_damage = 8
+	loot = list(/obj/effect/spawner/lootdrop/f13/common, /obj/effect/gibspawner/human)
+	loot_drop_amount = 2
+	loot_amount_random = TRUE
 
 	projectiletype = /obj/item/projectile/bullet/c46x30mm
 	projectilesound = 'sound/weapons/gunshot_smg.ogg'
@@ -189,11 +198,10 @@
 	retreat_distance = 10
 	obj_damage = 0
 	environment_smash = 0
-	loot = list()
 	melee_damage_lower = 5
 	melee_damage_upper = 15
 	ranged_cooldown_time = 30
-	projectiletype = /obj/item/projectile/f13plasma/pistol/adam
+	projectiletype = /obj/item/projectile/f13plasma/pistol/adam/simple
 	projectilesound = 'sound/weapons/wave.ogg'
 	extra_projectiles = 1
 	attack_verb_simple = "thrusts"
@@ -207,6 +215,16 @@
 		SP_DISTANT_SOUND(PLASMA_DISTANT_SOUND),
 		SP_DISTANT_RANGE(PLASMA_RANGE_DISTANT)
 	)
+	retreat_health_percent = 0.8
+	max_heal_amount = 0.85
+	heal_per_life = 0.115
+	tactical_retreat = 10
+	speed = 4 // added to make his dumbass hold still - Jaeger
+
+/mob/living/simple_animal/hostile/enclave/scientist/Aggro()
+	..()
+	summon_backup(15)
+	say("Intruder!!") 
 
 // Enclave Armored Infantry
 /mob/living/simple_animal/hostile/enclave/soldier
@@ -223,9 +241,11 @@
 	retreat_distance = 3
 	minimum_distance = 5
 	ranged_cooldown_time = 12
-	loot = list()
 	healable = 1
 	attack_verb_simple = "power-fists"
+	loot = list(/obj/effect/spawner/lootdrop/f13/uncommon, /obj/effect/gibspawner/human)
+	loot_drop_amount = 2
+	loot_amount_random = TRUE
 	projectiletype = /obj/item/projectile/f13plasma/scatter
 	projectilesound = 'sound/f13weapons/plasmarifle.ogg'
 	projectile_sound_properties = list(
@@ -238,6 +258,7 @@
 		SP_DISTANT_SOUND(PLASMA_DISTANT_SOUND),
 		SP_DISTANT_RANGE(PLASMA_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
 
 // Enclave corpses
 /obj/effect/mob_spawn/human/corpse/enclavescientist
@@ -276,12 +297,12 @@
 	icon_living = "bs_knight"
 	icon_dead = "bs_knight_dead"
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
-	faction = list("BOS")
+	faction = list("BOS", "wastebots")
 	turns_per_move = 5
 	response_help_simple = "pokes"
 	response_disarm_simple = "shoves"
 	response_harm_simple = "hits"
-	speed = 1
+	speed = 4
 	stat_attack = 1
 	robust_searching = 1
 	maxHealth = 200
@@ -292,7 +313,6 @@
 	attack_verb_simple = "pistol-whips"
 	attack_sound = 'sound/weapons/punch1.ogg'
 	a_intent = INTENT_HARM
-	loot = list()
 	unsuitable_atmos_damage = 15
 	check_friendly_fire = 1
 	status_flags = CANPUSH
@@ -301,6 +321,9 @@
 	speak_chance = 1
 	ignore_other_mobs = TRUE // we fight
 	override_ignore_other_mobs = TRUE
+	loot = list(/obj/effect/spawner/lootdrop/f13/uncommon, /obj/effect/gibspawner/human)
+	loot_drop_amount = 2
+	loot_amount_random = TRUE
 
 /obj/effect/mob_spawn/human/corpse/bs
 	name = "Tech-trooper"
@@ -320,9 +343,11 @@
 	icon_dead = "bs_knight_dead"
 	retreat_distance = 5
 	minimum_distance = 5
-	loot = list()
 	healable = 1
 	ranged = 1
+	loot = list(/obj/effect/spawner/lootdrop/f13/rare, /obj/effect/gibspawner/human)
+	loot_drop_amount = 2
+	loot_amount_random = TRUE
 	projectiletype = /obj/item/projectile/beam/laser/pistol/hitscan
 	projectilesound = 'sound/f13weapons/aep7fire.ogg'
 	projectile_sound_properties = list(
@@ -335,6 +360,7 @@
 		SP_DISTANT_SOUND(LASER_DISTANT_SOUND),
 		SP_DISTANT_RANGE(LASER_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
 
 /mob/living/simple_animal/hostile/bs/paladin
 	name = "Tech-Trooper Commander"
@@ -344,11 +370,13 @@
 	icon_dead = "bs_paladin_dead"
 	retreat_distance = 5
 	minimum_distance = 5
-	loot = list()
 	maxHealth = 480
 	health = 480
 	healable = 1
 	ranged = 1
+	loot = list(/obj/effect/spawner/lootdrop/f13/rare, /obj/effect/gibspawner/human)
+	loot_drop_amount = 5
+	loot_amount_random = TRUE
 	projectiletype = /obj/item/projectile/beam/laser/lasgun/hitscan
 	projectilesound = 'sound/f13weapons/aer9fire.ogg'
 	projectile_sound_properties = list(
@@ -361,6 +389,7 @@
 		SP_DISTANT_SOUND(LASER_DISTANT_SOUND),
 		SP_DISTANT_RANGE(LASER_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
 
 /obj/effect/mob_spawn/human/corpse/bs/paladin
 	name = "Brotherhood Paladin"
@@ -390,7 +419,7 @@
 	response_help_simple = "pokes"
 	response_disarm_simple = "shoves"
 	response_harm_simple = "hits"
-	speed = 1
+	speed = 4
 	stat_attack = 1
 	robust_searching = 1
 	maxHealth = 120
@@ -443,6 +472,7 @@
 		SP_DISTANT_SOUND(RIFLE_LIGHT_DISTANT_SOUND),
 		SP_DISTANT_RANGE(RIFLE_LIGHT_RANGE_DISTANT)
 	)
+	speed = 10 // added to make his dumbass hold still - Jaeger
 
 /mob/living/simple_animal/hostile/ncr/ranger
 	name = "NCR Ranger"
@@ -470,6 +500,8 @@
 		SP_DISTANT_SOUND(PISTOL_HEAVY_DISTANT_SOUND),
 		SP_DISTANT_RANGE(PISTOL_HEAVY_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
+
 /obj/effect/mob_spawn/human/corpse/ncr/ranger
 	name = "NCR Ranger"
 	uniform = /obj/item/clothing/under/f13/ranger/patrol
@@ -548,6 +580,7 @@
 		SP_DISTANT_SOUND(RIFLE_MEDIUM_DISTANT_SOUND),
 		SP_DISTANT_RANGE(RIFLE_MEDIUM_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
 
 /mob/living/simple_animal/hostile/legion/decan
 	name = "Legion Decanus"
@@ -558,7 +591,6 @@
 	icon_gib = "gib"
 	retreat_distance = 5
 	minimum_distance = 5
-	loot = list()
 	maxHealth = 180
 	health = 180
 	healable = 1
@@ -576,6 +608,7 @@
 		SP_DISTANT_SOUND(RIFLE_MEDIUM_DISTANT_SOUND),
 		SP_DISTANT_RANGE(RIFLE_MEDIUM_RANGE_DISTANT)
 	)
+	speed = 4 // added to make his dumbass hold still - Jaeger
 
 /mob/living/simple_animal/hostile/legion/decan
 
@@ -592,8 +625,8 @@
 ////////////////
 
 /mob/living/simple_animal/hostile/tribe
-	name = "Wayfarer Hunter"
-	desc = "A hunter of the wayfarer tribe, wielding a glaive."
+	name = "Lost Ones Hunter"
+	desc = "A Lost ones hunter, once part of the Sulphur Bottom tribe these lunatics have fallen to canibalism and baser instincts."
 	icon = 'icons/fallout/mobs/humans/fallout_npc.dmi'
 	icon_state = "tribal_raider"
 	icon_living = "tribal_raider"
@@ -617,7 +650,7 @@
 	a_intent = INTENT_HARM
 	unsuitable_atmos_damage = 15
 	status_flags = CANPUSH
-	speak = list("For our kin!", "This will be a good hunt.", "The gods look upon me today.")
+	speak = list("Blood, blood, blood, blood!", "You'll make a fine stew!", "Perish interloper!")
 	speak_emote = list("says")
 	speak_chance = 1
 	ignore_other_mobs = TRUE // we fight

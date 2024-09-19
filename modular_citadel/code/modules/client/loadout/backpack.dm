@@ -4,6 +4,17 @@
 	slot = SLOT_IN_BACKPACK
 	cost = 1
 
+/datum/gear/backpack/flashlight
+	name = "flashlight"
+	path = /obj/item/flashlight
+	cost = 0
+
+/datum/gear/backpack/torch
+	name = "torch"
+	path = /obj/item/flashlight/flare/torch
+	cost = 0
+
+/*
 /datum/gear/backpack/redwater
 	name = "contraband radio"
 	path = /obj/item/radio/redwater
@@ -13,6 +24,7 @@
 	name = "contraband keycard"
 	path = /obj/item/card/id/denid
 	cost = 0
+*/
 
 /datum/gear/backpack/tattoo_kit
 	name = "Tattoo kit"
@@ -155,7 +167,7 @@
 /datum/gear/backpack/cigarettes/cigars/havana
 	name = "Havanian cigar case"
 	path = /obj/item/storage/fancy/cigarettes/cigars/havana
-
+/*
 /datum/gear/backpack/backpack
 	name = "hiking backpack"
 	path = /obj/item/storage/backpack/old
@@ -206,18 +218,18 @@
 /datum/gear/hands/backpack/old
 	name = "old satchel"
 	path = /obj/item/storage/backpack/satchel/old
-
+*/
 /datum/gear/backpack/coinpouch
 	name = "coin pouch"
 	path = /obj/item/storage/wallet/stash/pouch
 	cost = 1
-
+/*
 /datum/gear/backpack/backpack/snailshell
 	name = "snail shell"
 	path = /obj/item/storage/backpack/satchel/snailshell
-
+*/
 //Skyrat bags
-
+/*
 /datum/gear/backpack/backpack/skyrat/ertodst
 	name = "black ert bag"
 	path = /obj/item/storage/backpack/skyrat/ertodst
@@ -411,6 +423,7 @@
 /datum/gear/backpack/backpack/skyrat/rockshell
 	name = "rock shell bag"
 	path = /obj/item/storage/backpack/skyrat/rockshell
+*/
 /////////////////////
 //Coyote Additions//
 ////////////////////
@@ -658,10 +671,12 @@
 /datum/gear/backpack/chestpatch
 	name = "generic patch (chest)"
 	path = /obj/item/clothing/accessory/patch
+	cost = 0
 
 /datum/gear/backpack/armpatch
 	name = "generic patch (arm)"
 	path = /obj/item/clothing/accessory/patch/arm
+	cost = 0
 
 /datum/gear/backpack/headphones
 	name = "Headphones"
@@ -774,7 +789,7 @@
 	cost = 0
 
 /datum/gear/backpack/pride/lesbian
-	name  = "Lesbian Pride Pin"
+	name  = "Lesbiab Pride Pin"
 	path = /obj/item/clothing/accessory/pride/lesbian
 	cost = 0
 
@@ -792,3 +807,8 @@
 	name  = "Cowboy Vest"
 	path = /obj/item/clothing/accessory/sheriffvest
 	cost = 0
+
+/datum/gear/backpack/braceletpair
+	name = "Bracelet (pair)"
+	path = /obj/item/clothing/accessory/braceletpair
+	cost = 1

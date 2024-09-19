@@ -105,6 +105,13 @@
 	using.hud = src
 	static_inventory += using
 
+	using = new /atom/movable/screen/craft
+	using.icon = ui_style
+	if(!widescreenlayout) // CIT CHANGE
+		using.screen_loc = ui_boxcraft // CIT CHANGE
+	using.hud = src
+	static_inventory += using
+
 	action_intent = new /atom/movable/screen/act_intent/segmented
 	action_intent.icon_state = mymob.a_intent
 	action_intent.hud = src
@@ -250,6 +257,18 @@
 	using.hud = src
 	hotkeybuttons += using
 
+	using = new /atom/movable/screen/questbook()
+	// using.icon = ui_style
+	using.screen_loc = ui_questbook
+	using.hud = src
+	hotkeybuttons += using
+
+	using = new /atom/movable/screen/scannerpls()
+	// using.icon = ui_style
+	using.screen_loc = ui_questscanner
+	using.hud = src
+	hotkeybuttons += using
+
 	using = new /atom/movable/screen/rest()
 	using.icon = ui_style
 	using.screen_loc = ui_pull_resist
@@ -382,11 +401,15 @@
 	chardir_hud_button.hud = src
 	infodisplay += chardir_hud_button
 
+	pvp_focus_toggle = new /atom/movable/screen/pvp_focus_toggle()
+	pvp_focus_toggle.hud = src
+	infodisplay += pvp_focus_toggle
+
 	pull_icon = new /atom/movable/screen/pull()
 	pull_icon.icon = ui_style
 	pull_icon.hud = src
 	pull_icon.update_icon()
-	pull_icon.screen_loc = ui_pull_resist
+	pull_icon.screen_loc = ui_pull_stop
 	static_inventory += pull_icon
 
 	lingchemdisplay = new /atom/movable/screen/ling/chems()

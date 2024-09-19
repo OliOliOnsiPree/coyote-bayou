@@ -65,7 +65,7 @@
 		myseed.genes += G
 	set_light(G.glow_range(myseed), G.glow_power(myseed), G.glow_color)
 	setDir(CalcDir())
-	var/base_icon_state = initial(icon_state)
+	base_icon_state = initial(icon_state)
 	if(!floor)
 		switch(dir) //offset to make it be on the wall rather than on the floor
 			if(NORTH)
@@ -80,7 +80,7 @@
 	else //if on the floor, glowshroom on-floor sprite
 		icon_state = base_icon_state
 
-	//addtimer(CALLBACK(src, .proc/Spread), delay)
+	//addtimer(CALLBACK(src,PROC_REF(Spread)), delay)
 
 /obj/structure/glowshroom/proc/Spread()
 	return //temp disable
@@ -129,7 +129,7 @@
 			shrooms_planted++ //if we failed due to generation, don't try to plant one later
 	if(shrooms_planted < myseed.yield) //if we didn't get all possible shrooms planted, try again later
 		myseed.yield -= shrooms_planted
-		addtimer(CALLBACK(src, .proc/Spread), delay)*/
+		addtimer(CALLBACK(src,PROC_REF(Spread)), delay)*/
 
 /obj/structure/glowshroom/proc/CalcDir(turf/location = loc)
 	var/direction = 16

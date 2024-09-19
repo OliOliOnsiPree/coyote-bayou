@@ -136,6 +136,69 @@
 //Scavenging and Tinkering//
 ///////////////////////////
 
+/datum/crafting_recipe/cheaphivebot
+	name = "Cheap Hivebot"
+	result = /mob/living/simple_animal/advanced/hivebot/cheap
+	reqs = list(/obj/item/stack/crafting/electronicparts = 8,
+				/obj/item/stack/rods = 12,
+				/obj/item/stack/sheet/metal = 5)
+	tools = list()
+	time = 30
+	subcategory = CAT_SCAVENGING
+	category = CAT_CRAFTING
+
+/datum/crafting_recipe/hivebot
+	name = "Regular Hivebot"
+	result = /mob/living/simple_animal/advanced/hivebot
+	reqs = list(/obj/item/stack/crafting/electronicparts = 10,
+				/obj/item/stack/crafting/metalparts = 8,
+				/obj/item/stack/crafting/goodparts = 6,
+				/obj/item/stack/sheet/metal = 15)
+	tools = list(TOOL_WORKBENCH)
+	time = 60
+	subcategory = CAT_SCAVENGING
+	category = CAT_CRAFTING
+
+/datum/crafting_recipe/rangedhivebot
+	name = "Ranged Hivebot"
+	result = /mob/living/simple_animal/advanced/hivebot/ranged
+	reqs = list(/obj/item/stack/crafting/electronicparts = 12,
+				/obj/item/stack/crafting/metalparts = 8,
+				/obj/item/stack/crafting/goodparts = 6,
+				/obj/item/stack/sheet/metal = 12,
+				/obj/item/stack/sheet/plasteel = 8)
+	tools = list(TOOL_WORKBENCH)
+	time = 60
+	subcategory = CAT_SCAVENGING
+	category = CAT_CRAFTING
+
+/datum/crafting_recipe/factoryhivebot
+	name = "Industrial Hivebot"
+	result = /mob/living/simple_animal/advanced/hivebot/factory
+	reqs = list(/obj/item/stack/crafting/electronicparts = 12,
+				/obj/item/stack/crafting/metalparts = 8,
+				/obj/item/stack/crafting/goodparts = 6,
+				/obj/item/stack/sheet/metal = 12,
+				/obj/item/stack/sheet/plasteel = 8)
+	tools = list(TOOL_WORKBENCH)
+	time = 60
+	subcategory = CAT_SCAVENGING
+	category = CAT_CRAFTING
+
+/datum/crafting_recipe/crystalhivebot
+	name = "Magical Hivebot"
+	result = /mob/living/simple_animal/advanced/hivebot/crystal
+	reqs = list(/obj/item/stack/crafting/electronicparts = 12,
+				/obj/item/stack/crafting/metalparts = 8,
+				/obj/item/stack/crafting/goodparts = 6,
+				/obj/item/stack/sheet/metal = 12,
+				/obj/item/stack/sheet/bluespace_crystal = 2,
+				/obj/item/stack/sheet/mineral/diamond = 2)
+	tools = list(TOOL_WORKBENCH)
+	time = 60
+	subcategory = CAT_SCAVENGING
+	category = CAT_CRAFTING
+
 /datum/crafting_recipe/pico_manip
 	name = "Delicate Mechanism"
 	result = /obj/item/stock_parts/manipulator/pico
@@ -407,7 +470,7 @@
 	name = "Picket Sign"
 	result = /obj/item/picket_sign
 	reqs = list(/obj/item/stack/rods = 1,
-				/obj/item/stack/sheet/cardboard = 2)
+				/obj/item/stack/sheet/mineral/wood = 2)
 	time = 80
 	subcategory = CAT_MISCELLANEOUS
 	category = CAT_MISC
@@ -444,6 +507,14 @@
 	subcategory = CAT_MISCELLANEOUS
 	category = CAT_MISC
 
+/datum/crafting_recipe/naturalcardboard
+	name = "Hand-Pressed Cardboard"
+	time = 45
+	reqs = list(/datum/reagent/water = 50, /datum/reagent/ash = 20, /obj/item/stack/sheet/mineral/wood = 1)
+	result = /obj/item/stack/sheet/cardboard/five // Pressed paper gives you 25 paper, which is 5 paper bags, this is equivilent in terms of storage size
+	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
+
 /datum/crafting_recipe/shock_collar
 	name = "Shock Collar"
 	result = /obj/item/electropack/shockcollar
@@ -475,7 +546,7 @@
 /datum/crafting_recipe/well
 	name = "Water Well"
 	result = /obj/structure/sink/well
-	reqs = list(/obj/item/stack/sheet/metal = 20, /obj/item/stack/sheet/mineral/wood = 20, /obj/item/stack/sheet/mineral/sandstone = 5, /obj/item/weaponcrafting/string = 5, /obj/item/reagent_containers/glass/bucket =1)
+	reqs = list(/obj/item/ammo_casing/caseless/rock = 4, /obj/item/stack/sheet/mineral/wood = 15, /obj/item/ammo_casing/caseless/brick = 4, /obj/item/reagent_containers/glass/bucket =1)
 	tools = list(TOOL_SHOVEL)
 	time = 100
 	subcategory = CAT_MISCELLANEOUS
@@ -607,6 +678,13 @@
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
 
+/datum/crafting_recipe/scrap_pa/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
+
 /datum/crafting_recipe/scrap_pa_helm
 	name = "Powered Scrap Suit Helmet"
 	result = /obj/item/clothing/head/helmet/f13/power_armor/t45b/raider
@@ -621,6 +699,13 @@
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
 
+/datum/crafting_recipe/scrap_pa_helm/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
+
 /datum/crafting_recipe/repair_t45
 	name = "Refurbished T-45b Power Armor"
 	result = /obj/item/clothing/suit/armor/power_armor/t45b
@@ -634,6 +719,13 @@
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
 
+/datum/crafting_recipe/repair_t45/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
+
 /datum/crafting_recipe/repair_t45_helm
 	name = "Refurbished T-45b Power Armor Helmet"
 	result = /obj/item/clothing/head/helmet/f13/power_armor/t45b
@@ -644,6 +736,13 @@
 	category = CAT_CRAFTING
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
+
+/datum/crafting_recipe/repair_t45_helm/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
 
 /datum/crafting_recipe/repair_t45/hotrod
 	name = "Refurbished T-45b Hotrod Power Armor"
@@ -658,6 +757,13 @@
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
 
+/datum/crafting_recipe/repair_t45/hotrod/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
+
 /datum/crafting_recipe/repair_t45_helm/hotrod
 	name = "Refurbished T-45b Hotrod Power Armor Helmet"
 	result = /obj/item/clothing/head/helmet/f13/power_armor/t45b/hotrod
@@ -668,6 +774,13 @@
 	category = CAT_CRAFTING
 	subcategory = CAT_SCAVENGING
 	always_available = FALSE
+
+/datum/crafting_recipe/repair_t45_helm/hotrod/check_requirements(mob/user, list/collected_requirements)
+	if(isliving(user))
+		var/mob/living/L = user
+		if(HAS_TRAIT(L, TRAIT_PA_WEAR))
+			return TRUE
+	return FALSE
 
 
 /datum/crafting_recipe/teachboy
@@ -714,11 +827,12 @@
 	time = 300
 	reqs = list(
 				/obj/item/instrument/violin = 1,
-				/obj/item/stack/sheet/animalhide/deathclaw = 1,
+				/obj/item/stack/sheet/animalhide/aethergiest = 1,
 				/obj/item/reagent_containers/food/snacks/grown/horsenettle =1
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/soultar
 	name = "The Keytar to the Soul"
@@ -730,6 +844,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/soultar
 	name = "The Keytar to the Soul"
@@ -741,6 +856,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/donkeyho
 	name = "Donkey Ho-Tay's Bane"
@@ -753,6 +869,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/mrboneswr
 	name = "Mr. Bones Wild Ride"
@@ -764,6 +881,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/accordiondlove
 	name = "Accordion D'love"
@@ -776,6 +894,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/dooter
 	name = "The Dooter"
@@ -786,6 +905,7 @@
 				/obj/item/stack/sheet/bone = 800,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/sweetlovin
 	name = "Sweet Lovin'"
@@ -798,6 +918,7 @@
 				)
 	tools = list(TOOL_SCREWDRIVER, TOOL_WELDER)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/rip/trom_bone
 	name = "Trom-Bone"
@@ -808,6 +929,7 @@
 				/obj/item/stack/sheet/bone = 800,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 
 /datum/crafting_recipe/rip/fingerlicker
@@ -820,6 +942,7 @@
 				/obj/item/reagent_containers/food/condiment/pack/bbqsauce = 10
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 //Lunchboxes
 
@@ -831,6 +954,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/hearts
 	name = "Hearts lunchbox"
@@ -840,6 +964,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/cat
 	name = "Cat lunchbox"
@@ -849,6 +974,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/nano
 	name = "Blue lunchbox"
@@ -858,6 +984,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/uni
 	name = "University lunchbox"
@@ -867,6 +994,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/teal
 	name = "Teal lunchbox"
@@ -876,6 +1004,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/diona
 	name = "Diona lunchbox"
@@ -885,6 +1014,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 /datum/crafting_recipe/lunchbox/black
 	name = "Black lunchbox"
@@ -894,6 +1024,7 @@
 				/obj/item/stack/sheet/metal = 2,
 				)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 //Abraxo recipe after several requests
 
@@ -907,6 +1038,7 @@
 		/datum/material/sand  = 1,
 		)
 	subcategory = CAT_MISCELLANEOUS
+	category = CAT_MISC
 
 
 /// Graveyard / Not Used

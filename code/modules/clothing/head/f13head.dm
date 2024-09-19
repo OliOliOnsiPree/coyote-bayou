@@ -84,8 +84,8 @@
 	salvage_loot = list(/obj/item/stack/crafting/armor_plate = 5)
 
 /obj/item/clothing/head/helmet/f13/combat/mk2/custom
-	name = "weathered deathclaw power armor helmet"
-	desc = "An Enclave 'Equalizer' Advanced power armor helmet-- though this one appears to be more like a mask, to accommodate a deathclaw's uniquely shaped skull. The polarized yellow lenses have long since stopped functioning, and one of the lenses is badly cracked. It's pretty hard to see out of, but it's something, at least."
+	name = "weathered aethergiest power armor helmet"
+	desc = "An Enclave 'Equalizer' Advanced power armor helmet-- though this one appears to be more like a mask, to accommodate a aethergiest's uniquely shaped skull. The polarized yellow lenses have long since stopped functioning, and one of the lenses is badly cracked. It's pretty hard to see out of, but it's something, at least."
 	icon_state = "arroyohelm"
 	item_state = "arroyohelm"
 	armor_tokens = list(ARMOR_MODIFIER_UP_BULLET_T2, ARMOR_MODIFIER_UP_MELEE_T2)
@@ -169,8 +169,9 @@
 	desc = "An iron helmet forged by tribal warriors, with a unique design to protect the face from arrows and axes."
 	icon_state = "metalhelmet"
 	item_state = "metalhelmet"
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	flags_inv = HIDEMASK|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
 	armor_tokens = list(ARMOR_MODIFIER_UP_LASER_T2, ARMOR_MODIFIER_UP_MELEE_T2)
+	mutantrace_variation = STYLE_MUZZLE
 
 /obj/item/clothing/head/helmet/knight/f13/metal/reinforced
 	name = "reinforced metal helmet"
@@ -396,11 +397,11 @@
 	armor_tokens = list(ARMOR_MODIFIER_DOWN_BULLET_T1, ARMOR_MODIFIER_UP_LASER_T1, ARMOR_MODIFIER_UP_ENV_T1)
 	deflect_damage = 5
 	resistance_flags = LAVA_PROOF | FIRE_PROOF
-	requires_training = FALSE // Testing them if they're disable 
+	requires_training = FALSE // Testing them if they're disable
 
 /obj/item/clothing/head/helmet/f13/power_armor/fluff/arroyo
 	name = "Weathered Deathclaw Power Armor Helmet"
-	desc = "An Enclave 'Equalizer' Advanced power armor helmet-- though this one appears to be more like a mask, to accommodate a deathclaw's uniquely shaped skull. The polarized yellow lenses have long since stopped functioning, and one of the lenses is badly cracked. It's pretty hard to see out of, but it's something, at least."
+	desc = "An Enclave 'Equalizer' Advanced power armor helmet-- though this one appears to be more like a mask, to accommodate a aethergiest's uniquely shaped skull. The polarized yellow lenses have long since stopped functioning, and one of the lenses is badly cracked. It's pretty hard to see out of, but it's something, at least."
 	icon_state = "arroyohelm"
 	item_state = "arroyohelm"
 	flags_inv = HIDESNOUT
@@ -412,8 +413,8 @@
 	flags_inv = HIDESNOUT
 
 /obj/item/clothing/head/helmet/f13/power_armor/t45b
-	name = "Refurbished T-45b helmet"
-	desc = "It's a refurbished T-45b power armor helmet."
+	name = "Power Armor Helmet Exo-Skeleton"
+	desc = "The helmet of a power armors exo-skeleton."
 	icon_state = "t45bhelmet"
 	item_state = "t45bhelmet"
 	armor = ARMOR_VALUE_SALVAGE

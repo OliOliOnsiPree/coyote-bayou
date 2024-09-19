@@ -236,7 +236,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
 	flags_1 = CONDUCT_1
 	throwforce = 0
-	w_class = WEIGHT_CLASS_NORMAL
+	w_class = WEIGHT_CLASS_SMALL
 	slowdown = 4.5
 	breakouttime = 300	//Deciseconds = 30s = 0.5 minute
 
@@ -245,6 +245,7 @@
 	throw_speed = 1
 	throw_range = 1
 	icon_state = "beartrap"
+	w_class = WEIGHT_CLASS_NORMAL
 	desc = "A trap used to catch bears and other legged creatures."
 	var/armed = FALSE
 	var/trap_damage = 30
@@ -254,7 +255,7 @@
 	icon_state = "[initial(icon_state)][armed]"
 	
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/spring_trap,
+		COMSIG_ATOM_ENTERED =PROC_REF(spring_trap),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -286,7 +287,7 @@
 		if(!C.lying)
 			def_zone = pick(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 			if(!C.legcuffed) //beartrap can't cuff your leg if there's already a beartrap or legcuffs, or you don't have two legs.
-				INVOKE_ASYNC(C, /mob/living/carbon.proc/equip_to_slot, src, SLOT_LEGCUFFED)
+				INVOKE_ASYNC(C, TYPE_PROC_REF(/mob/living/carbon,equip_to_slot), src, SLOT_LEGCUFFED)
 				SSblackbox.record_feedback("tally", "handcuffs", 1, type)
 	else if(snap && isanimal(L))
 		var/mob/living/simple_animal/SA = L
@@ -324,7 +325,7 @@
 
 /obj/item/restraints/legcuffs/beartrap/energy/New()
 	..()
-	addtimer(CALLBACK(src, .proc/dissipate), 100)
+	addtimer(CALLBACK(src,PROC_REF(dissipate)), 100)
 
 /obj/item/restraints/legcuffs/beartrap/energy/proc/dissipate()
 	if(!ismob(loc))

@@ -8,6 +8,11 @@
 	name = "ballcap"
 	path = /obj/item/clothing/head/soft/mime
 
+/datum/gear/head/chameleon
+	name = "chameleon hat"
+	path = /obj/item/clothing/head/chameleon
+	cost = 0
+
 /datum/gear/head/beanie
 	name = "beanie"
 	path = /obj/item/clothing/head/beanie
@@ -473,7 +478,7 @@
 							"NCR Trooper",
 						)*/
 
-datum/gear/head/steelpot_bandolier
+/datum/gear/head/steelpot_bandolier
 	name = "NCR bandolier helmet"
 	path = /obj/item/clothing/head/f13/ncr/steelpot_bandolier
 	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
@@ -548,7 +553,7 @@ datum/gear/head/steelpot_bandolier
 	path = /obj/item/clothing/head/helmet/blueshirt
 	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
 	cost = 1
-	/*restricted_desc = "Nash PD, Nash officials"
+	/*restricted_desc = "New Boston PD, Nash officials"
 	restricted_roles = list("Chief of Police",
 							"Officer",
 							"High Alderperson",
@@ -628,6 +633,10 @@ datum/gear/head/steelpot_bandolier
 /datum/gear/head/slouch/alt
 	name = "khaki slouch hat, alt version"
 	path = /obj/item/clothing/head/slouch/alt
+
+/datum/gear/head/slouch/colorable
+	name = "slouch hat, colorable"
+	path = /obj/item/clothing/head/slouch/colorable
 
 /datum/gear/head/turban
 	name = "Military Turban"
@@ -861,6 +870,11 @@ datum/gear/head/steelpot_bandolier
 	subcategory = LOADOUT_SUBCATEGORY_HEAD_GENERAL
 	cost = 2
 
+/datum/gear/head/skullmask
+	name = "Tribal Skull-Mask"
+	path = /obj/item/clothing/head/helmet/f13/skull_helmet
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	cost = 2
 
 /datum/gear/head/steelm1
 	name = "M1 Helmet "
@@ -1072,6 +1086,12 @@ datum/gear/head/steelpot_bandolier
 /datum/gear/head/ballistichelmets/number10
 	name = "MK6 Helmet"
 	path = /obj/item/clothing/head/kevlarhelmet/ukhelmet
+	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
+	cost = 2
+
+/datum/gear/head/ballistichelmets/fiend
+	name = "Fiend Helmet"
+	path = /obj/item/clothing/head/helmet/f13/fiend
 	subcategory = LOADOUT_SUBCATEGORY_HEAD_HELMETS
 	cost = 2
 
@@ -1468,3 +1488,26 @@ datum/gear/head/steelpot_bandolier
 /datum/gear/head/hoodcowl
 	name = "Hood cowl"
 	path= /obj/item/clothing/head/hoodcowl
+
+/datum/gear/head/canadian
+	name = "Canadian Mountie Hat"
+	path= /obj/item/clothing/head/canadian
+
+/datum/gear/head/ncrranger
+	name = "NCR Ranger Helmet"
+	path= /obj/item/clothing/head/ncr_ranger
+
+/datum/gear/head/ribbon
+	name  = "Hair Ribbon"
+	path = /obj/item/clothing/head/ribbon
+	cost = 0
+
+/datum/gear/head/bow
+	name  = "Hair bow"
+	path = /obj/item/clothing/head/bow
+	cost = 0
+
+/datum/gear/head/bow/small
+	name  = "Hair bow, small"
+	path = /obj/item/clothing/head/bow/small
+	cost = 0

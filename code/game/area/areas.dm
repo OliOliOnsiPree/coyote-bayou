@@ -17,6 +17,8 @@ GLOBAL_LIST_INIT(area_weather_list, list(WEATHER_ALL))
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	invisibility = INVISIBILITY_LIGHTING
 
+	var/safe_town
+
 	/// Set in New(); preserves the name set by the map maker, even if renamed by the Blueprints.
 	var/map_name
 
@@ -125,6 +127,8 @@ GLOBAL_LIST_INIT(area_weather_list, list(WEATHER_ALL))
 	var/xenobiology_compatible = FALSE //Can the Xenobio management console transverse this area by default?
 	var/list/canSmoothWithAreas //typecache to limit the areas that atoms in this area can smooth with
 
+	///Typepath to limit the areas (subtypes included) that atoms in this area can smooth with. Used for shuttles.
+	var/area/area_limited_icon_smoothing
 
 	/// Color on minimaps, if it's null (which is default) it makes one at random.
 	var/minimap_color
@@ -163,7 +167,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		if (picked && is_station_level(picked.z))
 			GLOB.teleportlocs[AR.name] = AR
 
-	sortTim(GLOB.teleportlocs, /proc/cmp_text_dsc)
+	sortTim(GLOB.teleportlocs, GLOBAL_PROC_REF(cmp_text_dsc))
 
 // ===
 
@@ -286,7 +290,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 				A.power_light = FALSE
 				A.power_equip = FALSE
 				A.power_environ = FALSE
-			INVOKE_ASYNC(A, .proc/power_change)
+			INVOKE_ASYNC(A,PROC_REF(power_change))
 	STOP_PROCESSING(SSobj, src)
 	QDEL_NULL(ambience_area)
 	remove_from_weather_list()
@@ -430,7 +434,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 				if(D.operating)
 					D.nextstate = opening ? FIREDOOR_OPEN : FIREDOOR_CLOSED
 				else if(!(D.density ^ opening))
-					INVOKE_ASYNC(D, (opening ? /obj/machinery/door/firedoor.proc/open : /obj/machinery/door/firedoor.proc/close))
+					INVOKE_ASYNC(D, (opening ? TYPE_PROC_REF(/obj/machinery/door/firedoor, open) : TYPE_PROC_REF(/obj/machinery/door/firedoor, close)))
 
 /area/proc/firealert(obj/source)
 	if(always_unpowered == 1) //no fire alarms in space/asteroid
@@ -499,7 +503,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/mob/living/silicon/SILICON = i
 		if(SILICON.triggerAlarm("Burglar", src, cameras, trigger))
 			//Cancel silicon alert after 1 minute
-			addtimer(CALLBACK(SILICON, /mob/living/silicon.proc/cancelAlarm,"Burglar",src,trigger), 600)
+			addtimer(CALLBACK(SILICON, TYPE_PROC_REF(/mob/living/silicon,cancelAlarm) ,"Burglar",src,trigger), 600)
 
 /area/proc/set_fire_alarm_effects(boolean)
 	fire = boolean
@@ -573,7 +577,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			A.power_light = power_light
 			A.power_equip = power_equip
 			A.power_environ = power_environ
-			INVOKE_ASYNC(A, .proc/power_change)
+			INVOKE_ASYNC(A,PROC_REF(power_change))
 	update_icon()
 
 /area/proc/usage(chan)
@@ -653,7 +657,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			var/sounds_to_play = pick(ambientsounds)
 			var/sound_delay = rand(1 SECONDS, 15 SECONDS)
 			var/sound/S = sound(sounds_to_play[SL_FILE_PATH], repeat = 0, wait = 0, volume = 25, channel = SSsounds.random_available_channel())
-			addtimer(CALLBACK(src, .proc/play_ambient_sound_delayed, S, L), sound_delay, TIMER_STOPPABLE)
+			addtimer(CALLBACK(src,PROC_REF(play_ambient_sound_delayed), S, L), sound_delay, TIMER_STOPPABLE)
 			COOLDOWN_START(L.client, area_sound_effect_cooldown, sounds_to_play[SL_FILE_LENGTH] + sound_delay)
 
 		ambient_music_start(L)
@@ -673,8 +677,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			return
 	var/sound_delay = rand(1 SECONDS, 15 SECONDS)
 	var/sound/S = sound(music_to_play, repeat = TRUE, wait = 0, volume = 25, channel = CHANNEL_AMBIENT_MUSIC)
-	addtimer(CALLBACK(src, .proc/play_ambient_sound_delayed, S, L), sound_delay, TIMER_STOPPABLE)
-	COOLDOWN_START(L.client, area_music_cooldown, music_to_play[SL_FILE_LENGTH] + sound_delay)
+	addtimer(CALLBACK(src, PROC_REF(play_ambient_sound_delayed), S, L), sound_delay, TIMER_STOPPABLE)
+	L.client.SoundQuery()
+	COOLDOWN_START(L.client, area_music_cooldown, S.len + sound_delay)
 
 /area/proc/play_ambient_sound_delayed(sound/to_play, mob/living/play_to)
 	SEND_SOUND(play_to, to_play)

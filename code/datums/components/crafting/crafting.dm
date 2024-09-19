@@ -1,6 +1,6 @@
 /datum/component/personal_crafting/Initialize()
 	if(ismob(parent))
-		RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN, .proc/create_mob_button)
+		RegisterSignal(parent, COMSIG_MOB_CLIENT_LOGIN,PROC_REF(create_mob_button))
 
 /datum/component/personal_crafting/proc/create_mob_button(mob/user, client/CL)
 	var/datum/hud/H = user.hud_used
@@ -8,7 +8,7 @@
 	C.icon = H.ui_style
 	H.static_inventory += C
 	CL.screen += C
-	RegisterSignal(C, COMSIG_CLICK, .proc/component_ui_interact)
+	RegisterSignal(C, COMSIG_CLICK,PROC_REF(component_ui_interact))
 
 /datum/component/personal_crafting
 	var/busy
@@ -30,18 +30,19 @@
 					//CAT_FARMING,
 					CAT_MISCELLANEOUS,
 					//CAT_FURNITURE,
-					//CAT_BOTTLE,
+					CAT_BOTTLE
 				),
 				CAT_PRIMAL = CAT_NONE,
 				CAT_FOOD = list(
 					CAT_WASTEFOOD,
-					CAT_BREAD,
-					CAT_BURGER,
+					//CAT_BREAD,
+				//	CAT_BURGER,
 					CAT_MEAT,
 					CAT_MISCFOOD,
 					CAT_PASTRY,
 					CAT_PIE,
 					CAT_SOUP,
+					CAT_DESERT,
 				),
 				CAT_CLOTHING = list(
 					CAT_GENCLOTHES,
@@ -212,6 +213,7 @@
 			var/list/parts = del_reqs(R, a)
 			var/atom/movable/I = new R.result (get_turf(a.loc))
 			I.CheckParts(parts, R)
+			R.on_finished(a, parent)
 			if(send_feedback)
 				SSblackbox.record_feedback("tally", "object_crafted", 1, I.type)
 			return I //Send the item back to whatever called this proc so it can handle whatever it wants to do with the new item
@@ -442,6 +444,9 @@
 			cur_category = params["category"]
 			cur_subcategory = params["subcategory"] || ""
 			. = TRUE
+		if("update_static")
+			update_static_data(usr)
+			. = TRUE
 
 /datum/component/personal_crafting/proc/build_recipe_data(datum/crafting_recipe/R)
 	var/list/data = list()
@@ -455,7 +460,11 @@
 		//We just need the name, so cheat-typecast to /atom for speed (even tho Reagents are /datum they DO have a "name" var)
 		//Also these are typepaths so sadly we can't just do "[a]"
 		var/atom/A = a
-		req_text += " [R.reqs[A]] [initial(A.name)],"
+		req_text += " [R.reqs[A]]"
+		if(R.customtext[A])
+			req_text += " [R.customtext[A]],"
+		else
+			req_text += " [initial(A.name)],"
 	req_text = replacetext(req_text,",","",-1)
 	data["req_text"] = req_text
 

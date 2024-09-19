@@ -524,7 +524,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	name = "NCR Lieutenant"
 	icon_state = "NCR Lieutenant"
 
-obj/effect/landmark/start/f13/ncrlogisticsofficer
+/obj/effect/landmark/start/f13/ncrlogisticsofficer
 	name = "NCR Logistics Officer"
 	icon_state = "NCR Lieutenant"
 
@@ -775,7 +775,7 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Scribe"
 
 /obj/effect/landmark/start/f13/nashcurator
-	name = "Nash Librarian"
+	name = "Librarian"
 	icon_state = "Scribe"
 
 /obj/effect/landmark/start/f13/dendoc
@@ -786,7 +786,7 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Shopkeeper"
 
 /obj/effect/landmark/start/f13/shopkeeper
-	name = "Texarkana Trade Worker"
+	name = "Shopkeeper"
 	icon_state = "Shopkeeper"
 
 /obj/effect/landmark/start/f13/banker
@@ -810,12 +810,63 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	name = "Wastelander"
 	icon_state = "Wastelander"
 
+/obj/effect/landmark/start/f13/wastelander/clubworker
+	name = "Club Worker"
+	icon_state = "Wastelander"
+	color = "#FF9999"
+
+/obj/effect/landmark/start/f13/wastelander/clubmanager
+	name = "Club Manager"
+	icon_state = "Wastelander"
+	color = "#FF9944"
+
 /obj/effect/landmark/start/f13/wastelander/den
 	name = "Den Citizen"
 	icon_state = "Wastelander"
 
+
+/obj/effect/landmark/start/f13/wastelander/den/seeker
+	name = "Den Seeker"
+	icon_state = "Wastelander"
+	color = "#00FFFF"
+
+/obj/effect/landmark/start/f13/wastelander/den/siren
+	name = "Den Siren"
+	icon_state = "Wastelander"	
+	color = "#ff44ff"
+
+/obj/effect/landmark/start/f13/wastelander/den/miner
+	name = "Den Miner"
+	icon_state = "Wastelander"	
+	color = "#AA33ff"
+
+/obj/effect/landmark/start/f13/wastelander/den/tavernworker
+	name = "Den Tavern Worker"
+	icon_state = "Wastelander"	
+	color = "#FF33AA"
+	
+/obj/effect/landmark/start/f13/wastelander/den/healer
+	name = "Den Healer"
+	icon_state = "Wastelander"	
+	color = "#3333AA"
+
+/obj/effect/landmark/start/f13/wastelander/den/donuteer
+	name = "Den Donuteer"
+	icon_state = "Wastelander"	
+	color = "#ff0000"
+
+/obj/effect/landmark/start/f13/wastelander/den/keeper
+	name = "Den Keeper"
+	icon_state = "Wastelander"	
+	color = "#00FF00"
+
+/obj/effect/landmark/start/f13/wastelander/den/Monarch
+	name = "Den Hierophant"
+	icon_state = "Wastelander"	
+	color = "#0000FF"
+
 /obj/effect/landmark/start/f13/wastelander/backstage
-	name = "Backstage Character"
+	name = "Character Testing Area"
 	icon_state = "Wastelander"
 	color = "#FF0000"
 
@@ -824,8 +875,49 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Wastelander"
 
 /obj/effect/landmark/start/f13/ashdown
-	name = "Ashdown Citizen"
+	name = "Ashdown Artisan"
 	icon_state = "Wastelander"
+
+/obj/effect/landmark/start/f13/ashdownadventurer
+	name = "Ashdown Squire"
+	icon_state = "Wastelander"
+	color = "#0000FF"
+
+/obj/effect/landmark/start/f13/ashdownknight
+	name = "Ashdown Knight"
+	icon_state = "Wastelander"
+	color = "#00FFFF"
+
+/obj/effect/landmark/start/f13/ashdownviceroy
+	name = "Ashdown Viceroy"
+	icon_state = "Wastelander"
+	color = "#FFFFFF"
+
+/obj/effect/landmark/start/f13/ashdowncanteenworker
+	name = "Ashdown Canteen Worker"
+	icon_state = "Wastelander"
+	color = "#FFFF00"
+
+/obj/effect/landmark/start/f13/ashdownscarlet
+	name = "Ashdown Scarlet"
+	icon_state = "Wastelander"
+	color = "#FF0000"
+
+/obj/effect/landmark/start/f13/ashdowncanteenworker
+	name = "Ashdown Canteen Worker"
+	icon_state = "Wastelander"
+	color = "#00FF00"
+
+/obj/effect/landmark/start/f13/ashdownartiste
+	name = "Ashdown Artiste"
+	icon_state = "Wastelander"
+	color = "#FF00FF"
+
+/obj/effect/landmark/start/f13/ashdownsilvereye
+	name = "Ashdown Silvereye"
+	icon_state = "Wastelander"
+	color = "#00FFFF"
+	
 
 /obj/effect/landmark/start/f13/texasranger
 	name = "Texarkana Ranger"
@@ -833,7 +925,39 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	color = "#66BBBB"
 
 /obj/effect/landmark/start/f13/raider
-	name = "Outlaw"
+	name = "Redwater Townie"
+	icon_state = "Raider"
+
+/obj/effect/landmark/start/f13/redwateroutrider
+	name = "Redwater Outrider"
+	icon_state = "Raider"
+	color = "#FF0000"
+
+/obj/effect/landmark/start/f13/redwatersawbones
+	name = "Redwater Sawbones"
+	icon_state = "Raider"
+	color = "#00FF00"
+
+/obj/effect/landmark/start/f13/redwatercooker
+	name = "Redwater Cooker"
+	icon_state = "Raider"
+	color = "#0000FF"
+
+/obj/effect/landmark/start/f13/redwaterbartender
+	name = "Redwater Bartender"
+	icon_state = "Raider"
+	color = "#FF00FF"
+
+/obj/effect/landmark/start/f13/redwateroverboss
+	name = "Redwater Overboss"
+	icon_state = "Raider"
+
+/obj/effect/landmark/start/f13/redwaterpimp
+	name = "Redwater Watcher"
+	icon_state = "Raider"
+
+/obj/effect/landmark/start/f13/redwaterprostitute
+	name = "Redwater Prostitute"
 	icon_state = "Raider"
 
 /obj/effect/landmark/start/f13/enforcer
@@ -858,6 +982,74 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 /obj/effect/landmark/start/f13/detective
 	name = "Detective"
 	icon_state = "Detective"
+
+/obj/effect/landmark/start/f13/tunnelratsboss
+	name = "Giant Tunnel Rat Supreme"
+	icon_state = "Detective"
+
+/obj/effect/landmark/start/f13/tunnelratschud
+	name = "Tunnel Rats Chud"
+	icon_state = "Detective"
+
+/obj/effect/landmark/start/f13/tunnelratsurchin
+	name = "Tunnel Rats Scav"
+	icon_state = "Detective"
+
+/obj/effect/landmark/start/f13/tunnelratsrunner
+	name = "Tunnel Rats Runner"
+	icon_state = "Detective"
+	color = "#ff0000"
+
+/obj/effect/landmark/start/f13/tunnelratsswiller
+	name = "Tunnel Rats Swiller"
+	icon_state = "Detective"
+	color = "#00FF00"
+
+/obj/effect/landmark/start/f13/tunnelratstechy
+	name = "Tunnel Rats Techy"
+	icon_state = "Detective"
+	color = "#0000FF"
+
+/obj/effect/landmark/start/f13/tunnelratspatcher
+	name = "Tunnel Rats Patcher"
+	icon_state = "Detective"
+	color = "#FF00FF"
+
+/obj/effect/landmark/start/f13/tunnelratstart
+	name = "Tunnel Rats Tart"
+	icon_state = "Detective"
+	color = "#00FFFF"
+
+/obj/effect/landmark/start/f13/tunnelratsdigger
+	name = "Tunnel Rats Digger"
+	icon_state = "Detective"
+	color = "#FFccFF"
+
+/obj/effect/landmark/start/f13/tunnelratsrat
+	name = "Tunnel Rats R.A.T."
+	icon_state = "Detective"
+
+//Redwater Prostitute Spawn Point code
+/obj/effect/landmark/start/redwaterSlave
+	name = "Redwater Prostitute"
+	icon_state = "Wastelander"
+	jobspawn_override = TRUE
+	delete_after_roundstart = FALSE
+
+//Redwater Resident Spawn Point code
+/obj/effect/landmark/start/redwateresident
+	name = "Tunnel Rats C.H.U.D."
+	icon_state = "Wastelander"
+	jobspawn_override = TRUE
+	delete_after_roundstart = FALSE
+
+//Redwater Watcher Spawn Point code
+/obj/effect/landmark/start/redwaterwatcher
+	name = "Tunnel Rats Strongarm"
+	icon_state = "Wastelander"
+	jobspawn_override = TRUE
+	delete_after_roundstart = FALSE
+
 
 // Enclave
 /obj/effect/landmark/start/f13/usspy
@@ -903,7 +1095,7 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Tribal"
 
 /obj/effect/landmark/start/f13/shaman
-	name = "Shaman"
+	name = "Spiritual Leader"
 	icon_state = "Tribal"
 
 /obj/effect/landmark/start/f13/villager
@@ -923,7 +1115,7 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Tribal"
 
 /obj/effect/landmark/start/f13/druid
-	name = "Druid"
+	name = "Harvest Leader"
 	icon_state = "Tribal"
 
 /obj/effect/landmark/start/f13/spiritpledged
@@ -952,7 +1144,7 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	icon_state = "Medical Doctor"
 
 /obj/effect/landmark/start/f13/followersguard
-	name = "Nash Paramedic"
+	name = "New Boston Paramedic"
 	icon_state = "Security Officer"
 
 /obj/effect/landmark/start/f13/followersvolunteer
@@ -986,10 +1178,22 @@ obj/effect/landmark/start/f13/ncrlogisticsofficer
 	name = "Mangudai"
 	icon_state = "Pusher"
 
-/obj/effect/landmark/start/f13/biker
-	name = "Hells Nomad"
-	icon_state = "Assistant"
+// Reclaimers job spawns
 
-/obj/effect/landmark/start/f13/biker_boss
-	name = "Overbiker"
-	icon_state = "Captain"
+/obj/effect/landmark/start/f13/followersscientist/recresearcher
+	name = "Reclaimer Researcher"
+
+/obj/effect/landmark/start/f13/followersscientist/recarcheologist
+	name = "Reclaimer Archeologist"
+
+/obj/effect/landmark/start/f13/followersscientist/recslimeologist
+	name = "Reclaimer Slimeologist"
+
+/obj/effect/landmark/start/f13/followersscientist/recnanspec
+	name = "Reclaimer Nanite Specialist"
+
+/obj/effect/landmark/start/f13/followersscientist/recmechanic
+	name = "Reclaimer Mechanic"
+
+/obj/effect/landmark/start/f13/followersscientist/recguard
+	name = "Reclaimer Guard"

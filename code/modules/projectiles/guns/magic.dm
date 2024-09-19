@@ -41,7 +41,7 @@
 	. = ..()
 
 /obj/item/gun/magic/can_shoot()
-	return charges
+	return charges >= 1
 
 /obj/item/gun/magic/recharge_newshot()
 	if (chambered && !chambered.BB)
@@ -70,32 +70,40 @@
 	if(charges >= max_charges)
 		return FALSE // Already full
 	soundloop.start()
-	charge_start_message()
-	charge_timer = addtimer(CALLBACK(src, .proc/charge), recharge_rate, TIMER_UNIQUE|TIMER_STOPPABLE)
+	charge_timer = addtimer(CALLBACK(src,PROC_REF(charge)), recharge_rate, TIMER_UNIQUE|TIMER_STOPPABLE)
 
 /obj/item/gun/magic/proc/charge()
 	recharge_newshot()
 	if(charges >= max_charges)
 		charges = max_charges
-		charge_full_message()
 		soundloop.stop()
 		charge_timer = null
 		return FALSE
 	charges++
-	charge_partial_message()
-	charge_timer = addtimer(CALLBACK(src, .proc/charge), recharge_rate, TIMER_UNIQUE|TIMER_STOPPABLE)
+	charge_timer = addtimer(CALLBACK(src,PROC_REF(charge)), recharge_rate, TIMER_UNIQUE|TIMER_STOPPABLE)
 
-/obj/item/gun/magic/proc/charge_full_message()
-	audible_message("[src] lets out a satisfied hum and falls quiet.")
-
-/obj/item/gun/magic/proc/charge_partial_message()
-	audible_message("[src] lets out a faint hum.")
-
-/obj/item/gun/magic/proc/charge_start_message()
-	audible_message("[src] begins letting out a soft hum.")
-
-/obj/item/gun/magic/shoot_with_empty_chamber(mob/living/user as mob|obj)
-	to_chat(user, span_warning("The [name] whizzles quietly."))
+/obj/item/gun/magic/UpdateAmmoCountOverlay()
+	if(isturf(loc))//Only show th ammo count if the magazine is, like, in an inventory or something. Mags on the ground don't need a big number on them, that's ugly.
+		maptext = ""
+	else
+		var/txte = ""
+		var/culur = "#FF0000"
+		var/shots_max = max_charges
+		var/shots_remaining = charges
+		if(shots_remaining >= shots_max)
+			culur = "#00FFFF"
+		else if(shots_remaining >= shots_max * 0.75)
+			culur = "#00FF00"
+		else if(shots_remaining >= shots_max * 0.5)
+			culur = "#FFFF00"
+		else if(shots_remaining >= shots_max * 0.25)
+			culur = "#FFA500"
+		else if(shots_remaining > 0)
+			culur = "#FF0000"
+		else
+			culur = "#FF00FF"
+		txte = "[shots_remaining]/[shots_max]"
+		maptext = "<font color='[culur]'><b>[txte]</b></font>"
 
 /obj/item/gun/magic/vv_edit_var(var_name, var_value)
 	. = ..()

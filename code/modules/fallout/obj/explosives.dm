@@ -103,6 +103,9 @@
 	anchored = TRUE
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "uglymine"
+	light_color = "#ff0000"
+	light_power = 10
+	light_range = 3
 	var/armed = TRUE //we can be armed and unanchored if we want, but this isn't normally the case
 	var/random = FALSE //are our wires random?
 	/// We manually check to see if we've been triggered in case multiple atoms cross us in the time between the mine being triggered and it actually deleting, to avoid a race condition with multiple detonations
@@ -115,7 +118,7 @@
 /obj/item/mine/Initialize()
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED =PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -135,7 +138,7 @@
 		to_chat(user, span_danger("The mine is already armed!")) //how did we get here
 	if(user.dropItemToGround(src))
 		anchored = TRUE
-		addtimer(CALLBACK(src, .proc/arm), 5 SECONDS)
+		addtimer(CALLBACK(src,PROC_REF(arm)), 5 SECONDS)
 		to_chat(user, span_notice("You drop the mine and activate the 5-second arming process."))
 		return
 
@@ -164,7 +167,7 @@
 	if(arrived.movement_type & FLYING)
 		return
 
-	INVOKE_ASYNC(src, .proc/triggermine, arrived)
+	INVOKE_ASYNC(src,PROC_REF(triggermine), arrived)
 
 /obj/item/mine/proc/triggermine(mob/victim)
 	if(triggered)

@@ -100,7 +100,7 @@
 	isSwitchingStates = 0
 
 	if(close_delay != -1)
-		addtimer(CALLBACK(src, .proc/Close), close_delay)
+		addtimer(CALLBACK(src,PROC_REF(Close)), close_delay)
 
 /obj/structure/mineral_door/proc/Close()
 	if(isSwitchingStates || state != 1)
@@ -253,11 +253,13 @@
 
 /obj/structure/mineral_door/paperframe/Initialize()
 	. = ..()
-	queue_smooth_neighbors(src)
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+		QUEUE_SMOOTH_NEIGHBORS(src)
 
 /obj/structure/mineral_door/paperframe/ComponentInitialize()
 	return
 
 /obj/structure/mineral_door/paperframe/Destroy()
-	queue_smooth_neighbors(src)
+	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+		QUEUE_SMOOTH_NEIGHBORS(src)
 	return ..()

@@ -33,11 +33,17 @@
 					setMovetype(initial(movement_type))
 
 		if(INTENT_GRAB)
+			if(!client && M.incapacitated())
+				to_chat(M, span_notice("You're too messed up to fight!"))
+				return
 			if(attacker_style && attacker_style.grab_act(M,src))
 				return TRUE
 			grabbedby(M)
 
 		if(INTENT_DISARM)
+			if(!client && M.incapacitated())
+				to_chat(M, span_notice("You're too messed up to fight!"))
+				return
 			if(attacker_style && attacker_style.disarm_act(M,src))
 				return TRUE
 			M.do_attack_animation(src, ATTACK_EFFECT_DISARM)
@@ -50,6 +56,9 @@
 		if(INTENT_HARM)
 			if(HAS_TRAIT(M, TRAIT_PACIFISM))
 				to_chat(M, span_notice("You don't want to hurt [src]!"))
+				return
+			if(!client && M.incapacitated())
+				to_chat(M, span_notice("You're too messed up to fight!"))
 				return
 			if(attacker_style && attacker_style.harm_act(M,src))
 				return TRUE
@@ -169,9 +178,8 @@
 	var/bomb_armor = getarmor(null, "bomb")
 	switch (severity)
 		if (EXPLODE_DEVASTATE)
-			if(prob(bomb_armor))
-				adjustBruteLoss(500)
-			else
+			adjustBruteLoss(500 * (1-min(bomb_armor,100)/100))
+			if(health < 0 && bombs_can_gib_me)
 				gib()
 				return
 		if (EXPLODE_HEAVY)

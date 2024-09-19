@@ -35,9 +35,9 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	/*new/datum/stack_recipe("metal parts", /obj/item/stack/crafting/metalparts, 5), \ very easy to find already*/
 	new/datum/stack_recipe("length of chain", /obj/item/blacksmith/chain, 1, time = 50), \
 	new/datum/stack_recipe("metal tin", /obj/item/storage/wallet/stash, 5), \
-	new/datum/stack_recipe("regular arrowhead", /obj/item/stack/arrowhead, 2, 1, time = 2.5 SECONDS), \
-	new/datum/stack_recipe("bludgeoning arrowhead", /obj/item/stack/arrowhead/bludgeon, 1, 1, time = 1 SECONDS), \
-	new/datum/stack_recipe("field arrowhead", /obj/item/stack/arrowhead/field, 1, 1, time = 1 SECONDS), \
+	new/datum/stack_recipe("regular arrowhead", /obj/item/stack/arrowhead, 2, 1, 25, time = 2.5 SECONDS, is_stack = TRUE), \
+	new/datum/stack_recipe("bludgeoning arrowhead", /obj/item/stack/arrowhead/bludgeon, 1, 1, 25, time = 1 SECONDS, is_stack = TRUE), \
+	new/datum/stack_recipe("field arrowhead", /obj/item/stack/arrowhead/field, 1, 1, 25, time = 1 SECONDS, is_stack = FALSE), \
 	null, \
 	new/datum/stack_recipe("lock", /obj/item/lock_construct, 1), \
 	new/datum/stack_recipe("key", /obj/item/key, 1), \
@@ -91,6 +91,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	null, \
 	new/datum/stack_recipe("shelf parts", /obj/item/rack_parts), \
 	new/datum/stack_recipe("closet", /obj/structure/closet, 2, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("shop shelf", /obj/machinery/smartfridge/bottlerack/lootshelf/craftable, 5, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("trash bin", /obj/structure/closet/crate/bin, 30, time = 15, one_per_turf = TRUE, on_floor = TRUE),\
 	null, \
 	new/datum/stack_recipe("computer frame", /obj/structure/frame/computer, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
@@ -153,9 +154,9 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	tableVariant = /obj/structure/table
 	material_type = /datum/material/iron
 
-/obj/item/stack/sheet/metal/ratvar_act()
+/*/obj/item/stack/sheet/metal/ratvar_act()
 	new /obj/item/stack/tile/brass(loc, amount)
-	qdel(src)
+	qdel(src)*/
 
 /obj/item/stack/sheet/metal/narsie_act()
 	new /obj/item/stack/sheet/runed_metal(loc, amount)
@@ -172,43 +173,6 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 
 /obj/item/stack/sheet/metal/five
 	amount = 5
-
-GLOBAL_LIST_INIT(lead_recipes, list ( \
-	new/datum/stack_recipe("anomalous artifact exclusion cube", /obj/item/storage/box/artifactcontainer, 1, time = 10),
-	))
-
-/obj/item/stack/sheet/lead
-	name = "lead"
-	desc = "Sheets made out of lead."
-	singular_name = "lead sheet"
-	icon_state = "sheet-lead"
-	item_state = "sheet-lead"
-	custom_materials = list(/datum/material/lead=MINERAL_MATERIAL_AMOUNT)
-	throwforce = 10
-	flags_1 = CONDUCT_1
-	resistance_flags = FIRE_PROOF
-	merge_type = /obj/item/stack/sheet/lead
-	grind_results = list(/datum/reagent/lead = 20)
-	point_value = 2
-	//tableVariant = /obj/structure/table
-	material_type = /datum/material/lead
-
-/obj/item/stack/sheet/lead/fifty
-	amount = 50
-
-/obj/item/stack/sheet/lead/twenty
-	amount = 20
-
-/obj/item/stack/sheet/lead/ten
-	amount = 10
-
-/obj/item/stack/sheet/lead/five
-	amount = 5
-
-/obj/item/stack/sheet/lead/get_main_recipes()
-	. = ..()
-	. += GLOB.lead_recipes
-
 /obj/item/stack/sheet/metal/cyborg
 	custom_materials = null
 	is_cyborg = 1
@@ -283,7 +247,9 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("sturdy wooden fence", /obj/structure/railing/wooden_fencing, 5, time = 1 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("sturdy wooden fence gate", /obj/structure/railing/wooden_fencing/gate, 5, time = 1 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("wooden floor tile", /obj/item/stack/tile/wood, 1, 4, 20), \
-	new/datum/stack_recipe("wooden arrow shaft", /obj/item/arrow_shaft, 1, 1, 0.5 SECONDS, is_stack = FALSE), \
+	new/datum/stack_recipe("dispute stick", /obj/item/melee/classic_baton/coyote/oldquarterstaff/disputestick, 1, 1, 0.5 SECONDS, is_stack = FALSE), \
+	new/datum/stack_recipe("wooden quarterstaff", /obj/item/melee/classic_baton/coyote/oldquarterstaff, 1, 1, 0.5 SECONDS, is_stack = FALSE), \
+	new/datum/stack_recipe("wooden arrow shaft", /obj/item/arrow_shaft, 1, 1, 25, 0.5 SECONDS, is_stack = FALSE), \
 	null, \
 	new/datum/stack_recipe("anomalous artifact exclusion cube", /obj/item/storage/box/artifactcontainer/wood, 1, time = 10),
 	new/datum/stack_recipe_list("pews", list( \
@@ -449,7 +415,12 @@ GLOBAL_LIST_INIT(bamboo_recipes, list ( \
 // Cloth
 
 GLOBAL_LIST_INIT(cloth_recipes, list ( \
-	new/datum/stack_recipe("backpack", /obj/item/storage/backpack, 4), \
+	new/datum/stack_recipe("custom backpack", /obj/item/storage/backpack/chameleon, 4), \
+	new/datum/stack_recipe("custom jumpsuit", /obj/item/clothing/under/chameleon, 5), \
+	new/datum/stack_recipe("custom gloves", /obj/item/clothing/gloves/chameleon, 5), \
+	new/datum/stack_recipe("custom shoes", /obj/item/clothing/shoes/chameleon, 5), \
+	new/datum/stack_recipe("custom neck cloak", /obj/item/clothing/neck/cloak/chameleon, 5), \
+	new/datum/stack_recipe("custom hat", /obj/item/clothing/head/chameleon, 5), \
 	new/datum/stack_recipe("duffel bag", /obj/item/storage/backpack/duffelbag, 6), \
 	null, \
 	new/datum/stack_recipe("produce bag", /obj/item/storage/bag/plants, 4), \
@@ -467,6 +438,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	new/datum/stack_recipe("empty sandbag", /obj/item/emptysandbag, 4), \
 	new/datum/stack_recipe("padded floor tile", /obj/item/stack/tile/padded, 1, 4, 20), \
 	new/datum/stack_recipe("mattress", /obj/structure/bed/mattress, 2, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("bedroll", /obj/item/roller/bedroll, 4, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
 	new/datum/stack_recipe("blindfold", /obj/item/clothing/glasses/sunglasses/blindfold, 2), \
 	new/datum/stack_recipe("beekeeping hood", /obj/item/clothing/head/beekeeper_head, 2), \
@@ -540,7 +512,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 			new /datum/stack_recipe("welcome mat", /obj/structure/rug/mat/welcome, 10, time = 30, one_per_turf = FALSE, on_floor = TRUE),\
 		)), \
 	null, \
-	))
+))
 
 /obj/item/stack/sheet/cloth
 	name = "cloth"
@@ -651,6 +623,9 @@ GLOBAL_LIST_INIT(cardboard_recipes, list ( \
 /obj/item/stack/sheet/cardboard/twenty
 	amount = 20
 
+/obj/item/stack/sheet/cardboard/five
+	amount = 5
+
 /*
  * Runed Metal
  */
@@ -681,9 +656,9 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 	grind_results = list(/datum/reagent/iron = 5, /datum/reagent/blood = 15)
 	material_type = /datum/material/runedmetal
 
-/obj/item/stack/sheet/runed_metal/ratvar_act()
+/*/obj/item/stack/sheet/runed_metal/ratvar_act()
 	new /obj/item/stack/tile/brass(loc, amount)
-	qdel(src)
+	qdel(src) */
 
 /obj/item/stack/sheet/runed_metal/attack_self(mob/living/user)
 	if(!iscultist(user))
@@ -712,7 +687,7 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 /*
  * Brass
  */
-GLOBAL_LIST_INIT(brass_recipes, list ( \
+/*GLOBAL_LIST_INIT(brass_recipes, list ( \
 	new/datum/stack_recipe("wall gear", /obj/structure/destructible/clockwork/wall_gear, 3, time = 10, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
 	new/datum/stack_recipe("brass pinion airlock", /obj/machinery/door/airlock/clockwork, 5, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
@@ -742,9 +717,9 @@ GLOBAL_LIST_INIT(brass_recipes, list ( \
 	new/datum/stack_recipe("brass flask", /obj/item/reagent_containers/food/drinks/bottle/holyoil/empty), \
 	new/datum/stack_recipe("brass smith's hammer", /obj/item/melee/smith/hammer/ratvar, 6), \
 	new/datum/stack_recipe("brass ingot", /obj/item/ingot/ratvar, 6, time = 100), \
-))
+))*/
 
-/obj/item/stack/tile/brass
+/*/obj/item/stack/tile/brass
 	name = "brass"
 	desc = "Sheets made out of brass."
 	singular_name = "brass sheet"
@@ -766,11 +741,12 @@ GLOBAL_LIST_INIT(brass_recipes, list ( \
 	new /obj/item/stack/sheet/runed_metal(loc, amount)
 	qdel(src)
 
+/*
 /obj/item/stack/tile/brass/attack_self(mob/living/user)
 	if(!is_servant_of_ratvar(user))
 		to_chat(user, span_danger("[src] seems far too fragile and rigid to build with.")) //haha that's because it's actually replicant alloy you DUMMY
 		return
-	..()
+	..()*/
 
 /obj/item/stack/tile/brass/get_main_recipes()
 	. = ..()
@@ -779,6 +755,7 @@ GLOBAL_LIST_INIT(brass_recipes, list ( \
 /obj/item/stack/tile/brass/fifty
 	amount = 50
 	merge_type = /obj/item/stack/tile/brass
+*/
 
 /*
  * Bronze
@@ -801,7 +778,6 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 	new/datum/stack_recipe("bronze stool", /obj/structure/chair/stool/bronze, 1, time = 0, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("bronze anvil",/obj/structure/anvil/obtainable/bronze, 20, time = 110, one_per_turf = TRUE, on_floor = TRUE), \
 	null,
-	new/datum/stack_recipe("bronze ingot", /obj/item/ingot/bronze, 6, time = 100), \
 	new/datum/stack_recipe("bronze floor tiles", /obj/item/stack/tile/bronze, 1, 4, 20), \
 ))
 
@@ -819,10 +795,10 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 	tableVariant = /obj/structure/table/bronze
 	material_type = /datum/material/bronze
 
-/obj/item/stack/sheet/bronze/attack_self(mob/living/user)
+/*/obj/item/stack/sheet/bronze/attack_self(mob/living/user)
 	if(is_servant_of_ratvar(user)) //still lets them build with it, just gives a message
 		to_chat(user, span_danger("Wha... what is this cheap imitation crap? This isn't brass at all!"))
-	..()
+	..()*/
 
 /obj/item/stack/sheet/bronze/get_main_recipes()
 	. = ..()
@@ -857,7 +833,7 @@ GLOBAL_LIST_INIT(bronze_recipes, list ( \
 
 GLOBAL_LIST_INIT(bone_recipes, list(
 	new /datum/stack_recipe("bone dagger", /obj/item/melee/onehanded/knife/bone, 2, time = 20),
-	new /datum/stack_recipe("bone arrowhead", /obj/item/stack/arrowhead/bone, 1, 1, time = 2 SECONDS),
+	new /datum/stack_recipe("bone arrowhead", /obj/item/stack/arrowhead/bone, 1, 1, 25, time = 2 SECONDS, is_stack = TRUE),
 	null, \
 	new /datum/stack_recipe("bone armor", /obj/item/clothing/suit/armor/light/tribal/bone, 6, time = 30),
 	new /datum/stack_recipe("skull helmet", /obj/item/clothing/head/helmet/skull, 4, time = 30),
@@ -1097,7 +1073,7 @@ GLOBAL_LIST_INIT(prewar_recipes, list ( \
 	custom_materials = list(
 		/datum/material/plasma = MINERAL_MATERIAL_AMOUNT * 0.5,
 		/datum/material/titanium = MINERAL_MATERIAL_AMOUNT * 0.5,
-		/datum/material/lead = MINERAL_MATERIAL_AMOUNT * 0.5
+		/datum/material/iron = MINERAL_MATERIAL_AMOUNT * 0.5
 		)
 	throwforce = 10
 	flags_1 = CONDUCT_1

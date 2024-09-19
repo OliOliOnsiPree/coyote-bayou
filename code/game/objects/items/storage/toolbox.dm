@@ -12,7 +12,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	throwforce = 12
 	throw_speed = 2
 	throw_range = 7
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("robusted")
 	hitsound = 'sound/weapons/smash.ogg'
 	custom_materials = list(/datum/material/iron = 500)
@@ -155,7 +155,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 	new /obj/item/wirecutters(src)
 	new /obj/item/multitool(src)
 
-/obj/item/storage/toolbox/brass
+/*/obj/item/storage/toolbox/brass
 	name = "brass box"
 	desc = "A huge brass box with several indentations in its surface."
 	icon_state = "brassbox"
@@ -195,7 +195,7 @@ GLOBAL_LIST_EMPTY(rubber_toolbox_icons)
 
 /obj/item/storage/toolbox/brass/prefilled/ratvar/admin
 	slab_type = /obj/item/clockwork/slab/debug
-	fabricator_type = /obj/item/clockwork/replica_fabricator/scarab/debug
+	fabricator_type = /obj/item/clockwork/replica_fabricator/scarab/debug*/
 
 /obj/item/storage/toolbox/plastitanium
 	name = "plastitanium toolbox"

@@ -3,6 +3,7 @@
 	icon = 'icons/mob/screen_gen.dmi'
 	icon_state = "arrow"
 	layer = POINT_LAYER
+	plane = MOB_PLANE //Jon why did you forget this?
 	duration = 25
 
 /obj/effect/temp_visual/point/Initialize(mapload, set_invis = 0)
@@ -27,5 +28,5 @@
 	name = "lattice"
 	desc = "A lightweight support lattice."
 	icon = 'icons/obj/smooth_structures/lattice.dmi'
-	icon_state = "lattice"
+	icon_state = "lattice-255"
 	density = FALSE

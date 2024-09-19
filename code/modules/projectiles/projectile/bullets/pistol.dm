@@ -418,14 +418,14 @@
 	pixels_per_second = BULLET_SPEED_PISTOL_NEEDLE
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 	supereffective_damage = 14
-	supereffective_faction = list("hostile", "ant", "supermutant", "deathclaw", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
+	supereffective_faction = list("hostile", "ant", "supermutant", "aethergiest", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
 
 /obj/item/projectile/bullet/needle/improvised
 	name = "Jade needle"
 	icon_state = "needleimprov"
 	damage_list = list("12" = 80, "14" = 20, "16" = 5)
 	supereffective_damage = 8
-	supereffective_faction = list("hostile", "ant", "supermutant", "deathclaw", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
+	supereffective_faction = list("hostile", "ant", "supermutant", "aethergiest", "cazador", "raider", "china", "gecko", "wastebot", "yaoguai")
 	damage = BULLET_DAMAGE_PISTOL_NEEDLE_HANDLOAD
 	stamina = BULLET_STAMINA_PISTOL_NEEDLE
 	spread = BULLET_SPREAD_SURPLUS
@@ -492,6 +492,21 @@
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_LIGHT
 
 	pixels_per_second = BULLET_SPEED_PISTOL_10MM_HANDLOAD
+	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
+
+/obj/item/projectile/bullet/c10mm/improvised/simple
+	name = "handloaded 10mm bullet"
+	damage = BULLET_DAMAGE_PISTOL_10MM_HANDLOAD
+	damage_list = list("17" = 15, "20" = 10, "25" = 10, "28" = 50, "35" = 10, "40" = 20)
+	stamina = BULLET_STAMINA_PISTOL_10MM
+	spread = BULLET_SPREAD_SURPLUS
+	recoil = BULLET_RECOIL_PISTOL_10MM_HANDLOAD
+
+	wound_bonus = BULLET_WOUND_PISTOL_10MM_HANDLOAD
+	bare_wound_bonus = BULLET_WOUND_PISTOL_10MM_NAKED_MULT
+	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_LIGHT
+
+	pixels_per_second = BULLET_SPEED_PISTOL_10MM_HANDLOAD * 0.5
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 
 /* 10mm simplemob
@@ -628,6 +643,8 @@
 	pixels_per_second = BULLET_SPEED_PISTOL_45ACP_HANDLOAD
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 
+/obj/item/projectile/bullet/c45/improvised
+	pixels_per_second = BULLET_SPEED_PISTOL_45ACP_HANDLOAD * 0.5
 /obj/item/projectile/bullet/c45/simple
 	name = ".45 FMJ bullet"
 	damage = BULLET_DAMAGE_PISTOL_45ACP_HANDLOAD
@@ -929,7 +946,7 @@
 	bare_wound_bonus = BULLET_WOUND_PISTOL_44_NAKED_MULT
 	wound_falloff_tile = BULLET_WOUND_FALLOFF_PISTOL_LIGHT
 
-	pixels_per_second = BULLET_SPEED_PISTOL_44_HANDLOAD
+	pixels_per_second = BULLET_SPEED_PISTOL_44_HANDLOAD * 0.4
 	damage_falloff = BULLET_FALLOFF_DEFAULT_PISTOL_LIGHT
 
 /* 44 fire

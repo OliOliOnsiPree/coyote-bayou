@@ -15,6 +15,11 @@
 	name = "grey gloves"
 	path = /obj/item/clothing/gloves/color/grey
 
+/datum/gear/gloves/chameleon
+	name = "chameleon gloves"
+	path = /obj/item/clothing/gloves/chameleon
+	cost = 0
+
 /datum/gear/gloves/brown
 	name = "brown gloves"
 	path = /obj/item/clothing/gloves/color/brown
@@ -66,3 +71,12 @@
 /datum/gear/gloves/modifpatrol
 	name = "modified patrol gloves"
 	path = /obj/item/clothing/gloves/modif_patrol
+
+/datum/gear/gloves/armwarmer
+	name = "armwarmers"
+	path = /obj/item/clothing/gloves/armwarmer
+
+/datum/gear/gloves/armwarmer/striped
+	name = "armwarmers, striped"
+	path = /obj/item/clothing/gloves/armwarmer_striped
+
