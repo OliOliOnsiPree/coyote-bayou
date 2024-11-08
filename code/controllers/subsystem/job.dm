@@ -31,20 +31,20 @@ SUBSYSTEM_DEF(job)
 	return ..()
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
-	var/datum/job/new_overflow = GetJob(new_overflow_role)
-	var/cap = CONFIG_GET(number/overflow_cap)
+	// var/datum/job/new_overflow = GetJob(new_overflow_role)
+	// var/cap = CONFIG_GET(number/overflow_cap)
 
-	new_overflow.allow_bureaucratic_error = FALSE
-	new_overflow.spawn_positions = cap
-	new_overflow.total_positions = cap
+	// new_overflow.allow_bureaucratic_error = FALSE
+	// new_overflow.spawn_positions = cap
+	// new_overflow.total_positions = cap
 
-	if(new_overflow_role != overflow_role)
-		var/datum/job/old_overflow = GetJob(overflow_role)
-		old_overflow.allow_bureaucratic_error = initial(old_overflow.allow_bureaucratic_error)
-		old_overflow.spawn_positions = initial(old_overflow.spawn_positions)
-		old_overflow.total_positions = initial(old_overflow.total_positions)
-		overflow_role = new_overflow_role
-		JobDebug("Overflow role set to : [new_overflow_role]")
+	// if(new_overflow_role != overflow_role)
+	// 	var/datum/job/old_overflow = GetJob(overflow_role)
+	// 	old_overflow.allow_bureaucratic_error = initial(old_overflow.allow_bureaucratic_error)
+	// 	old_overflow.spawn_positions = initial(old_overflow.spawn_positions)
+	// 	old_overflow.total_positions = initial(old_overflow.total_positions)
+	// 	overflow_role = new_overflow_role
+	// 	JobDebug("Overflow role set to : [new_overflow_role]")
 
 /datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
 	occupations = list()
@@ -743,6 +743,9 @@ SUBSYSTEM_DEF(job)
 			if(i[LOADOUT_CUSTOM_DESCRIPTION])
 				var/custom_description = i[LOADOUT_CUSTOM_DESCRIPTION]
 				I.desc = custom_description
+			if(i[LOADOUT_CUSTOM_COLOR])
+				var/custom_cllor = i[LOADOUT_CUSTOM_COLOR]
+				I.color = "[custom_cllor]"
 			var/displace_me = FALSE
 			if(G.slot in displaceables) /// mm yes, displace me in my G.slot~
 				displace_me = TRUE

@@ -516,7 +516,7 @@
 	name = "debug melee turf thing"
 	desc = "debug melee turf thing"
 	icon_state = "sord"
-	item_state = "sord"
+	inhand_icon_state = "sord"
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	slot_flags = INV_SLOTBIT_BELT
@@ -559,6 +559,6 @@
 	)
 
 /mob/living/simple_animal/hostile/rat/skitter/melee_debug/attacked_by(obj/item/I, mob/living/user, attackchain_flags = NONE, damage_multiplier = 1, damage_addition, damage_override)
-	say("I took damage! [damage_override] to be exact! Weapon's damage is [I.force]! Thanks [user]!", just_chat = TRUE)
+	say("I took damage! [damage_override] to be exact! Weapon's damage is [I.force]! Thanks [user]!", only_overhead = TRUE)
 	return ..()
 

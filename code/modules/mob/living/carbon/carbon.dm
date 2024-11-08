@@ -1,5 +1,6 @@
 /mob/living/carbon
 	blood_volume = BLOOD_VOLUME_NORMAL
+	var/dodgechance = 30
 
 /mob/living/carbon/Initialize()
 	. = ..()
@@ -24,6 +25,27 @@
 	GLOB.carbon_list -= src
 	moveToNullspace() // suckit
 	return QDEL_HINT_LETMELIVE
+
+/mob/living/carbon/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/tackler/simple, \
+		stamina_cost = 30, \
+		base_knockdown = 0 SECONDS, \
+		range = 4, \
+		speed = 1, \
+		skill_mod = -1, \
+		min_distance = 0 \
+	)
+
+/mob/living/carbon/bullet_act(obj/item/projectile/Proj)
+	if(!Proj)
+		return
+	if(prob(src.dodgechance))
+		playsound(loc, 'sound/effects/suitstep1.ogg', 50, 1, -1)
+		//visible_message(span_danger("[src] dodges [Proj]!"))
+		return BULLET_ACT_FORCE_PIERCE
+	else
+		. = ..()
 
 /mob/living/carbon/relaymove(mob/user, direction)
 	if(user in src.stomach_contents)
@@ -518,23 +540,31 @@
 	doot += "</tr>"
 	return doot.Join()
 
-/mob/living/carbon/verb/change_runechat_color()
+/mob/verb/change_runechat_color()
 	set category = "IC"
 	set name = "Runechat Color"
 	set desc = "Lets you change your runechat color!"
 	change_chat_color()
 
-/mob/living/carbon/proc/change_chat_color()
-	var/my_chat_color = dna.features["chat_color"]
+/mob/proc/change_chat_color(horny)
+	var/datum/preferences/P = extract_prefs(src)
+	if(!P)
+		return
+	var/my_chat_color = P.features["chat_color"]
 	var/new_runecolor = input(src, "Choose your character's runechat color:", "Character Preference","#[my_chat_color]") as color|null
 	if(new_runecolor)
 		new_runecolor = sanitize_hexcolor(new_runecolor, 6)
-		dna.features["chat_color"] = new_runecolor
-		client.prefs.features["chat_color"] = new_runecolor
-		client.prefs.save_preferences()
+		if(iscarbon(src))
+			var/mob/living/carbon/C = src // eat it
+			C.dna.features["chat_color"] = new_runecolor
+		P.features["chat_color"] = new_runecolor
+		P.save_preferences()
 		chat_color = "#[new_runecolor]"
 		chat_color_darkened = "#[new_runecolor]"
 		to_chat(src, "<span style'color=#[new_runecolor]'>Your runechat color is now #[new_runecolor]!</span>")
+	/// now update ur hornychat, if its open
+	if(horny)
+		SSchat.HornyPreferences(src)
 
 /mob/living/carbon/verb/check_chat_bg_color()
 	set category = "OOC"

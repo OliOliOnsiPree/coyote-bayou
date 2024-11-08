@@ -58,7 +58,7 @@
 		M.gets_drilled()
 
 //Elites can't talk (normally)!
-/mob/living/simple_animal/hostile/asteroid/elite/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, just_chat)
+/mob/living/simple_animal/hostile/asteroid/elite/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, only_overhead)
 	if(can_talk)
 		. = ..()
 		return TRUE
@@ -312,7 +312,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 	icon_state = "crevice_shard"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
-	item_state = "screwdriver_head"
+	inhand_icon_state = "screwdriver_head"
 	throwforce = 5
 	w_class = WEIGHT_CLASS_SMALL
 	throw_speed = 3

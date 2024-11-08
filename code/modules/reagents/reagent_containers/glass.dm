@@ -125,7 +125,7 @@
 	w_class = WEIGHT_CLASS_TINY
 	volume = 60
 	icon_state = "beaker"
-	item_state = "beaker"
+	inhand_icon_state = "beaker"
 	custom_materials = list(/datum/material/glass=500)
 	possible_transfer_amounts = list(5,10,15,20,25,30,50,60)
 	container_flags = PH_WEAK|APTFT_ALTCLICK|APTFT_VERB
@@ -305,7 +305,7 @@
 	desc = "A bottle of water filled at an old Earth bottling facility."
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "smallbottle"
-	item_state = "bottle"
+	inhand_icon_state = "bottle"
 	custom_price = PRICE_CHEAP_AS_FREE
 	list_reagents = list(/datum/reagent/water = 49.5, /datum/reagent/fluorine = 0.5)//see desc, don't think about it too hard
 	custom_materials = list(/datum/material/glass=0)
@@ -521,7 +521,9 @@
 /obj/item/reagent_containers/glass/woodmug
 	name = "wooden mug"
 	desc = "A curved piece of wood with a hollow dug out of it. For those who prefer slightly more civilized means of alcoholism, but can't afford a glass."
+	w_class = WEIGHT_CLASS_TINY
 	custom_materials = list(/datum/material/wood = 500)
+	
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "wooden_mug"
 

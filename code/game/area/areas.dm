@@ -18,6 +18,8 @@ GLOBAL_LIST_INIT(area_weather_list, list(WEATHER_ALL))
 	invisibility = INVISIBILITY_LIGHTING
 
 	var/safe_town
+	var/private = FALSE
+	var/region = "The Middle Of Nowhere"
 
 	/// Set in New(); preserves the name set by the map maker, even if renamed by the Blueprints.
 	var/map_name

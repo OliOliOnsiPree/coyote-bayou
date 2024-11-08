@@ -222,7 +222,7 @@ SUBSYSTEM_DEF(economy)
 		"be used to fund a use for all these corpses you've all been sending us",
 		"go towards putting out the River of Flame",
 		"pay to put food on your family",
-		"help fund moving New Boston 20 meters to the left",
+		"help fund moving all the trees 20 meters to the left",
 		"go towards putting up wallpaper in the Portal Shelters",
 		"be put in the Rainy Day fund",
 		"help fund the Bras for Broken Backs charity",
@@ -2160,7 +2160,7 @@ SUBSYSTEM_DEF(economy)
 	desc = "A handy little modified zorcher used by independant Guild contractors to bend the fabric of reality and deliver specific quest related things to parts unknown."
 	icon = 'icons/obj/device.dmi'
 	icon_state = "export_scanner"
-	item_state = "radio"
+	inhand_icon_state = "radio"
 	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
 	item_flags = PERSONAL_ITEM

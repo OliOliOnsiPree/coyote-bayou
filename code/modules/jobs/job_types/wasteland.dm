@@ -1035,7 +1035,7 @@ Raider
 		/obj/item/pda = 1,
 		/obj/item/card/id/selfassign,
 		/obj/item/storage/pill_bottle/chem_tin/radx,
-		/obj/item/cool_book/ashdowncit = 1
+		// /obj/item/cool_book/ashdowncit = 1
 		)
 
 /datum/outfit/job/wasteland/den
@@ -1141,7 +1141,7 @@ Raider
 		B.deity_name = GLOB.deity
 		B.name = GLOB.bible_name
 		B.icon_state = GLOB.bible_icon_state
-		B.item_state = GLOB.bible_item_state
+		B.inhand_icon_state = GLOB.bible_item_state
 		to_chat(H, "There is already an established religion onboard the station. You are an acolyte of [GLOB.deity]. Defer to the Chaplain.")
 		H.equip_to_slot_or_del(B, SLOT_IN_BACKPACK)
 		var/nrt = GLOB.holy_weapon_type || /obj/item/nullrod

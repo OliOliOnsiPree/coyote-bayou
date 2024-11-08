@@ -57,7 +57,7 @@
 #define BLOOD_REFILL_NUTRITION_STARVING 0
 
 /// Lowest amount normal bleeding can take you
-#define BLOOD_VOLUME_LOSS_FLOOR (BLOOD_VOLUME_NORMAL * 0.05)
+#define BLOOD_VOLUME_LOSS_FLOOR (BLOOD_VOLUME_NORMAL * 0.15)
 
 /// Cap for oxyloss in minor blood loss
 #define BLOOD_LOSS_OXYLOSS_CAP_MINOR 10
@@ -669,7 +669,7 @@
 #define CURRENT_OBSERVERS		"current_observers_list"
 
 
-#define HOSTILES_ATTACK_UNTIL_THIS_FAR_INTO_CRIT 25
+#define HOSTILES_ATTACK_UNTIL_THIS_FAR_INTO_CRIT 2500
 
 #define PVP_NEUTRAL "pvp_neutral"
 #define PVP_YES     "pvp_yes"

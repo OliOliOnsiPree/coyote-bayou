@@ -73,7 +73,9 @@
 	BB.original = target
 	BB.firer = user
 	var/shooter_living = istype(user)
-	if(shooter_living && isplayer(user) && !user.enabled_combat_indicator)
+	// var/am_player = isplayer(user)
+	if(shooter_living && !BB.not_harmful)
+		// if((am_player && !user.enabled_combat_indicator) || !am_player)
 		BB.factionize(user.faction)
 		BB.safety_switch = TRUE // disabled the factionize after it range from shooterd
 		BB.is_player_projectile = TRUE
@@ -89,6 +91,8 @@
 	BB.suppressed = quiet
 	BB.damage_threshold_penetration = damage_threshold_penetration
 	if(shooter_living && HAS_TRAIT(user,TRAIT_PANICKED_ATTACKER))
+		BB.damage_mod *= 0.2 // lol
+	if(shooter_living && user.InCritical())
 		BB.damage_mod *= 0.2 // lol
 
 	if(isgun(fired_from))

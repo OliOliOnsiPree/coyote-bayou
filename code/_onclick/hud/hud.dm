@@ -14,7 +14,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	"Slimecore" = 'icons/mob/screen_slimecore.dmi',
 	"Operative" = 'icons/mob/screen_operative.dmi',
 	"Clockwork" = 'icons/mob/screen_clockwork.dmi',
-	"Minimal" = 'icons/mob/screen_minimal.dmi'
+	"Minimal" = 'icons/mob/screen_minimal.dmi',
+	"Minimal ver. II" = 'icons/mob/screen_minimal2.dmi' // High speed, low drag, with design considerations for humans who play videogames. - Jaeger 
 ))
 
 /proc/ui_style2icon(ui_style)
@@ -68,6 +69,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/sleep_hud_button
 	var/atom/movable/screen/triage
 	var/atom/movable/screen/aooc_hud_button
+	var/atom/movable/screen/roll_hud_button
 	var/atom/movable/screen/newbie_hud_button
 	var/atom/movable/screen/chardir_hud_button
 	var/atom/movable/screen/pvp_focus_toggle/pvp_focus_toggle
@@ -127,6 +129,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	down = null
 	sleep_hud_button = null
 	triage = null
+	roll_hud_button = null
 	aooc_hud_button = null
 	newbie_hud_button = null
 	chardir_hud_button = null

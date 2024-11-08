@@ -20,7 +20,7 @@
 	robust_searching = TRUE
 	turns_per_move = 5
 	speak_emote = list("growls")
-	emote_see = list("screeches")
+	// emote_see = list("screeches")
 	a_intent = INTENT_HARM
 	attack_verb_simple = "lunges at"
 	attack_sound = 'sound/hallucinations/growl1.ogg'
@@ -30,7 +30,7 @@
 	guaranteed_butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/human = 2,
 							/obj/item/stack/sheet/animalhide/human = 1,
 							/obj/item/stack/sheet/bone = 1)
-	loot = list(/obj/effect/spawner/lootdrop/f13/uncommon, /obj/effect/gibspawner/generic/animal)
+	loot = list(/obj/effect/gibspawner/generic/animal)
 	loot_drop_amount = 2
 	loot_amount_random = TRUE
 

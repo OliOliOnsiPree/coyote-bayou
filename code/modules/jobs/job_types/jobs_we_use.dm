@@ -80,7 +80,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 /// NEW BOSTON TOWNIES FACTION                                                            //
-/// The residents of New Boston, here to make a living in this here wasteland, in town    //
+/// The residents of the town, here to make a living in this here wasteland, in town    //
 ////////////////////////////////////////////////////////////////////////////////////////////
 /datum/job/townfolk
 	exp_type = EXP_TYPE_OASIS
@@ -93,11 +93,11 @@
 
 //////////////////////////////
 /// Citizen
-/// A basic citizen of New Boston, here to make a living in this here wasteland
+/// A basic citizen of town, here to make a living in this here wasteland
 /datum/job/townfolk/citizen
 	title = "Citizen"
 	flag = F13SETTLER
-	description = "You are a citizen of New Boston. You have arrived or have been living in the region for purposes known only to you. Try to make a living for yourself - or simply survive - and craft your own unique story."
+	description = "You are a citizen of the town. You have arrived or have been living in the region for purposes known only to you. Try to make a living for yourself - or simply survive - and craft your own unique story."
 	supervisors = "the Adventurer's Guild"
 	paycheck = COINS_TO_CREDITS(150) // 150 copper per hour
 	access = list(ACCESS_BAR)
@@ -110,7 +110,7 @@
 /datum/job/townfolk/f13farmer
 	title = "Farmer"
 	flag = F13FARMER
-	description = "You are a farmer, responsible for the cultivation of crops and the care of livestock. You are the backbone of the settlement, providing food and resources for the community. Your work is essential to the survival of New Boston."
+	description = "You are a farmer, responsible for the cultivation of crops and the care of livestock. You are the backbone of the settlement, providing food and resources for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurer's Guild"
 	loadout_options = list(
 		/datum/outfit/loadout/farmer
@@ -125,7 +125,7 @@
 /datum/job/townfolk/f13prospector
 	title = "Prospector"
 	flag = F13PROSPECTOR
-	description = "You are a prospector, responsible for the extraction of valuable resources from the earth. You are the backbone of the settlement, providing raw materials for the community. Your work is essential to the survival of New Boston."
+	description = "You are a prospector, responsible for the extraction of valuable resources from the earth. You are the backbone of the settlement, providing raw materials for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurer's Guild"
 	paycheck = COINS_TO_CREDITS(75) // 75 copper per hour (they get paid in ore) (they can also sell the ore) (there's a lot of ore)
 	exp_requirements = PLAYTIME_HARD_JOB
@@ -144,7 +144,7 @@
 /datum/job/townfolk/f13barkeep
 	title = "Barkeep"
 	flag = F13BARKEEP	
-	description = "You are a barkeep, responsible for the operation of the local tavern. You are the backbone of the settlement, providing drinks and entertainment for the community. Your work is essential to the survival of New Boston."
+	description = "You are a barkeep, responsible for the operation of the local tavern. You are the backbone of the settlement, providing drinks and entertainment for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild"
 	outfit = /datum/outfit/job/cb/guild/barkeep
 	exp_requirements = PLAYTIME_HARD_JOB
@@ -185,7 +185,7 @@
 	spawn_positions = 1
 	exp_requirements = PLAYTIME_HEAD_JOB
 	exp_type = EXP_TYPE_LIVING
-	description = "You are the manager for the Heaven's Night club, responsible for the operation of the establishment. You are the backbone of the settlement, operating the club that provides such sweet relief to survivors of the wasteland. Your work is essential to the survival of New Boston."
+	description = "You are the manager for the Heaven's Night club, responsible for the operation of the establishment. You are the backbone of the settlement, operating the club that provides such sweet relief to survivors of the wasteland. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild, sort of"
 	selection_color = "#c94b8a"
 	outfit = /datum/outfit/job/cb/guild/club/manager
@@ -202,7 +202,7 @@
 	head_announce = list("Security")
 	faction = FACTION_CLUB
 	social_faction = FACTION_CLUB
-	description = "You are a worker at the Heaven's Night club, providing entertainment and relief to the patrons of the establishment. You are the backbone of the settlement, to provide carnal morale to the hardworking townsfolk. Your work is essential to the survival of New Boston."
+	description = "You are a worker at the Heaven's Night club, providing entertainment and relief to the patrons of the establishment. You are the backbone of the settlement, to provide carnal morale to the hardworking townsfolk. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild, your customers, and the Manager"
 	selection_color = "#df80af"
 	outfit = /datum/outfit/job/cb/guild/club
@@ -217,7 +217,7 @@
 	flag = F13PREACHER
 	total_positions = 3
 	spawn_positions = 3
-	description = "You are a preacher, responsible for the spiritual well-being of the settlement. You are the backbone of the community, providing guidance and comfort to the townsfolk. Your work is essential to the survival of New Boston."
+	description = "You are a preacher, responsible for the spiritual well-being of the settlement. You are the backbone of the community, providing guidance and comfort to the townsfolk. Your work is essential to the survival of the town."
 	supervisors = "your god, as well as the Adventurers Guild"
 	selection_color = "#dcba97"
 	paycheck = COINS_TO_CREDITS(250) // 250 copper per hour
@@ -232,7 +232,7 @@
 	title = "Librarian"
 	flag = LIBRARIAN
 	selection_color = "#dcba97"
-	description = "You are the curator of the New Boston Library, responsible for the collection and organization of knowledge. You are the backbone of the settlement, providing access to information and resources for the community. Your work is essential to the survival of New Boston."
+	description = "You are the curator of the the town Library, responsible for the collection and organization of knowledge. You are the backbone of the settlement, providing access to information and resources for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild"
 	paycheck = COINS_TO_CREDITS(200) // 200 copper per hour
 	outfit = /datum/outfit/job/cb/guild/curator
@@ -246,7 +246,7 @@
 	title = "Banker"
 	flag = F13BANKER
 	selection_color = "#dcba97"
-	description = "You are the banker of New Boston, responsible for the management of the town's finances. You are the backbone of the settlement, providing financial services and resources for the community. Your work is essential to the survival of New Boston."
+	description = "You are the banker of the town, responsible for the management of the town's finances. You are the backbone of the settlement, providing financial services and resources for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild"
 	total_positions = 2
 	spawn_positions = 2
@@ -263,7 +263,7 @@
 	title = "Shopkeeper"
 	flag = F13SHOPKEEPER
 	selection_color = "#dcba97"
-	description = "You are a shopkeeper, responsible for the operation of the local store. You are the backbone of the settlement, providing goods and resources for the community. Your work is essential to the survival of New Boston."
+	description = "You are a shopkeeper, responsible for the operation of the local store. You are the backbone of the settlement, providing goods and resources for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild"
 	total_positions = 2
 	spawn_positions = 2
@@ -301,7 +301,7 @@
 	title = "Adventurer"
 	flag = DEP_OASIS
 	selection_color = "#df80af"
-	description = "You are an adventurer, a resident of New Boston who has taken up the call to explore the wasteland. You are the backbone of the settlement, exploring and risking your own (undying) life to bring back resources and knowledge for the community. Your work is essential to the survival of New Boston."
+	description = "You are an adventurer, a resident of the town who has taken up the call to explore the wasteland. You are the backbone of the settlement, exploring and risking your own (undying) life to bring back resources and knowledge for the community. Your work is essential to the survival of the town."
 	supervisors = "the Adventurers Guild"
 	exp_requirements = PLAYTIME_HARD_JOB
 	exp_type = EXP_TYPE_LIVING
@@ -374,10 +374,10 @@
 	outfit = /datum/outfit/job/den/recresearcher/nanspec
 
 //////////////////////////////
-/// Reclaimer Guard
+/// Reclaimer Praetorian
 /// A reclaimer, here to protect the nerds from the wasteland
 /datum/job/reclaimers/guard
-	title = "Reclaimer Guard"
+	title = "Reclaimer Praetorian"
 	flag = RECGUARD
 	outfit = /datum/outfit/job/den/recresearcher/guard
 	exp_requirements = 0
@@ -416,7 +416,7 @@
 		"The Clan has decided to look for fresh blood from the out-peoples.  See if you can find someone to willingly join the tribe and learn our ways.",
 		"This week we hunt, gecko's are to be reduced in numbers to a more sustainable level on this land for having murdered too many of our brahmin.",
 		"This week we hunt, the Cazador menace is too strong in this land.  Their stingers are dangerous and the elders demand their extinction.",
-		"The harvest leaders far off have asked us to find a cursed pre-war weapon that throws burning light at whatever you seek to destroy.  All of them must be found and destroyed, or our crops might fail.",
+		"The harvest leaders far off have asked us to find a cursed Pre-Fall weapon that throws burning light at whatever you seek to destroy.  All of them must be found and destroyed, or our crops might fail.",
 		"The Village rests, defend it and prosper this week.  Peace is rare, and we should enjoy it with song, dance, and good company.  Feel free to include outsiders if they will follow our ways when on our lands.",
 		"The Village rests, defend it and prosper this week.  Peace is rare, but at least we can build defenses and take solitude in our isolation.",
 		"The swamp calls the hunters forth, seek out the thing that shines and return it to the spiritual leaders to appease the spirits.  If no spiritual leader can be found then hide the item from the out-peoples.",
@@ -541,7 +541,7 @@
 	title = "Dual Citizen"
 	flag = F13VILLAGER
 	department_flag = TRIBAL | DEP_OASIS
-	supervisors = "New Boston's laws and all tribe members aside from other villagers"
+	supervisors = "the town's laws and all tribe members aside from other villagers"
 	description = "A proud member of the Mountain River tribe, you do what needs to be done to ensure the survival of yourself and your people while following the laws of the tribe. While it is common to venture out into the wasteland, do not tread far or without informing your kin. You are also a citizen living in Nash. Treat your town with respect and make sure to follow the laws in place, as your premium status may be revoked if you are considered a danger to the populace. One of the local businesses may have work if you require funds."
 	outfit = /datum/outfit/job/den/f13dualcitizen
 	access = list(ACCESS_TRIBE, ACCESS_BAR)

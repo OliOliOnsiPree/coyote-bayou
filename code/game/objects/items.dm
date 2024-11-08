@@ -20,7 +20,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	attack_hand_unwieldlyness = 0
 
 	///icon state name for inhand overlays
-	var/item_state = null
+	var/inhand_icon_state = null
 	///Icon file for left hand inhand overlays
 	var/lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	///Icon file for right inhand overlays
@@ -58,6 +58,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/pokesound = 'sound/weapons/tap.ogg'
 	var/usesound = null
 	var/throwhitsound = null
+	var/equipsound = null
+	var/tableplacesound = null
 
 	/// Weight class for how much storage capacity it uses and how big it physically is meaning storages can't hold it if their maximum weight class isn't as high as it.
 	var/w_class = WEIGHT_CLASS_NORMAL
@@ -192,6 +194,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 	/// New variable for backstab multiplier
 	var/backstab_multiplier = 1.15 
+	var/shadow = FALSE
 
 /obj/item/Initialize()
 
@@ -226,6 +229,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	/// Allows items to preserve their transform when picked up
 	if(!special_transform && transform != initial(transform))
 		special_transform = transform
+
+	if(!isnull(equipsound))
+		listify(equipsound)
+	if(!isnull(tableplacesound))
+		listify(tableplacesound)
 
 	/// CB Dual Wielding
 	if(force != 0)
@@ -271,6 +279,16 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 	if(reskinnable_component)
 		AddComponent(reskinnable_component)
+
+	if(shadow)
+		add_filter("wacky_shadow",10, list(
+			"type"="drop_shadow",
+			"x"=1,
+			"y"=-1,
+			"size"=1,
+			"offset"=0,
+			"color"= "#0000007A"))
+
 
 /obj/item/proc/check_allowed_items(atom/target, not_inside, target_self)
 	if(((src in target) && !target_self) || (!isturf(target.loc) && !isturf(target) && not_inside))
@@ -534,7 +552,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 // afterattack() and attack() prototypes moved to _onclick/item_attack.dm for consistency
 
-/obj/item/proc/talk_into(mob/M, input, channel, spans, datum/language/language)
+/obj/item/proc/talk_into(atom/movable/M, message, channel, list/spans, datum/language/language, datum/rental_mommy/chat/momchat)
 	return ITALICS | REDUCE_RANGE
 
 /obj/item/proc/dropped(mob/user)
@@ -557,6 +575,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 /obj/item/proc/pickup(mob/user)
 	SHOULD_CALL_PARENT(TRUE)
 	SEND_SIGNAL(src, COMSIG_ITEM_PICKUP, user)
+	play_equip_sound()
 	item_flags |= IN_INVENTORY
 	add_hud_actions(user)
 
@@ -1298,3 +1317,13 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 		var/mob/living/target = over
 		L.do_give(target)
 	return ..()
+
+/obj/item/proc/play_equip_sound(volume=50)
+	if(!LAZYLEN(equipsound))
+		return
+	playsound(src, safepick(equipsound), volume, TRUE)
+
+/obj/item/proc/after_placed_on_table(obj/structure/table, volume=50)
+	if(!LAZYLEN(tableplacesound))
+		return
+	playsound(src, safepick(tableplacesound), volume, TRUE)

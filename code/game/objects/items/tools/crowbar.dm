@@ -109,7 +109,7 @@
 	name = "jaws of life"
 	desc = "A set of jaws of life, compressed through the magic of science. It's fitted with a prying head."
 	icon_state = "jaws_pry"
-	item_state = "jawsoflife"
+	inhand_icon_state = "jawsoflife"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	custom_materials = list(/datum/material/iron=150,/datum/material/silver=50,/datum/material/titanium=25)
@@ -155,7 +155,7 @@
 */
 
 /obj/item/crowbar/hightech
-	name = "prewar crowbar"
+	name = "prefall crowbar"
 	desc = "A high carbon steel crowbar, very durable."
 	icon_state = "crowbar"
 	toolspeed = 0.1

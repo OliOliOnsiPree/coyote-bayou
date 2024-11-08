@@ -10,6 +10,7 @@
 	message = "blinks."
 	sound = 'sound/effects/blink.ogg'
 
+
 /datum/emote/living/carbon/hddspinup
 	key = "bootup"
 	key_third_person = "whirrs up their on board memory."
@@ -23,6 +24,7 @@
 	message = "pings!"
 	emote_type = EMOTE_AUDIBLE
 	sound = 'sound/effects/beeper7.ogg'
+
 
 /datum/emote/living/carbon/rpurr
 	key = "rpurr"
@@ -166,12 +168,12 @@
 /datum/emote/living/carbon/lick/run_emote(mob/user)
 	. = ..()
 	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/healable))
+	if(istype(I, /obj/item/hand_item/tactile))
 		I.melee_attack_chain(user, user)
 	// else if(I)
 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't lick anything! Don't ask why!"))
 	// 	return
-	var/obj/item/hand_item/healable/licker/licky = new(user)
+	var/obj/item/hand_item/tactile/licker/licky = new(user)
 	if(user.put_in_hands(licky))
 		to_chat(user, span_notice("You extend your tongue and get ready to lick something."))
 	else
@@ -185,14 +187,33 @@
 /datum/emote/living/carbon/touch/run_emote(mob/user)
 	. = ..()
 	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/healable/))
+	if(istype(I, /obj/item/hand_item/tactile/))
 		I.melee_attack_chain(user, user)
 	// else if(I)
 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't touch anything!"))
 	// 	return
-	var/obj/item/hand_item/healable/toucher/touchy = new(user)
+	var/obj/item/hand_item/tactile/toucher/touchy = new(user)
 	if(user.put_in_hands(touchy))
 		to_chat(user, span_notice("You get ready to touch something."))
+	else
+		qdel(touchy)
+
+/datum/emote/living/carbon/kiss
+	key = "kiss"
+	key_third_person = "kisses"
+	restraint_check = TRUE
+
+/datum/emote/living/carbon/kiss/run_emote(mob/user)
+	. = ..()
+	var/obj/item/I = user.get_active_held_item()
+	if(istype(I, /obj/item/hand_item/tactile/))
+		I.melee_attack_chain(user, user)
+	// else if(I)
+	// 	to_chat(user, span_warning("My active hand is full, and therefore you can't touch anything!"))
+	// 	return
+	var/obj/item/hand_item/tactile/kisser/touchy = new(user)
+	if(user.put_in_hands(touchy))
+		to_chat(user, span_notice("You get ready to smooch something."))
 	else
 		qdel(touchy)
 
@@ -204,12 +225,12 @@
 /datum/emote/living/carbon/tend/run_emote(mob/user)
 	. = ..()
 	var/obj/item/I = user.get_active_held_item()
-	if(istype(I, /obj/item/hand_item/healable/))
+	if(istype(I, /obj/item/hand_item/tactile/))
 		I.melee_attack_chain(user, user)
 	// else if(I)
 	// 	to_chat(user, span_warning("Your active hand is full, and therefore you can't tend anything!"))
 	// 	return
-	var/obj/item/hand_item/healable/tender/tendy = new(user)
+	var/obj/item/hand_item/tactile/tender/tendy = new(user)
 	if(user.put_in_hands(tendy))
 		to_chat(user, span_notice("You retrieve your emergency kit and get ready to tend something."))
 	else
@@ -263,6 +284,33 @@
 		to_chat(user, span_notice("Your cuphand is ready!"))
 	else
 		qdel(handcup)
+
+/*/datum/emote/living/carbon/human/magic/can_run_emote(mob/user, status_check = FALSE, intentional = TRUE)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_WAND_PROFICIENT)) //Checks if we can even use magic
+		return TRUE // If we have the trait, we can use these emotes and they show up
+	return FALSE // If we dont, we cant use these emotes, and they dont show up
+
+/datum/emote/living/carbon/human/magic/magicmissile //The spell itself, basically just the key to cast
+	key = "mmissle"
+	key_third_person = "magic missile!"
+	message = "uses their powers!"
+
+/datum/emote/living/carbon/human/magic/magicmissile/run_emote(mob/living/user)
+	. = ..()
+	if(!can_run_emote(user))
+		return FALSE
+	if(user.get_active_held_item())
+		to_chat(user, span_warning("What you are holding is not a paper you can write on."))
+		return
+	if(typesof(/obj/item/paper))
+		do_after(user, 50)
+	var/obj/item/gun/magic/wand/kelpmagic/basiczappies/hand/sparks = new(user)
+	if(user.put_in_hands(sparks))
+		to_chat(user, span_notice("Sparks form in your hands"))
+	else
+		qdel(sparks)
+*/// Corpse of a project I don't have the time or willpower to finish
 
 //Biter//
 /datum/emote/living/carbon/bite
@@ -738,10 +786,6 @@
 	key = "halt"
 	message = "raises a hand palm out, motioning for someone or something to halt."
 
-/datum/emote/living/carbon/eh
-	key = "eh"
-	message = "raises a hand then motions with it horizontal, similar to waves. A pretty noncomital thing."
-
 /datum/emote/living/carbon/daydream
 	key = "daydream"
 	message = "seems lost in a daydream, their eyes slightly glazed over and giving a thousand yard stare."
@@ -754,11 +798,12 @@
 	key = "blank"
 	message = "looks like they have no thoughts in their head."
 
+
 /datum/emote/living/carbon/snunch
 	key = "snunch"
 	message = "is lunching like a snake."
-
 //hahadorks
+
 
 /datum/emote/living/carbon/powerpose
 	key = "powerpose"

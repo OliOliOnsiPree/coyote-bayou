@@ -148,8 +148,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/buttons_locked = FALSE
 	var/hotkeys = FALSE
 	var/chat_on_map = TRUE
-	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
+	var/max_chat_length = CHAT_MESSAGE_LENGTH_DEFAULT
+	var/chat_width = CHAT_MESSAGE_WIDTH
 	var/see_chat_non_mob = TRUE
+	var/see_furry_dating_sim = TRUE
+	var/visualchat_see_horny_radio = TRUE
+	var/visualchat_use_contrasting_color = TRUE
 	///Whether emotes will be displayed on runechat. Requires chat_on_map to have effect. Boolean.
 	var/see_rc_emotes = TRUE
 	///Whether to apply mobs' runechat color to the chat log as well
@@ -246,9 +250,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/eye_type = DEFAULT_EYES_TYPE	//Eye type
 	var/split_eye_colors = FALSE
 	var/tbs = TBS_DEFAULT // turner broadcasting system
-	var/kisser = KISS_DEFAULT // Kiss this  /      V      \/
-	/// which quester UID we're using      |       |       |
-	var/quester_uid //                     (_______|_______)
+	var/kisser = KISS_DEFAULT // Kiss this  /         V         \.
+	/// which quester UID we're using      (          |          ).
+	var/quester_uid //                    (__________) (__________)
 	var/dm_open = TRUE
 	var/needs_a_friend = FALSE // for the quest
 	var/list/blocked_from_dms = list() // list of quids
@@ -297,6 +301,53 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/creature_pfphost = ""
 	var/creature_body_size = 1
 	var/creature_fuzzy = FALSE
+
+	var/see_pfp_max_hight = 300
+	var/see_pfp_max_widht = 300
+
+	var/list/ProfilePics = list(
+		list(
+			"Mode" = MODE_PROFILE_PIC,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_SAY,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_ASK,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_SING,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_EXCLAIM,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_YELL,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = MODE_WHISPER,
+			"Host" = "",
+			"URL" = "",
+		),
+		list(
+			"Mode" = ":example:",
+			"Host" = "",
+			"URL" = "",
+		),
+	)
+	var/list/mommychat_settings = list() // will be set by SSchat (goodness me)
 
 	/// Quirk list
 	/// okay lets compromise, we'll have type paths, but they're strings, happy?
@@ -419,6 +470,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	/// Button to switch from input bar to hotkey mode.
 	var/input_mode_hotkey = "Tab"
+	/// lets the user see runechat that's offscreen
+	var/see_fancy_offscreen_runechat = TRUE
+	/// lets the user see runechat that's hidden behind a wall
+	var/see_hidden_runechat = TRUE
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -526,14 +581,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<h2>Configure Quirks</a></h2><br></center>"
 				dat += "</a>"
 				dat += "<center><b>Current Quirks:</b> [get_my_quirks()]</center>"
-			dat += "<center><h2>S.P.E.C.I.A.L.</h2>"
+			dat += "<center><h2>Character Atributes</h2>"
 			dat += "<a href='?_src_=prefs;preference=special;task=menu'>Allocate Points</a><br></center>"
 			//Left Column
-			dat += "<table><tr><td width='30%'valign='top'>"
+			dat += "<table><tr><td width='70%'valign='top'>"
 			dat += "<h2>Identity</h2>"
 			if(jobban_isbanned(user, "appearance"))
 				dat += "<b>You are banned from using custom names and appearances. You can continue to adjust your characters, but you will be randomised once you join the game.</b><br>"
 
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure VisualChat / Profile Pictures!</a><BR>"
 			dat += "<b>Name:</b> "
 			dat += "<a href='?_src_=prefs;preference=name;task=input'>[real_name]</a><BR>"
 
@@ -543,7 +599,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Orientation:</b> <a href='?_src_=prefs;preference=kisser;task=input'>[kisser]</a><BR>"
 			dat += "</td>"
 			//Middle Column
-			dat +="<td width='30%' valign='top'>"
+			dat +="<td width='25%' valign='top'>"
 			dat += "<h2>Matchmaking preferences:</h2>"
 			if(SSmatchmaking.initialized)
 				for(var/datum/matchmaking_pref/match_pref as anything in SSmatchmaking.all_match_types)
@@ -558,12 +614,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<b>Refresh once the game has finished setting up...</b><br>"
 			dat += "</td>"
 			//Right column
-			dat +="<td width='30%' valign='top'>"
-			dat += "<h2>Profile Picture ([pfphost]):</h2><BR>"
-			dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=ProfilePicture;task=input'>[profilePicture ? "<img src=[PfpHostLink(profilePicture, pfphost)] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
-			dat += "<h2>Simple Creature Profile Picture ([creature_pfphost]):</h2><BR>"
-			dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=CreatureProfilePicture;task=input'>[creature_profilepic ? "<img src=[PfpHostLink(creature_profilepic, creature_pfphost)] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
-			dat += "</td>"
+			// dat +="<td width='30%' valign='top'>"
+			// // dat += "<h2>Profile Picture ([pfphost]):</h2><BR>"
+			// // dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=ProfilePicture;task=input'>[profilePicture ? "<img src=[PfpHostLink(profilePicture, pfphost)] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
+			// dat += "<h2>Simple Creature Profile Picture ([creature_pfphost]):</h2><BR>"
+			// dat += "<b>Picture:</b> <a href='?_src_=prefs;preference=CreatureProfilePicture;task=input'>[creature_profilepic ? "<img src=[PfpHostLink(creature_profilepic, creature_pfphost)] width='125' height='auto' max-height='300'>" : "Upload a picture!"]</a><BR>"
+			// dat += "</td>"
 			/*
 			dat += "<b>Special Names:</b><BR>"
 			var/old_group
@@ -1008,6 +1064,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += APPEARANCE_CATEGORY_COLUMN
 			dat += "<h3>Flavor Text</h3>"
 			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Examine Text</b></a><br>"
+			dat += "<a href='?_src_=prefs;preference=setup_hornychat;task=input'>Configure VisualChat / Profile Pictures!</a><BR>"
 			if(length(features["flavor_text"]) <= 40)
 				if(!length(features["flavor_text"]))
 					dat += "\[...\]"
@@ -1415,6 +1472,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
 			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
+			dat += "<b>Runechat message width:</b> <a href='?_src_=prefs;preference=chat_width;task=input'>[chat_width]</a><br>"
+			dat += "<b>Runechat off-screen:</b> <a href='?_src_=prefs;preference=offscreen;task=input'>[see_fancy_offscreen_runechat ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat emotes:</b> <a href='?_src_=prefs;preference=see_rc_emotes'>[see_rc_emotes ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Use Runechat color in chat log:</b> <a href='?_src_=prefs;preference=color_chat_log'>[color_chat_log ? "Enabled" : "Disabled"]</a><br>"
@@ -1471,6 +1530,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Show Health Smileys:</b> <a href='?_src_=prefs;preference=show_health_smilies;task=input'>[show_health_smilies ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
+			dat += "<b>Max PFP Examine Image Height:</b> <a href='?_src_=prefs;preference=max_pfp_hight;task=input'>[see_pfp_max_hight]</a><br>"
+			dat += "<b>Max PFP Examine Image Width:</b> <a href='?_src_=prefs;preference=max_pfp_with;task=input'>[see_pfp_max_widht]</a><br>"
 			dat += "</td>"
 			dat += "</tr></table>"
 			if(unlock_content)
@@ -1644,6 +1705,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 								extra_loadout_data += "<BR><a href='?_src_=prefs;preference=gear;loadout_rename=1;loadout_gear_name=[html_encode(gear.name)];'>Name</a> [loadout_item[LOADOUT_CUSTOM_NAME] ? loadout_item[LOADOUT_CUSTOM_NAME] : "N/A"]"
 							if(gear.loadout_flags & LOADOUT_CAN_DESCRIPTION)
 								extra_loadout_data += "<BR><a href='?_src_=prefs;preference=gear;loadout_redescribe=1;loadout_gear_name=[html_encode(gear.name)];'>Description</a>"
+							if(gear.loadout_flags & LOADOUT_CAN_COLOR)
+								extra_loadout_data += "<BR><a href='?_src_=prefs;preference=gear;loadout_recolor=1;loadout_gear_name=[html_encode(gear.name)];'>Color</a> <span style='border: 1px solid #161616; background-color: [loadout_item[LOADOUT_CUSTOM_COLOR] ? loadout_item[LOADOUT_CUSTOM_COLOR] : "#FFFFFF"];'>&nbsp;&nbsp;&nbsp;</span>"
 						else if((gear_points - gear.cost) < 0)
 							class_link = "style='white-space:normal;' class='linkOff'"
 						else if(donoritem)
@@ -2411,22 +2474,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/total = special_s + special_p + special_e + special_c + special_i + special_a + special_l
 
 	dat += "<center><b>Allocate points</b></center>"
-	dat += "<center>Note: SPECIAL is purely cosmetic. These points have no effect on gameplay.</center><br>"
+	dat += "<center>Note: These attributes purely cosmetic. These points have no effect on mechanical gameplay and are for roleplaying with.</center><br>"
+	dat += "<center>You can roll them in game in the roleplaying tab.</center><br>"
 	dat += "<center>[total] out of 40 possible</center><br>"
-	dat += "<b>Strength	   :</b> <a href='?_src_=prefs;preference=special_s;task=input'>[special_s]</a><BR>"
-	dat += "<b>Perception  :</b> <a href='?_src_=prefs;preference=special_p;task=input'>[special_p]</a><BR>"
-	dat += "<b>Endurance   :</b> <a href='?_src_=prefs;preference=special_e;task=input'>[special_e]</a><BR>"
-	dat += "<b>Charisma    :</b> <a href='?_src_=prefs;preference=special_c;task=input'>[special_c]</a><BR>"
-	dat += "<b>Intelligence:</b> <a href='?_src_=prefs;preference=special_i;task=input'>[special_i]</a><BR>"
-	dat += "<b>Agility     :</b> <a href='?_src_=prefs;preference=special_a;task=input'>[special_a]</a><BR>"
-	dat += "<b>Luck        :</b> <a href='?_src_=prefs;preference=special_l;task=input'>[special_l]</a><BR>"
+	dat += "<b>Brawn	    :</b> <a href='?_src_=prefs;preference=special_s;task=input'>[special_s]</a><BR>"
+	dat += "<b>Awareness    :</b> <a href='?_src_=prefs;preference=special_p;task=input'>[special_p]</a><BR>"
+	dat += "<b>Toughness    :</b> <a href='?_src_=prefs;preference=special_e;task=input'>[special_e]</a><BR>"
+	dat += "<b>Moxy		    :</b> <a href='?_src_=prefs;preference=special_c;task=input'>[special_c]</a><BR>"
+	dat += "<b>Smarts		:</b> <a href='?_src_=prefs;preference=special_i;task=input'>[special_i]</a><BR>"
+	dat += "<b>Deftness		:</b> <a href='?_src_=prefs;preference=special_a;task=input'>[special_a]</a><BR>"
+	dat += "<b>Fate         :</b> <a href='?_src_=prefs;preference=special_l;task=input'>[special_l]</a><BR>"
 	if (total>40)
 		dat += "<center>Maximum exceeded, please change until your total is at or below 40<center>"
 	else
 		dat += "<center><a href='?_src_=prefs;preference=special;task=close'>Done</a></center>"
 
 	user << browse(null, "window=preferences")
-	var/datum/browser/popup = new(user, "mob_occupation", "<div align='center'>S.P.E.C.I.A.L</div>", 300, 400) //no reason not to reuse the occupation window, as it's cleaner that way
+	var/datum/browser/popup = new(user, "mob_occupation", "<div align='center'>Attributes</div>", 300, 400) //no reason not to reuse the occupation window, as it's cleaner that way
 	popup.set_window_options("can_close=0")
 	popup.set_content(dat.Join())
 	popup.open(0)
@@ -2662,6 +2726,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(href_list["preference"] in GLOB.preferences_custom_names)
 				ask_for_custom_name(user,href_list["preference"])
 			switch(href_list["preference"])
+				if("max_pfp_hight")
+					var/newhight = input(user, "How many pixels tall should profile examine images be when you see em?", "tall") as num|null
+					if(newhight)
+						see_pfp_max_hight = newhight
+					else
+						to_chat("Okay!")
+					return 1
+				if("max_pfp_with")
+					var/newhight = input(user, "How many pixels wide should profile examine images be when you see em?", "wide") as num|null
+					if(newhight)
+						see_pfp_max_widht = newhight
+					else
+						to_chat("Okay!")
+					return 1
 				if("show_health_smilies")
 					TOGGLE_VAR(show_health_smilies)
 					return 1
@@ -3731,10 +3809,21 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if (!isnull(desiredlength))
 						max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+				if ("chat_width")
+					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+					if (!isnull(desiredlength))
+						chat_width = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_WIDTH)
+					
+				if("offscreen")
+					TOGGLE_VAR(see_hidden_runechat)
+
 				if("hud_toggle_color")
 					var/new_toggle_color = input(user, "Choose your HUD toggle flash color:", "Game Preference",hud_toggle_color) as color|null
 					if(new_toggle_color)
 						hud_toggle_color = new_toggle_color
+
+				if("setup_hornychat")
+					SSchat.HornyPreferences(user)
 
 				if("gender")
 					var/chosengender = input(user, "Select your character's gender.", "Gender Selection", gender) as null|anything in list(MALE,FEMALE,"nonbinary","object")
@@ -4327,7 +4416,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					else
 						loadout_data["SAVE_[loadout_slot]"] = list(new_loadout_data) //double packed because you somehow had no save slot in your loadout?
 
-		if(href_list["loadout_color"] || href_list["loadout_rename"] || href_list["loadout_redescribe"])
+		if(href_list["loadout_color"] || href_list["loadout_rename"] || href_list["loadout_redescribe"] || href_list["loadout_recolor"])
 		//if the gear doesn't exist, or they don't have it, ignore the request
 			var/name = html_decode(href_list["loadout_gear_name"])
 			var/datum/gear/G = GLOB.loadout_items[gear_category][gear_subcategory][name]
@@ -4353,6 +4442,28 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/new_description = stripped_input(user, "Enter new description for item. Maximum 500 characters.", "Loadout Item Redescribing", null, 500)
 				if(new_description)
 					user_gear[LOADOUT_CUSTOM_DESCRIPTION] = new_description
+
+			if(href_list["loadout_recolor"] && (G.loadout_flags & LOADOUT_CAN_COLOR))
+				// var/enter_the_matrix = alert(
+				// 	user,
+				// 	"Use the simple Color Picker to choose a solid color, or use the more advanced (and convoluted) Color Matrix editor to recolor this?",
+				// 	"Colorize, Quick or Advanced?",
+				// 	"Color Picker",
+				// 	"Matrix Editor",
+				// 	"Cancel",
+				// )
+				// if(enter_the_matrix == "Color Picker")
+				var/new_color = input(
+					user,
+					"Pick a cool new color for your [G.name]! =3",
+					"Recolor Your Thing",
+					user_gear[LOADOUT_CUSTOM_COLOR] || "#FFFFFF",
+				) as color|null
+				if(new_color)
+					user_gear[LOADOUT_CUSTOM_COLOR] = "#[sanitize_hexcolor(new_color, 6)]"
+					to_chat(user, span_notice("Your [G.name] has been recolored to [user_gear[LOADOUT_CUSTOM_COLOR]]!"))
+				// else if(enter_the_matrix == "Matrix Editor")
+				// 	gear_color_matrix_setup_thing(user, user_gear, G)
 
 	ShowChoices(user)
 	return 1
@@ -4502,13 +4613,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/obj/item/bodypart/new_limb
 				switch(modified_limb)
 					if(BODY_ZONE_L_ARM)
-						new_limb = new/obj/item/bodypart/l_arm/robot/surplus(character)
+						new_limb = new/obj/item/bodypart/l_arm/robot/surplus_upgraded(character)
 					if(BODY_ZONE_R_ARM)
-						new_limb = new/obj/item/bodypart/r_arm/robot/surplus(character)
+						new_limb = new/obj/item/bodypart/r_arm/robot/surplus_upgraded(character)
 					if(BODY_ZONE_L_LEG)
-						new_limb = new/obj/item/bodypart/l_leg/robot/surplus(character)
+						new_limb = new/obj/item/bodypart/l_leg/robot/surplus_upgraded(character)
 					if(BODY_ZONE_R_LEG)
-						new_limb = new/obj/item/bodypart/r_leg/robot/surplus(character)
+						new_limb = new/obj/item/bodypart/r_leg/robot/surplus_upgraded(character)
 				var/prosthetic_type = modified_limbs[modified_limb][2]
 				if(prosthetic_type != "prosthetic") //lets just leave the old sprites as they are
 					new_limb.icon = wrap_file("icons/mob/augmentation/cosmetic_prosthetic/[prosthetic_type].dmi")

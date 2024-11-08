@@ -59,6 +59,10 @@
 	var/socks = "Nude" //Which socks the player wants
 	var/socks_color = "FFFFFF"
 
+	var/nail_style = null
+	var/nail_color = "white"
+	var/cheesed //Handle cheesing lol
+
 	var/warpaint = null
 	var/warpaint_color = null
 
@@ -99,6 +103,7 @@
 	var/busy= FALSE
 	var/afk= FALSE
 
+	COOLDOWN_DECLARE(crit_moan_cd)
 	COOLDOWN_DECLARE(crit_damage_cd)
 	COOLDOWN_DECLARE(crit_bleed_cd)
 	COOLDOWN_DECLARE(crit_faint_cd)
@@ -146,3 +151,5 @@
 	var/mob/living/L = attacker
 	if(istype(L))
 		L.Stagger(D.parry_data["HUMAN_PARRY_STAGGER"])
+
+

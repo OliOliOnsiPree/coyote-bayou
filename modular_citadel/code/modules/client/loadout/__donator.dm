@@ -35,7 +35,7 @@
 	name = "plasma ring"
 	desc = "This ring is stylized to have an ornate sun, with a sample of phoron swirling around inside. An inscription reads: my undying love and affection, For my Sunflower."
 	icon_state = "ringplasma"
-	item_state = "pring"
+	inhand_icon_state = "pring"
 	mood_event_on_equip = /datum/mood_event/equipped_ring/plasma
 
 /datum/gear/donator/mrsanderp
@@ -51,7 +51,7 @@
 	desc = "A rusted steel muzzle. It’s covered in scratches."
 	icon = 'icons/obj/clothing/masks.dmi'
 	icon_state = "muzzle"
-	item_state = "blindfold"
+	inhand_icon_state = "blindfold"
 	flags_cover = MASKCOVERSMOUTH
 	w_class = WEIGHT_CLASS_SMALL
 	gas_transfer_coefficient = 0.9
@@ -83,7 +83,7 @@
 	name = "salvaged medical labcoat" //modified from the already-custom armored labcoat sprite.
 	desc = "A mix of lightweight salvaged Brotherhood armor and an old labcoat. Not nearly as protective as it used to be, however. It seems to have blue medical crosses spray-painted on, and a name patch on the side. 'Trailsworth'."
 	icon_state = "armored_labcoat_trailsworth"
-	item_state = "armored_labcoat_trailsworth"
+	inhand_icon_state = "armored_labcoat_trailsworth"
 	mob_overlay_icon = 'icons/fallout/onmob/clothes/armor_light.dmi'
 	icon = 'icons/fallout/clothing/armored_light.dmi'
 
@@ -324,6 +324,9 @@
 	name = "parmesan smelling box"
 	new /obj/item/clothing/head/peaceflower(src)
 	new /obj/item/melee/classic_baton/telescopic/contractor_baton(src)
+	new /obj/item/chisel(src)
+	new /obj/item/radio/headset(src)
+	new /obj/item/assembly/igniter(src)
 
 /datum/gear/donator/kits/caseapollo58143
 	name = "Missionary Kit"
@@ -941,7 +944,7 @@
 	new /obj/item/ammo_box/flintlock(src)
 	new /obj/item/ammo_box/flintlock(src)
 	new /obj/item/clothing/gloves/ring/plasma/lucine(src)
-	new /obj/item/book/granter/martial/carp(src)
+	//new /obj/item/book/granter/martial/carp(src) gob smelly
 
 /datum/gear/donator/kits/lucine2
 	name = "HAVOC"
@@ -1087,7 +1090,7 @@
 	mob_overlay_icon = 'icons/fallout/onmob/clothes/helmet.dmi'
 	icon = 'icons/fallout/clothing/helmets.dmi'
 	icon_state = "eva3"
-	item_state = "eva3"
+	inhand_icon_state = "eva3"
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDEMASK|HIDEJUMPSUIT|HIDESNOUT
 
 /obj/item/clothing/head/helmet/f13/power_armor/fluff/errant/obj_break(damage_flag)
@@ -1100,7 +1103,7 @@
 	name = "servo-lined exoplating"
 	desc = "A remarkably heavy set of plates designed to be bolted to an OVRmind-compatible cybernetic frame."
 	icon_state = "markvi3"
-	item_state = "markvi3"
+	inhand_icon_state = "markvi3"
 	mob_overlay_icon = 'icons/fallout/onmob/clothes/armor_light.dmi'
 	icon = 'icons/fallout/clothing/armored_light.dmi'
 
@@ -1678,7 +1681,7 @@
 
 /obj/item/storage/box/large/custom_kit/tk420634/PopulateContents()
 	new /obj/item/melee/onehanded/knife/trench(src)
-	new /obj/item/card/lowbounty(src)
+	// new /obj/item/card/lowbounty(src)
 	new /obj/item/ammo_box/magazine/m308/ext(src)
 	new /obj/item/ammo_box/magazine/m308/ext(src)
 	new /obj/item/gun/ballistic/automatic/slr/stinki(src)

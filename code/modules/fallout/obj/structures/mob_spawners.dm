@@ -198,18 +198,18 @@ GLOBAL_LIST_EMPTY(player_made_nests)
 					/mob/living/simple_animal/hostile/poison/giant_spider/hunter/viper = 3,
 					/mob/living/simple_animal/hostile/poison/giant_spider/tarantula = 3)
 
-/obj/structure/nest/greaterspider
-	name = "empress nest"
-	max_mobs = 1
-	spawn_time = 20 SECONDS
-	mob_types = list(/mob/living/simple_animal/hostile/poison/giant_spider/queen = 2,
-					/mob/living/simple_animal/hostile/poison/giant_spider/empress = 1)
+// /obj/structure/nest/greaterspider
+// 	name = "empress nest"
+// 	max_mobs = 1
+// 	spawn_time = 20 SECONDS
+// 	mob_types = list(/mob/living/simple_animal/hostile/poison/giant_spider/queen = 2,
+// 					/mob/living/simple_animal/hostile/poison/giant_spider/empress = 1)
 
-/obj/structure/nest/omegaspider
-	name = "emperor nest"
-	max_mobs = 1
-	spawn_time = 25 SECONDS
-	mob_types = list(/mob/living/simple_animal/hostile/poison/giant_spider/emperor = 2)
+// /obj/structure/nest/omegaspider
+// 	name = "emperor nest"
+// 	max_mobs = 1
+// 	spawn_time = 25 SECONDS
+// 	mob_types = list(/mob/living/simple_animal/hostile/poison/giant_spider/emperor = 2)
 
 /obj/structure/nest/mook
 	name = "mook den"
@@ -238,7 +238,7 @@ GLOBAL_LIST_EMPTY(player_made_nests)
 	max_mobs = 2
 	spawn_time = 10 SECONDS
 	mob_types = list(/mob/living/simple_animal/hostile/russian/ranged = 2,
-					/mob/living/simple_animal/hostile/russian/ranged/mosin = 2, 
+					/mob/living/simple_animal/hostile/russian/ranged/mosin = 2,
 					/mob/living/simple_animal/hostile/russian/ranged/trooper = 2,
 					/mob/living/simple_animal/hostile/russian/ranged/officer = 2)
 
@@ -278,7 +278,17 @@ GLOBAL_LIST_EMPTY(player_made_nests)
 	mob_types = list(/mob/living/simple_animal/hostile/pillbug = 10,
 					/mob/living/simple_animal/hostile/pillbug/micro = 15,
 					/mob/living/simple_animal/hostile/pillbug/leader = 5,
-					/mob/living/simple_animal/hostile/pillbug/strongradroach = 10
+					/mob/living/simple_animal/hostile/pillbug/strongradroach = 10,
+					/mob/living/simple_animal/hostile/bloatfly = 20
+					)
+	spawn_time = 30 SECONDS
+
+/obj/structure/nest/bloatfly
+	name = "bloatfly nest"
+	max_mobs = 10
+	swarm_size = 3
+	mob_types = list(
+					/mob/living/simple_animal/hostile/bloatfly = 20
 					)
 	spawn_time = 30 SECONDS
 
@@ -533,7 +543,7 @@ GLOBAL_LIST_EMPTY(player_made_nests)
 					/mob/living/simple_animal/hostile/supermutant/nightkin/elitemutant = 1)
 
 /obj/structure/nest/nightstalker
-	name = "nightstalker nest"
+	name = "hellhound nest"
 	max_mobs = 2
 	mob_types = list(/mob/living/simple_animal/hostile/stalker = 5,
 					/mob/living/simple_animal/hostile/stalkeryoung = 5)

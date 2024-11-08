@@ -20,6 +20,18 @@
 	faction += "[REF(src)]"
 	GLOB.mob_living_list += src
 	clienthud.add_hud_to(src)
+	if(coolshadow)
+		add_filter("cool_shadow",10, list(
+			"type"="drop_shadow",
+			"x"=1,
+			"y"=-1,
+			"size"=3,
+			"offset"=2,
+			"color"= "#0000007A"))
+	// add_filter("sick_outline",11, list(
+	// 	"type"="outline",
+	// 	"size"=1,
+	// 	"color"= "#000000"))
 
 /mob/living/prepare_huds()
 	..()
@@ -655,6 +667,7 @@
 
 /mob/living/proc/revive(full_heal = FALSE, admin_revive = FALSE, force_revive = FALSE)
 	SEND_SIGNAL(src, COMSIG_LIVING_REVIVE, full_heal, admin_revive)
+	last_crit = world.time
 	if(full_heal)
 		fully_heal(admin_revive)
 	if(stat == DEAD && can_be_revived()) //in some cases you can't revive (e.g. no brain)
@@ -1510,7 +1523,7 @@
 	clear_alert("cret")
 
 /mob/living/verb/give(mob/living/target in (view(1) - usr))
-	set category = "IC"
+	set category = "Roleplaying"
 	set name = "Give"
 	do_give(target)
 

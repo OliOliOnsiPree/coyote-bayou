@@ -29,7 +29,7 @@ ATTACHMENTS
 	desc = "It's a gun. It's pretty terrible, though."
 	icon = 'icons/obj/guns/projectile.dmi'
 	icon_state = "detective"
-	item_state = "gun"
+	inhand_icon_state = "gun"
 	flags_1 =  CONDUCT_1
 	slot_flags = null
 	custom_materials = list(/datum/material/iron=2000)
@@ -125,7 +125,7 @@ ATTACHMENTS
 	var/suppressor_x_offset = 0
 	var/suppressor_y_offset = 0
 
-	var/equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
+	equipsound = 'sound/f13weapons/equipsounds/pistolequip.ogg'
 
 	//Zooming
 	var/zoomable = FALSE //whether the gun generates a Zoom action on creation
@@ -135,7 +135,7 @@ ATTACHMENTS
 
 	var/worn_out = FALSE	//If true adds overlay with suffix _worn, and a slight malus to stats
 	var/dryfire_sound = "gun_dry_fire"
-	var/dryfire_text = "*click*"
+	var/dryfire_text = ""
 
 	/// Time that much pass between cocking your gun, if it supports it
 	var/cock_delay = GUN_COCK_SHOTGUN_BASE //haha cock
@@ -373,7 +373,6 @@ ATTACHMENTS
 /obj/item/gun/pickup(mob/living/user)
 	. = ..()
 	weapondraw(src, user)
-	play_equip_sound(src)
 
 /obj/item/gun/emp_act(severity)
 	. = ..()
@@ -915,14 +914,6 @@ ATTACHMENTS
 			user.show_message(span_notice("\The [src] is ready to fire."))
 			playsound(get_turf(user), "sound/weapons/lockedandloaded.ogg", 100, 1)
 
-/obj/item/gun/proc/play_equip_sound(src, volume=50)
-	if(src && equipsound && volume)
-		var/played_sound = equipsound
-
-		if(islist(equipsound))
-			played_sound = pick(equipsound)
-
-		playsound(src, played_sound, volume, 1)
 
 /*
 /// Takes the current recoil, adds on some more recoil from the bullet and modded by the gun
@@ -1824,7 +1815,7 @@ HOOK GUN CODE. Bizarre but could be made into something useful.
 	name = "hook modified sawn-off shotgun"
 	desc = "Range isn't an issue when you can bring your user to you."
 	icon_state = "hookshotgun"
-	item_state = "shotgun"
+	inhand_icon_state = "shotgun"
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
 	w_class = WEIGHT_CLASS_BULKY
 	weapon_weight = GUN_ONE_HAND_ONLY
@@ -1840,7 +1831,7 @@ CODE FOR ASSAULT RIFE WITH GRENADE LAUNCHER ATTACHED
 	name = "\improper M-90gl Carbine"
 	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher which can be toggled on and off."
 	icon_state = "m90"
-	item_state = "m90"
+	inhand_icon_state = "m90"
 	mag_type = /obj/item/ammo_box/magazine/m556
 	fire_sound = 'sound/weapons/gunshot_smg.ogg'
 	can_suppress = FALSE

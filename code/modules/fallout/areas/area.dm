@@ -98,6 +98,17 @@
 	weather_tags = null
 	outdoors = FALSE
 
+/area/f13/building/permalit
+	name = "Building"
+	dynamic_lighting = 0
+	icon_state = "building"
+	ambience_area = list(
+		/datum/looping_sound/ambient/general,
+		/datum/looping_sound/ambient/woodcreak,
+		)
+	weather_tags = null
+	outdoors = FALSE
+
 /area/f13/building/abandoned
 	name = "Abandoned Building"
 	icon_state = "black"
@@ -247,11 +258,10 @@
 	ambientsounds = list(
 		AREA_SOUND('sound/f13ambience/dog_distant_1.ogg', 10 SECONDS),
 		AREA_SOUND('sound/f13ambience/dog_distant_2.ogg', 10 SECONDS),
-		AREA_SOUND('sound/f13ambience/dog_distant_3.ogg', 10 SECONDS),
-		AREA_SOUND('sound/f13ambience/ambigen_1.ogg', 10 SECONDS),
-		AREA_SOUND('sound/f13ambience/ambigen_2.ogg', 10 SECONDS))
+		AREA_SOUND('sound/f13ambience/dog_distant_3.ogg', 10 SECONDS))
 	weather_tags = null
 	outdoors = FALSE
+	region = "Oauoau"
 
 /area/f13/wasteland/city/newboston/outdoors
 	name = "New Boston Streets"
@@ -298,6 +308,49 @@
 	name = "New Boston Bar"
 	icon_state = "alcohol"
 	outdoors = FALSE
+
+// /area/f13/fb/private
+// 	name = "Foxy Private"
+// 	icon_state = "house"
+// 	outdoors = FALSE
+// 	private = TRUE
+
+// /area/f13/fb/bar
+// 	name = "Foxy Bar"
+// 	icon_state = "alcohol"
+
+// 	ambience_area = list(
+// 		/datum/looping_sound/ambient/fb/bar,
+// 		/datum/looping_sound/ambient/woodcreak,
+// 		/datum/looping_sound/ambient/lightbulb,
+// 		/datum/looping_sound/ambient/fb/bar_bacon,
+// 		/datum/looping_sound/ambient/fb/brownnoise,
+// 		/datum/looping_sound/ambient/fb/fannoise
+// 		)
+// 	outdoors = FALSE
+	
+// /area/f13/fb/park
+// 	name = "Foxy Park"
+// 	icon_state = "green"
+// 	ambientsounds = list(
+// 		AREA_SOUND('sound/f13ambience/dog_distant_1.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/dog_distant_2.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/dog_distant_3.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_1.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_2.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_3.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_4.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_5.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_6.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_7.ogg', 10 SECONDS),
+// 		AREA_SOUND('sound/f13ambience/bird_8.ogg', 10 SECONDS))
+
+// 	ambience_area = list(
+// 		/datum/looping_sound/ambient/swamp/quiet,
+// 		/datum/looping_sound/ambient/critters/birds,
+// 		/datum/looping_sound/ambient/critters/birds/crow,
+// 	)
+
 
 /area/f13/wasteland/city/newboston/bank
 	name = "New Boston Bank"
